@@ -1,0 +1,6 @@
+<resources>
+    <style name="Theme.Crazytraining" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+    </style>
+</resources>
