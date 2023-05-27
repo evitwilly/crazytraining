@@ -14,23 +14,23 @@ internal class CoreThemeManagerTest {
     }
 
     @Test
-    fun `test when theme was been saved in cache`() {
+    fun `test when theme has been saved in cache`() {
         val cache = TestPersistenceSimpleDataStorage(CoreTheme.DARK.ordinal)
         val manager = CoreThemeManager(cache)
         assertEquals(CoreTheme.DARK, manager.selected_theme)
     }
 
     @Test
-    fun `test when theme was been toggled`() {
+    fun `test when theme has been changed`() {
         val cache = TestPersistenceSimpleDataStorage(CoreTheme.LIGHT.ordinal)
         val manager = CoreThemeManager(cache)
 
-        manager.toggleTheme()
+        manager.changeTheme(CoreTheme.DARK)
 
         assertEquals(CoreTheme.DARK, manager.selected_theme)
         assertEquals(CoreTheme.DARK.ordinal, cache.value)
 
-        manager.toggleTheme()
+        manager.changeTheme(CoreTheme.LIGHT)
 
         assertEquals(CoreTheme.LIGHT, manager.selected_theme)
         assertEquals(CoreTheme.LIGHT.ordinal, cache.value)
@@ -43,7 +43,7 @@ internal class CoreThemeManagerTest {
 
         assertEquals(CoreTheme.LIGHT, manager1.selected_theme)
 
-        manager1.toggleTheme()
+        manager1.changeTheme(CoreTheme.DARK)
 
         val manager2 = CoreThemeManager(cache)
 

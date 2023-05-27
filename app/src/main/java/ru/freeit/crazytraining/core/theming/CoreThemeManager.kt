@@ -1,6 +1,5 @@
 package ru.freeit.crazytraining.core.theming
 
-import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.cache.PersistentIntStorage
 
 class CoreThemeManager(private val themeDataStorage: PersistentIntStorage) {
@@ -21,8 +20,8 @@ class CoreThemeManager(private val themeDataStorage: PersistentIntStorage) {
         listeners.remove(listener)
     }
 
-    fun toggleTheme() {
-        currentTheme = if (currentTheme == CoreTheme.LIGHT) CoreTheme.DARK else CoreTheme.LIGHT
+    fun changeTheme(theme: CoreTheme) {
+        currentTheme = theme
         themeDataStorage.save(theme_key, currentTheme.ordinal)
         listeners.forEach { listener -> listener.invoke(currentTheme) }
     }

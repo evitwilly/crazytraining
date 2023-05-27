@@ -2,9 +2,13 @@ package ru.freeit.crazytraining.core.theming.extensions
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.view.View
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import ru.freeit.crazytraining.core.theming.CoreColors
 import ru.freeit.crazytraining.core.theming.layout.params.AbstractLP
 import kotlin.math.roundToInt
@@ -37,4 +41,13 @@ fun View.roundRipple(color: Int) {
             setColor(CoreColors.white)
         }
     )
+}
+
+fun Context.bitmapByResource(@DrawableRes resource: Int, size: Int): Bitmap {
+    val drawable = ContextCompat.getDrawable(this, resource)
+    val svgBitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+    val canvasBitmap = Canvas(svgBitmap)
+    drawable?.setBounds(0, 0, dp(32), dp(32))
+    drawable?.draw(canvasBitmap)
+    return svgBitmap
 }
