@@ -5,22 +5,23 @@ import androidx.appcompat.widget.AppCompatTextView
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreTheme
 
-class CoreTextView(ctx: Context): AppCompatTextView(ctx) {
-
-    private val onThemeChanged: (CoreTheme) -> Unit = { theme ->
-        setTextColor(theme.primaryTextColor)
-    }
+abstract class CoreTextView(ctx: Context): AppCompatTextView(ctx) {
 
     private val themeManager = (context.applicationContext as App).themeManager
+    protected val typefaceManager = (context.applicationContext as App).typefaceManager
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        themeManager.listenForThemeChanges(onThemeChanged)
+        themeManager.listenForThemeChanges(::onThemeChanged)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        themeManager.doNotListenForThemeChanges(onThemeChanged)
+        themeManager.doNotListenForThemeChanges(::onThemeChanged)
+    }
+
+    protected open fun onThemeChanged(theme: CoreTheme) {
+        setTextColor(theme.primaryTextColor)
     }
 
 }
