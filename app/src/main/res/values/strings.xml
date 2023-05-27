@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">crazytraining</string>
+    <string name="training">Training</string>
+    <string name="settings">Settings</string>
 </resources>
