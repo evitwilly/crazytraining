@@ -15,7 +15,7 @@ import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
 import ru.freeit.crazytraining.core.theming.view.CorePrimaryImageView
-import ru.freeit.crazytraining.core.theming.view.CoreTextView
+import ru.freeit.crazytraining.core.theming.view.ToolbarTitleTextView
 
 abstract class BaseFragment: Fragment() {
 
@@ -38,9 +38,8 @@ abstract class BaseFragment: Fragment() {
         toolbarView.layoutParams(frameLayoutParams().matchWidth().height(context.dp(toolbarHeight)))
         rootView.addView(toolbarView)
 
-        val titleView = CoreTextView(context)
+        val titleView = ToolbarTitleTextView(context)
         this.titleView = titleView
-        titleView.fontSize(18f)
         titleView.maxLines = 2
         titleView.ellipsize = TextUtils.TruncateAt.END
         val titleMargins = context.dp(backButtonWidth + backButtonMarginStart + 8)
