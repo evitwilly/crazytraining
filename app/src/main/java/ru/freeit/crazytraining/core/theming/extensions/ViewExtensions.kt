@@ -1,7 +1,11 @@
 package ru.freeit.crazytraining.core.theming.extensions
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.RippleDrawable
 import android.view.View
+import ru.freeit.crazytraining.core.theming.CoreColors
 import ru.freeit.crazytraining.core.theming.layout.params.AbstractLP
 import kotlin.math.roundToInt
 
@@ -23,4 +27,14 @@ fun View.padding(all: Int) {
 
 fun View.layoutParams(params: AbstractLP<*, *>) {
     layoutParams = params.build()
+}
+
+fun View.roundRipple(color: Int) {
+    background = RippleDrawable(
+        ColorStateList.valueOf(color),
+        null, GradientDrawable().apply {
+            cornerRadius = 50f
+            setColor(CoreColors.white)
+        }
+    )
 }

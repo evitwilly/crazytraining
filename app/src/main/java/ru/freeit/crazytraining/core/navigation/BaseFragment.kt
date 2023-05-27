@@ -9,12 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
-import ru.freeit.crazytraining.core.theming.view.CorePrimaryImageView
+import ru.freeit.crazytraining.core.theming.view.ToolbarButtonImageView
 import ru.freeit.crazytraining.core.theming.view.ToolbarTitleTextView
 
 abstract class BaseFragment: Fragment() {
@@ -22,9 +23,10 @@ abstract class BaseFragment: Fragment() {
     protected lateinit var navigator: Navigator
 
     private var titleView: TextView? = null
+    private var menuButtonView: ImageView? = null
 
-    private val backButtonWidth = 32
-    private val backButtonMarginStart = 12
+    private val menuButtonSize = 32
+    private val menuButtonMarginStart = 12
     private val toolbarHeight = 48
 
     protected abstract fun createView(context: Context, bundle: Bundle?): View
@@ -42,21 +44,31 @@ abstract class BaseFragment: Fragment() {
         this.titleView = titleView
         titleView.maxLines = 2
         titleView.ellipsize = TextUtils.TruncateAt.END
-        val titleMargins = context.dp(backButtonWidth + backButtonMarginStart + 8)
+        val titleMargins = context.dp(menuButtonSize + menuButtonMarginStart + 8)
         titleView.layoutParams(frameLayoutParams().wrap().gravity(Gravity.CENTER).marginStart(titleMargins).marginEnd(titleMargins))
         toolbarView.addView(titleView)
 
         navigator = Navigator(parentFragmentManager)
-        val backButtonView = CorePrimaryImageView(context)
+        val backButtonView = ToolbarButtonImageView(context)
         backButtonView.isVisible = navigator.is_not_top_fragment
-        backButtonView.layoutParams(frameLayoutParams().width(context.dp(backButtonWidth)).matchHeight()
-            .marginStart(context.dp(backButtonMarginStart)))
+        backButtonView.layoutParams(frameLayoutParams().width(context.dp(menuButtonSize)).height(context.dp(menuButtonSize))
+            .gravity(Gravity.START or Gravity.CENTER_VERTICAL).marginStart(context.dp(menuButtonMarginStart)))
         backButtonView.scaleType = ImageView.ScaleType.CENTER
         backButtonView.setImageResource(R.drawable.ic_back)
         backButtonView.isClickable = true
         backButtonView.isFocusable = true
         backButtonView.setOnClickListener { navigator.back() }
         toolbarView.addView(backButtonView)
+
+        val menuButtonView = ToolbarButtonImageView(context)
+        this.menuButtonView = menuButtonView
+        menuButtonView.isVisible = false
+        menuButtonView.layoutParams(frameLayoutParams().width(context.dp(menuButtonSize)).height(context.dp(menuButtonSize))
+            .gravity(Gravity.END or Gravity.CENTER_VERTICAL).marginEnd(context.dp(menuButtonMarginStart)))
+        menuButtonView.scaleType = ImageView.ScaleType.CENTER
+        menuButtonView.isClickable = true
+        menuButtonView.isFocusable = true
+        toolbarView.addView(menuButtonView)
 
         val contentView = createView(context, savedInstanceState)
         contentView.layoutParams(frameLayoutParams().match().marginTop(context.dp(toolbarHeight)))
@@ -69,9 +81,22 @@ abstract class BaseFragment: Fragment() {
         titleView?.text = text
     }
 
+    fun changeMenuButtonVisible(visible: Boolean) {
+        menuButtonView?.isVisible = visible
+    }
+
+    fun changeMenuButtonDrawableResource(@DrawableRes drawableResource: Int) {
+        menuButtonView?.setImageResource(drawableResource)
+    }
+
+    fun changeMenuButtonClickListener(clickListener: View.OnClickListener) {
+        menuButtonView?.setOnClickListener(clickListener)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         titleView = null
+        menuButtonView = null
     }
 
 }

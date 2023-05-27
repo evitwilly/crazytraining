@@ -1,14 +1,13 @@
 package ru.freeit.crazytraining.core.theming.view
 
 import android.content.Context
-import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.AppCompatImageView
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreTheme
 
-open class CoreTextView(ctx: Context): AppCompatTextView(ctx) {
+open class CoreImageView(ctx: Context): AppCompatImageView(ctx) {
 
     private val themeManager = (context.applicationContext as App).themeManager
-    protected val typefaceManager = (context.applicationContext as App).typefaceManager
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -21,7 +20,7 @@ open class CoreTextView(ctx: Context): AppCompatTextView(ctx) {
     }
 
     protected open fun onThemeChanged(theme: CoreTheme) {
-        setTextColor(theme.primaryTextColor)
+        setColorFilter(theme.primaryImageColor)
     }
 
 }
