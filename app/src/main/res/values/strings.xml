@@ -2,4 +2,6 @@
     <string name="app_name">crazytraining</string>
     <string name="training">Training</string>
     <string name="settings">Settings</string>
+    <string name="select_theme">Select theme:</string>
+    <string name="select_training_days">Select training days:</string>
 </resources>
