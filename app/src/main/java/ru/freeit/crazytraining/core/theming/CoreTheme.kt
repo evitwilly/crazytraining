@@ -10,21 +10,30 @@ enum class CoreTheme(
     val primaryImageColor: Int,
     val rippleColor: Int,
     val captionStyle: TypefaceStyle = TypefaceStyle.REGULAR,
-    val captionSize: Float = 17f
+    val captionSize: Float = 17f,
+    val chipSelectedColor: Int,
+    val chipSelectedTextColor: Int = CoreColors.white,
+    val chipUnselectedColor: Int,
+    val chipTextSize: Float = 16f,
+    val chipTextStyle: TypefaceStyle = TypefaceStyle.MEDIUM
 ) {
 
     LIGHT(
         backgroundColor = CoreColors.white,
         primaryTextColor = CoreColors.black,
         primaryImageColor = CoreColors.black,
-        rippleColor = CoreColors.greenMedium
+        rippleColor = CoreColors.greenMedium,
+        chipSelectedColor = CoreColors.greenMedium,
+        chipUnselectedColor = CoreColors.black
     ),
 
     DARK(
         backgroundColor = CoreColors.black,
         primaryTextColor = CoreColors.white,
         primaryImageColor = CoreColors.white,
-        rippleColor = CoreColors.greenMedium
+        rippleColor = CoreColors.greenMedium,
+        chipSelectedColor = CoreColors.greenMedium,
+        chipUnselectedColor = CoreColors.greenMedium
     )
 
 }
