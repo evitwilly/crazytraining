@@ -24,4 +24,4 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew assembleDebug
       - name: Run some unit tests
-        run: ./gradlew testStageDebugUnitTest
+        run: ./gradlew test
