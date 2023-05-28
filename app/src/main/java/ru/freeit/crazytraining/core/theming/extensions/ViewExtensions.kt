@@ -37,7 +37,7 @@ fun View.roundRipple(color: Int) {
     background = RippleDrawable(
         ColorStateList.valueOf(color),
         null, GradientDrawable().apply {
-            cornerRadius = 50f
+            cornerRadius = 100f
             setColor(CoreColors.white)
         }
     )

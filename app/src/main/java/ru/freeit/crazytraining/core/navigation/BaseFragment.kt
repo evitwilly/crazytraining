@@ -25,8 +25,8 @@ abstract class BaseFragment: Fragment() {
     private var titleView: TextView? = null
     private var menuButtonView: ImageView? = null
 
-    private val menuButtonSize = 32
-    private val menuButtonMarginStart = 12
+    private val menuButtonSize = 48
+    private val menuButtonMarginStart = 4
     private val toolbarHeight = 48
 
     protected abstract fun createView(context: Context, bundle: Bundle?): View
