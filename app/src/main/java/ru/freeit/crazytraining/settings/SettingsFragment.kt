@@ -4,15 +4,19 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.lifecycle.ViewModelProvider
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.navigation.BaseFragment
-import ru.freeit.crazytraining.core.theming.extensions.*
+import ru.freeit.crazytraining.core.theming.extensions.dp
+import ru.freeit.crazytraining.core.theming.extensions.layoutParams
+import ru.freeit.crazytraining.core.theming.extensions.linearLayoutParams
+import ru.freeit.crazytraining.core.theming.extensions.padding
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CaptionTextView
-import ru.freeit.crazytraining.core.theming.view.ChipView
 import ru.freeit.crazytraining.core.theming.view.FlowLayout
 import ru.freeit.crazytraining.settings.view.ThemeSwitchView
+
 
 class SettingsFragment : BaseFragment() {
 
@@ -45,22 +49,9 @@ class SettingsFragment : BaseFragment() {
         weekdaysLayoutView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginTop(context.dp(8)))
         contentView.addView(weekdaysLayoutView)
 
-        val weekdays = listOf(
-            getString(R.string.monday),
-            getString(R.string.tuesday),
-            getString(R.string.wednesday),
-            getString(R.string.thursday),
-            getString(R.string.friday),
-            getString(R.string.saturday),
-            getString(R.string.sunday)
-        )
-
-        weekdays.forEach { weekday ->
-            val chipView = ChipView(context)
-            chipView.text = weekday
-            chipView.padding(horizontal = context.dp(12), vertical = context.dp(8))
-            chipView.layoutParams(viewGroupLayoutParams().wrap())
-            weekdaysLayoutView.addView(chipView)
+        val viewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            state.bindView(weekdaysLayoutView, viewModel::changeWeekdayState)
         }
 
         return contentView
