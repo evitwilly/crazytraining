@@ -59,7 +59,12 @@ class ChipView(ctx: Context): View(ctx) {
             invalidate()
         }
 
-    private var checked = false
+    var checked = false
+        set(value) {
+            field = value
+            invalidate()
+        }
+
     private var checkedListener: (Boolean) -> Unit = {}
 
     init {
