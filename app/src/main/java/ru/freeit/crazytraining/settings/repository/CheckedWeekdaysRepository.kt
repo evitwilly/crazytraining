@@ -43,4 +43,20 @@ interface CheckedWeekdaysRepository {
         }
     }
 
+    class Test(private val weekdays: MutableList<WeekdayModel> = mutableListOf()) : CheckedWeekdaysRepository {
+
+        override fun readCheckedWeekdays(): List<WeekdayModel> {
+            return weekdays
+        }
+
+        override fun removeCheckedWeekday(model: WeekdayModel) {
+            weekdays.remove(model)
+        }
+
+        override fun saveCheckedWeekday(model: WeekdayModel) {
+            weekdays.add(model)
+        }
+
+    }
+
 }

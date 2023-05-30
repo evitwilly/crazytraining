@@ -15,28 +15,12 @@ import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayState
  */
 internal class SettingsViewModelTest {
 
-    class TestCheckedWeekdaysRepository(private val weekdays: MutableList<WeekdayModel> = mutableListOf()) : CheckedWeekdaysRepository {
-
-        override fun readCheckedWeekdays(): List<WeekdayModel> {
-            return weekdays
-        }
-
-        override fun removeCheckedWeekday(model: WeekdayModel) {
-            weekdays.remove(model)
-        }
-
-        override fun saveCheckedWeekday(model: WeekdayModel) {
-            weekdays.add(model)
-        }
-
-    }
-
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
     @Test
     fun `test when cache is empty`() {
-        val viewModel = SettingsViewModel(TestCheckedWeekdaysRepository())
+        val viewModel = SettingsViewModel(CheckedWeekdaysRepository.Test())
 
         val expected = WeekdayListState(
             listOf(
@@ -54,7 +38,7 @@ internal class SettingsViewModelTest {
 
     @Test
     fun `test when weekdays has been saved in cache`() {
-        val repository = TestCheckedWeekdaysRepository(mutableListOf(
+        val repository = CheckedWeekdaysRepository.Test(mutableListOf(
             WeekdayModel.MONDAY,
             WeekdayModel.TUESDAY,
             WeekdayModel.SUNDAY
@@ -77,7 +61,7 @@ internal class SettingsViewModelTest {
 
     @Test
     fun `test when weekday state has been changed`() {
-        val repository = TestCheckedWeekdaysRepository()
+        val repository = CheckedWeekdaysRepository.Test()
         val viewModel = SettingsViewModel(repository)
 
         viewModel.changeWeekdayState(WeekdayState(WeekdayModel.TUESDAY, true))
