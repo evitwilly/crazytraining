@@ -7,7 +7,7 @@ import ru.freeit.crazytraining.core.theming.typeface.TypefaceManager
 
 class App: Application() {
 
-    private lateinit var persistenceSimpleDataStorage: PersistenceSimpleDataStorage
+    lateinit var persistenceSimpleDataStorage: PersistenceSimpleDataStorage
     lateinit var themeManager: CoreThemeManager
     lateinit var typefaceManager: TypefaceManager
 
