@@ -2,7 +2,7 @@ package ru.freeit.crazytraining.core.cache
 
 import android.content.Context
 
-class PersistenceSimpleDataStorage(ctx: Context): PersistentIntStorage {
+class PersistenceSimpleDataStorage(ctx: Context): PersistentIntStorage, PersistentStringStorage {
 
     private val readerSharedPreferences = ctx.getSharedPreferences(storage_name, Context.MODE_PRIVATE)
     private val editorSharedPreferences = readerSharedPreferences.edit()
@@ -11,6 +11,12 @@ class PersistenceSimpleDataStorage(ctx: Context): PersistentIntStorage {
 
     override fun save(key: String, value: Int) {
         editorSharedPreferences.putInt(key, value).apply()
+    }
+
+    override fun string(key: String, default: String) = readerSharedPreferences.getString(key, default) ?: default
+
+    override fun save(key: String, value: String) {
+        editorSharedPreferences.putString(key, value).apply()
     }
 
     companion object {

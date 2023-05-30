@@ -6,39 +6,112 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import ru.freeit.crazytraining.core.models.WeekdayModel
+import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayListState
 import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayState
 
-
+/**
+ * Test for ViewModel [SettingsViewModel]
+ */
 internal class SettingsViewModelTest {
+
+    class TestCheckedWeekdaysRepository(private val weekdays: MutableList<WeekdayModel> = mutableListOf()) : CheckedWeekdaysRepository {
+
+        override fun readCheckedWeekdays(): List<WeekdayModel> {
+            return weekdays
+        }
+
+        override fun removeCheckedWeekday(model: WeekdayModel) {
+            weekdays.remove(model)
+        }
+
+        override fun saveCheckedWeekday(model: WeekdayModel) {
+            weekdays.add(model)
+        }
+
+    }
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
     @Test
-    fun test() {
-        val viewModel = SettingsViewModel()
+    fun `test when cache is empty`() {
+        val viewModel = SettingsViewModel(TestCheckedWeekdaysRepository())
 
-        val weekdays = WeekdayModel.values()
+        val expected = WeekdayListState(
+            listOf(
+                WeekdayState(WeekdayModel.MONDAY, false),
+                WeekdayState(WeekdayModel.TUESDAY, false),
+                WeekdayState(WeekdayModel.WEDNESDAY, false),
+                WeekdayState(WeekdayModel.THURSDAY, false),
+                WeekdayState(WeekdayModel.FRIDAY, false),
+                WeekdayState(WeekdayModel.SATURDAY, false),
+                WeekdayState(WeekdayModel.SUNDAY, false)
+            )
+        )
+        assertEquals(expected, viewModel.state.value)
+    }
 
-        val expected1 = WeekdayListState(weekdays.map { WeekdayState(it, false) })
+    @Test
+    fun `test when weekdays has been saved in cache`() {
+        val repository = TestCheckedWeekdaysRepository(mutableListOf(
+            WeekdayModel.MONDAY,
+            WeekdayModel.TUESDAY,
+            WeekdayModel.SUNDAY
+        ))
+        val viewModel = SettingsViewModel(repository)
+
+        val expected = WeekdayListState(
+            listOf(
+                WeekdayState(WeekdayModel.MONDAY, true),
+                WeekdayState(WeekdayModel.TUESDAY, true),
+                WeekdayState(WeekdayModel.WEDNESDAY, false),
+                WeekdayState(WeekdayModel.THURSDAY, false),
+                WeekdayState(WeekdayModel.FRIDAY, false),
+                WeekdayState(WeekdayModel.SATURDAY, false),
+                WeekdayState(WeekdayModel.SUNDAY, true)
+            )
+        )
+        assertEquals(expected, viewModel.state.value)
+    }
+
+    @Test
+    fun `test when weekday state has been changed`() {
+        val repository = TestCheckedWeekdaysRepository()
+        val viewModel = SettingsViewModel(repository)
+
+        viewModel.changeWeekdayState(WeekdayState(WeekdayModel.TUESDAY, true))
+        viewModel.changeWeekdayState(WeekdayState(WeekdayModel.THURSDAY, true))
+        viewModel.changeWeekdayState(WeekdayState(WeekdayModel.SUNDAY, true))
+
+        val expected1 = WeekdayListState(
+            listOf(
+                WeekdayState(WeekdayModel.MONDAY, false),
+                WeekdayState(WeekdayModel.TUESDAY, true),
+                WeekdayState(WeekdayModel.WEDNESDAY, false),
+                WeekdayState(WeekdayModel.THURSDAY, true),
+                WeekdayState(WeekdayModel.FRIDAY, false),
+                WeekdayState(WeekdayModel.SATURDAY, false),
+                WeekdayState(WeekdayModel.SUNDAY, true)
+            )
+        )
         assertEquals(expected1, viewModel.state.value)
 
-        viewModel.changeWeekdayState(WeekdayState(WeekdayModel.FRIDAY, true))
+        viewModel.changeWeekdayState(WeekdayState(WeekdayModel.TUESDAY, false))
+        viewModel.changeWeekdayState(WeekdayState(WeekdayModel.SUNDAY, false))
 
-        val expected2 = WeekdayListState(weekdays.map { WeekdayState(it, it == WeekdayModel.FRIDAY) })
+        val expected2 = WeekdayListState(
+            listOf(
+                WeekdayState(WeekdayModel.MONDAY, false),
+                WeekdayState(WeekdayModel.TUESDAY, false),
+                WeekdayState(WeekdayModel.WEDNESDAY, false),
+                WeekdayState(WeekdayModel.THURSDAY, true),
+                WeekdayState(WeekdayModel.FRIDAY, false),
+                WeekdayState(WeekdayModel.SATURDAY, false),
+                WeekdayState(WeekdayModel.SUNDAY, false)
+            )
+        )
         assertEquals(expected2, viewModel.state.value)
-
-        viewModel.changeWeekdayState(WeekdayState(WeekdayModel.SATURDAY, true))
-
-        val expected3 = WeekdayListState(weekdays.map { WeekdayState(it, it == WeekdayModel.FRIDAY || it == WeekdayModel.SATURDAY) })
-        assertEquals(expected3, viewModel.state.value)
-
-        viewModel.changeWeekdayState(WeekdayState(WeekdayModel.FRIDAY, false))
-        viewModel.changeWeekdayState(WeekdayState(WeekdayModel.SATURDAY, false))
-
-        val expected4 = WeekdayListState(weekdays.map { WeekdayState(it, false) })
-        assertEquals(expected4, viewModel.state.value)
     }
 
 }

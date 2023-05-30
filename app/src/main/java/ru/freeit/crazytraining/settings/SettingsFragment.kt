@@ -15,8 +15,9 @@ import ru.freeit.crazytraining.core.theming.extensions.padding
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CaptionTextView
 import ru.freeit.crazytraining.core.theming.view.FlowLayout
+import ru.freeit.crazytraining.core.viewmodel.viewModelFactory
+import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.settings.view.ThemeSwitchView
-
 
 class SettingsFragment : BaseFragment() {
 
@@ -49,7 +50,10 @@ class SettingsFragment : BaseFragment() {
         weekdaysLayoutView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginTop(context.dp(8)))
         contentView.addView(weekdaysLayoutView)
 
-        val viewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
+        val simpleDataStorage = (context.applicationContext as App).persistenceSimpleDataStorage
+        val viewModelFactory = viewModelFactory { SettingsViewModel(CheckedWeekdaysRepository.Base(simpleDataStorage)) }
+        val viewModel = ViewModelProvider(this, viewModelFactory)[SettingsViewModel::class.java]
+
         viewModel.state.observe(viewLifecycleOwner) { state ->
             state.bindView(weekdaysLayoutView, viewModel::changeWeekdayState)
         }
