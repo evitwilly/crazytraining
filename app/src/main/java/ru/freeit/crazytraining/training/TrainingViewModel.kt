@@ -15,6 +15,9 @@ class TrainingViewModel(
     private val _titleState = MutableLiveData<Int>()
     val titleState: LiveData<Int> = _titleState
 
+    private val _dateState = MutableLiveData<String>()
+    val dateState: LiveData<String> = _dateState
+
     fun checkToday() {
         val isTodayTraining = checkedWeekdaysRepository.readCheckedWeekdays().map { it.calendarVariable }.contains(calendarRepository.weekday())
         if (isTodayTraining) {
@@ -22,6 +25,7 @@ class TrainingViewModel(
         } else {
             _titleState.value = R.string.weekend
         }
+        _dateState.value = calendarRepository.weekdayMonthYearDateString()
     }
 
 }
