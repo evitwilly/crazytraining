@@ -19,6 +19,8 @@ internal class TrainingViewModelTest {
         override fun weekday(): Int {
             return calendarVariable
         }
+
+        override fun weekdayMonthYearDateString(): String = ""
     }
 
     @Test
