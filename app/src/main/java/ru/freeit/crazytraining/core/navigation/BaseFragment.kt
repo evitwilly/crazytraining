@@ -22,6 +22,7 @@ abstract class BaseFragment: Fragment() {
 
     protected lateinit var navigator: Navigator
 
+    private var rootView: CoreFrameLayout? = null
     private var titleView: TextView? = null
     private var menuButtonView: ImageView? = null
 
@@ -35,6 +36,7 @@ abstract class BaseFragment: Fragment() {
         val context = inflater.context
 
         val rootView = CoreFrameLayout(context)
+        this.rootView = rootView
 
         val toolbarView = CoreFrameLayout(context)
         toolbarView.layoutParams(frameLayoutParams().matchWidth().height(context.dp(toolbarHeight)))
@@ -72,29 +74,34 @@ abstract class BaseFragment: Fragment() {
 
         val contentView = createView(context, savedInstanceState)
         contentView.layoutParams(frameLayoutParams().match().marginTop(context.dp(toolbarHeight)))
-        rootView.addView(contentView)
+        rootView.addView(contentView, 0)
 
         return rootView
     }
 
-    fun changeTitle(text: String) {
+    protected fun changeTitle(text: String) {
         titleView?.text = text
     }
 
-    fun changeMenuButtonVisible(visible: Boolean) {
+    protected fun changeMenuButtonVisible(visible: Boolean) {
         menuButtonView?.isVisible = visible
     }
 
-    fun changeMenuButtonDrawableResource(@DrawableRes drawableResource: Int) {
+    protected fun changeMenuButtonDrawableResource(@DrawableRes drawableResource: Int) {
         menuButtonView?.setImageResource(drawableResource)
     }
 
-    fun changeMenuButtonClickListener(clickListener: View.OnClickListener) {
+    protected fun changeMenuButtonClickListener(clickListener: View.OnClickListener) {
         menuButtonView?.setOnClickListener(clickListener)
+    }
+
+    protected fun addFloatingView(view: View) {
+        rootView?.addView(view)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        rootView = null
         titleView = null
         menuButtonView = null
     }

@@ -18,7 +18,12 @@ enum class CoreTheme(
     val chipTextStyle: TypefaceStyle = TypefaceStyle.MEDIUM,
     val trainingDateTitleBottomLineColor: Int = CoreColors.greenMedium,
     val trainingDateTitleStyle: TypefaceStyle = TypefaceStyle.SEMI_BOLD,
-    val trainingDateTitleSize: Float = 24f
+    val trainingDateTitleSize: Float = 24f,
+    val primaryButtonTextColor: Int = CoreColors.white,
+    val primaryButtonBackgroundColor: Int = CoreColors.greenMedium,
+    val primaryButtonRippleColor: Int = CoreColors.greenDark,
+    val primaryButtonTextSize: Float = 17f,
+    val primaryButtonTextStyle: TypefaceStyle = TypefaceStyle.SEMI_BOLD
 ) {
 
     LIGHT(
