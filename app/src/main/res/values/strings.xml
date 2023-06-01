@@ -13,4 +13,7 @@
     <string name="sunday">Sunday</string>
     <string name="weekend">Weekend</string>
     <string name="add_exercise">Add exercise</string>
+    <string name="choose_icon">Choose icon:</string>
+    <string name="choose_color_for_icon">Choose a color for the icon:</string>
+    <string name="write_exercise_name">Write the name of the exercise:</string>
 </resources>
