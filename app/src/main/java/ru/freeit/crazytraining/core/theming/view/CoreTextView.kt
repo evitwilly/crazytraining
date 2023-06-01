@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.appcompat.widget.AppCompatTextView
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreTheme
+import ru.freeit.crazytraining.core.theming.typeface.TypefaceStyle
 
 open class CoreTextView(ctx: Context): AppCompatTextView(ctx) {
 
@@ -22,6 +23,10 @@ open class CoreTextView(ctx: Context): AppCompatTextView(ctx) {
 
     protected open fun onThemeChanged(theme: CoreTheme) {
         setTextColor(theme.primaryTextColor)
+    }
+
+    fun fontFamily(style: TypefaceStyle) {
+        typeface = typefaceManager.typeface(style)
     }
 
 }

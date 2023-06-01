@@ -14,6 +14,7 @@ import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.viewmodel.viewModelFactory
+import ru.freeit.crazytraining.exercise.ExerciseFragment
 import ru.freeit.crazytraining.settings.SettingsFragment
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.training.view.TrainingDateTextView
@@ -38,6 +39,7 @@ class TrainingFragment : BaseFragment() {
         val trainingAddButton = CoreButton(context)
         trainingAddButton.setText(R.string.add_exercise)
         trainingAddButton.changeStartIcon(R.drawable.ic_add, 24)
+        trainingAddButton.setOnClickListener { navigator.push(ExerciseFragment()) }
         trainingAddButton.layoutParams(frameLayoutParams().wrap()
             .gravity(Gravity.BOTTOM or Gravity.END)
             .marginEnd(context.dp(16))
