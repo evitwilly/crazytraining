@@ -16,4 +16,11 @@
     <string name="choose_icon">Choose icon:</string>
     <string name="choose_color_for_icon">Choose a color for the icon:</string>
     <string name="write_exercise_name">Write the name of the exercise:</string>
+    <string name="quantity">Quantity</string>
+    <string name="distance">Distance</string>
+    <string name="time">Time</string>
+    <string name="choose_measured_value_for_exercise">Choose the measured value for the exercise (cannot be changed):</string>
+    <string name="quantity_description">shows how many times the exercise will be performed per set</string>
+    <string name="distance_description">shows how much will be covered during the exercise set (measurement: kilometers/meters)</string>
+    <string name="time_description">shows how long the exercise will be performed per set (measurement: hours/minutes)</string>
 </resources>
