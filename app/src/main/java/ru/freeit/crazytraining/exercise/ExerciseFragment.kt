@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.EditText
+import android.widget.HorizontalScrollView
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
@@ -103,10 +106,27 @@ class ExerciseFragment : BaseFragment() {
         colorsScrollingView.addView(colorsListView)
         contentView.addView(colorsScrollingView)
 
+        val measuredValuesCaptionView = CaptionTextView(context)
+        measuredValuesCaptionView.text = getString(R.string.choose_measured_value_for_exercise)
+        measuredValuesCaptionView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+            .marginStart(context.dp(16))
+            .marginEnd(context.dp(16))
+            .marginTop(context.dp(16)))
+        contentView.addView(measuredValuesCaptionView)
+
+        val measuredValuesListView = CoreLinearLayout(context)
+        measuredValuesListView.orientation = LinearLayout.VERTICAL
+        measuredValuesListView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+            .marginStart(context.dp(16))
+            .marginEnd(context.dp(16))
+            .marginTop(context.dp(8)))
+        contentView.addView(measuredValuesListView)
+
         val viewModelFactory = viewModelFactory { ExerciseViewModel(ExerciseRepositoryImpl()) }
         val viewModel = ViewModelProvider(this, viewModelFactory)[ExerciseViewModel::class.java]
         viewModel.addingExerciseState.observe(viewLifecycleOwner) { state ->
             state.bindViews(selectedTitleView, selectedIconView)
+            state.measuredState.bindView(measuredValuesListView, viewModel::checkMeasuredState)
         }
         viewModel.settingsIconState.observe(viewLifecycleOwner) { state ->
             state.bindIconsView(iconsListView, viewModel::checkIcon)
@@ -114,7 +134,9 @@ class ExerciseFragment : BaseFragment() {
         }
         titleEditView.doAfterTextChanged { title -> viewModel.changeTitle(title.toString()) }
 
-        return contentView
+        val scrollView = ScrollView(context)
+        scrollView.addView(contentView)
+        return scrollView
     }
 
 }

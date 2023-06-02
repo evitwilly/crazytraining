@@ -8,11 +8,13 @@ import ru.freeit.crazytraining.core.theming.extensions.dp
 class AddingExerciseState(
     private val icon: Int,
     private val color: Int,
-    private val title: String = ""
+    private val title: String = "",
+    val measuredState: ExerciseMeasuredValueListState
 ) {
-    fun withChangedIcon(icon: Int) = AddingExerciseState(icon, color, title)
-    fun withChangedColor(color: Int) = AddingExerciseState(icon, color, title)
-    fun withChangedTitle(title: String) = AddingExerciseState(icon, color, title)
+    fun withChangedIcon(icon: Int) = AddingExerciseState(icon, color, title, measuredState)
+    fun withChangedColor(color: Int) = AddingExerciseState(icon, color, title, measuredState)
+    fun withChangedTitle(title: String) = AddingExerciseState(icon, color, title, measuredState)
+    fun withChangedMeasuredState(measuredState: ExerciseMeasuredValueListState) = AddingExerciseState(icon, color, title, measuredState)
 
     fun bindViews(titleView: TextView, imageView: ImageView) {
         titleView.text = title
@@ -27,7 +29,7 @@ class AddingExerciseState(
     override fun equals(other: Any?): Boolean {
         if (other == null) return false
         if (other !is AddingExerciseState) return false
-        return icon == other.icon && color == other.color && title == other.title
+        return icon == other.icon && color == other.color && title == other.title && measuredState == other.measuredState
     }
 
 }

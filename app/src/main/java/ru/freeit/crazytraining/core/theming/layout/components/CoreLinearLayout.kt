@@ -5,22 +5,22 @@ import android.widget.LinearLayout
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreTheme
 
-class CoreLinearLayout(ctx: Context): LinearLayout(ctx) {
+open class CoreLinearLayout(ctx: Context): LinearLayout(ctx) {
 
-    private val onThemeChanged: (CoreTheme) -> Unit = { theme ->
+    protected open fun onThemeChanged(theme: CoreTheme) {
         setBackgroundColor(theme.backgroundColor)
     }
 
-    private val themeManager = (context.applicationContext as App).themeManager
+    protected val themeManager = (context.applicationContext as App).themeManager
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        themeManager.listenForThemeChanges(onThemeChanged)
+        themeManager.listenForThemeChanges(::onThemeChanged)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        themeManager.doNotListenForThemeChanges(onThemeChanged)
+        themeManager.doNotListenForThemeChanges(::onThemeChanged)
     }
 
 }
