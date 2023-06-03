@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import ru.freeit.crazytraining.R;
 
-public class ExerciseRepositoryImpl implements ExerciseRepository {
+public class ExerciseResourcesRepositoryImpl implements ExerciseResourcesRepository {
 
     @NonNull
     @Override
@@ -25,11 +25,14 @@ public class ExerciseRepositoryImpl implements ExerciseRepository {
     @Override
     public int[] colors() {
         return new int[] {
-            0xffff00ff,
+            0xff990f02,
+            0xffbc544b,
             0xff0047ab,
+            0xff4682b4,
             0xff0b6623,
-            0xff32cd32,
-            0xffffa500
+            0xff808000,
+            0xffffa500,
+            0xffff7f50
         };
     }
 

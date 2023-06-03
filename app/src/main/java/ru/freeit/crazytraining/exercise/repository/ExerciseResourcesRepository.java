@@ -1,6 +1,6 @@
 package ru.freeit.crazytraining.exercise.repository;
 
-public interface ExerciseRepository {
+public interface ExerciseResourcesRepository {
     int[] icons();
     int[] colors();
 }
