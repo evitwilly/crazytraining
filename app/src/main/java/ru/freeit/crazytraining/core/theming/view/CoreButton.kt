@@ -38,10 +38,7 @@ class CoreButton(ctx: Context) : AppCompatTextView(ctx) {
         setTextColor(theme.primaryButtonTextColor)
         background = RippleDrawable(
             ColorStateList.valueOf(theme.primaryButtonRippleColor),
-            GradientDrawable().apply {
-                cornerRadius = context.dp(8f)
-                setColor(theme.primaryButtonBackgroundColor)
-            },
+            GradientDrawable().apply { setColor(theme.primaryButtonBackgroundColor) },
             null
         )
         typeface = typefaceManager.typeface(theme.primaryButtonTextStyle)

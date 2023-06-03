@@ -1,10 +1,9 @@
 package ru.freeit.crazytraining.exercise
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
-import android.widget.EditText
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -13,23 +12,27 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.BaseFragment
-import ru.freeit.crazytraining.core.theming.CoreColors
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.typeface.TypefaceStyle
 import ru.freeit.crazytraining.core.theming.view.CaptionTextView
+import ru.freeit.crazytraining.core.theming.view.CoreButton
+import ru.freeit.crazytraining.core.theming.view.CoreEditText
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.core.viewmodel.viewModelFactory
-import ru.freeit.crazytraining.exercise.repository.ExerciseRepositoryImpl
+import ru.freeit.crazytraining.exercise.repository.ExerciseListRepositoryImpl
+import ru.freeit.crazytraining.exercise.repository.ExerciseResourcesRepositoryImpl
 
 class ExerciseFragment : BaseFragment() {
 
     override fun createView(context: Context, bundle: Bundle?): View {
         val contentView = CoreLinearLayout(context)
         contentView.orientation = LinearLayout.VERTICAL
-        contentView.padding(top = context.dp(8), bottom = context.dp(16))
+        contentView.padding(top = context.dp(8), bottom = context.dp(48))
 
+        changeMenuButtonDrawableResource(R.drawable.ic_check)
+        changeMenuButtonVisible(true)
         changeTitle(getString(R.string.add_exercise))
 
         val exerciseFrameView = CoreFrameLayout(context)
@@ -57,9 +60,11 @@ class ExerciseFragment : BaseFragment() {
             .marginTop(context.dp(16)))
         contentView.addView(titleCaptionView)
 
-        val titleEditView = EditText(context)
-        titleEditView.maxLines = 1
-        titleEditView.backgroundTintList = ColorStateList.valueOf(CoreColors.greenMedium)
+        val titleEditView = CoreEditText(context)
+        titleEditView.isSingleLine = true
+        titleEditView.setHint(R.string.exercise_name)
+        titleEditView.fontSize(18f)
+        titleEditView.fontFamily(TypefaceStyle.MEDIUM)
         titleEditView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
             .marginStart(context.dp(16))
             .marginEnd(context.dp(16))
@@ -122,7 +127,13 @@ class ExerciseFragment : BaseFragment() {
             .marginTop(context.dp(8)))
         contentView.addView(measuredValuesListView)
 
-        val viewModelFactory = viewModelFactory { ExerciseViewModel(ExerciseRepositoryImpl()) }
+        val button = CoreButton(context)
+        button.gravity = Gravity.CENTER
+        button.setText(R.string.add_exercise)
+        button.layoutParams(frameLayoutParams().matchWidth().wrapHeight().gravity(Gravity.BOTTOM))
+        addFloatingView(button)
+
+        val viewModelFactory = viewModelFactory { ExerciseViewModel(ExerciseListRepositoryImpl(), ExerciseResourcesRepositoryImpl()) }
         val viewModel = ViewModelProvider(this, viewModelFactory)[ExerciseViewModel::class.java]
         viewModel.addingExerciseState.observe(viewLifecycleOwner) { state ->
             state.bindViews(selectedTitleView, selectedIconView)
@@ -133,6 +144,9 @@ class ExerciseFragment : BaseFragment() {
             state.bindColorsView(colorsListView, viewModel::checkColor)
         }
         titleEditView.doAfterTextChanged { title -> viewModel.changeTitle(title.toString()) }
+
+        button.setOnClickListener { viewModel.apply() }
+        changeMenuButtonClickListener { viewModel.apply() }
 
         val scrollView = ScrollView(context)
         scrollView.addView(contentView)

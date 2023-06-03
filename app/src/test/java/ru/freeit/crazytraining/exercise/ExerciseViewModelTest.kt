@@ -6,7 +6,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
-import ru.freeit.crazytraining.exercise.repository.ExerciseRepository
+import ru.freeit.crazytraining.exercise.model.ExerciseModel
+import ru.freeit.crazytraining.exercise.repository.ExerciseListRepository
+import ru.freeit.crazytraining.exercise.repository.ExerciseResourcesRepository
 import ru.freeit.crazytraining.exercise.viewmodel_states.AddingExerciseState
 import ru.freeit.crazytraining.exercise.viewmodel_states.ExerciseMeasuredValueListState
 import ru.freeit.crazytraining.exercise.viewmodel_states.ExerciseMeasuredValueState
@@ -19,14 +21,19 @@ internal class ExerciseViewModelTest {
 
     private val mockData = intArrayOf(1, 2, 3)
 
-    class Mock(private val colors: IntArray, private val icons: IntArray) : ExerciseRepository {
+    class ExerciseListRepositoryMock : ExerciseListRepository {
+        override fun saveExercise(model: ExerciseModel) {}
+        override fun exercises(): List<ExerciseModel> = emptyList()
+    }
+
+    class ExerciseResourcesRepositoryMock(private val colors: IntArray, private val icons: IntArray) : ExerciseResourcesRepository {
         override fun colors() = colors
         override fun icons() = icons
     }
 
     @Test
     fun `test changing states`() {
-        val viewModel = ExerciseViewModel(Mock(mockData, mockData))
+        val viewModel = ExerciseViewModel(ExerciseListRepositoryMock(), ExerciseResourcesRepositoryMock(mockData, mockData))
 
         val measuredState = ExerciseMeasuredValueListState(ExerciseMeasuredValueModel.measuredStates)
         assertEquals(SettingsIconState(mockData, mockData), viewModel.settingsIconState.value)

@@ -4,13 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
-import ru.freeit.crazytraining.exercise.repository.ExerciseRepository
+import ru.freeit.crazytraining.exercise.repository.ExerciseListRepository
+import ru.freeit.crazytraining.exercise.repository.ExerciseResourcesRepository
 import ru.freeit.crazytraining.exercise.viewmodel_states.AddingExerciseState
 import ru.freeit.crazytraining.exercise.viewmodel_states.ExerciseMeasuredValueListState
 import ru.freeit.crazytraining.exercise.viewmodel_states.ExerciseMeasuredValueState
 import ru.freeit.crazytraining.exercise.viewmodel_states.SettingsIconState
 
-class ExerciseViewModel(repository: ExerciseRepository) : ViewModel() {
+class ExerciseViewModel(
+    private val listRepository: ExerciseListRepository,
+    resourcesRepository: ExerciseResourcesRepository
+) : ViewModel() {
 
     private val _addingExerciseState = MutableLiveData<AddingExerciseState>()
     val addingExerciseState: LiveData<AddingExerciseState> = _addingExerciseState
@@ -19,8 +23,8 @@ class ExerciseViewModel(repository: ExerciseRepository) : ViewModel() {
     val settingsIconState: LiveData<SettingsIconState> = _settingsIconState
 
     init {
-        val icons = repository.icons()
-        val colors = repository.colors()
+        val icons = resourcesRepository.icons()
+        val colors = resourcesRepository.colors()
         _settingsIconState.value = SettingsIconState(icons = icons, colors = colors)
         _addingExerciseState.value = AddingExerciseState(
             icon = icons[0],
@@ -45,6 +49,11 @@ class ExerciseViewModel(repository: ExerciseRepository) : ViewModel() {
         val measuredState = _addingExerciseState.value?.measuredState ?: return
         val newMeasuredState = measuredState.withCheckedState(newState)
         _addingExerciseState.value = _addingExerciseState.value?.withChangedMeasuredState(newMeasuredState)
+    }
+
+    fun apply() {
+        val model = _addingExerciseState.value?.model ?: return
+        listRepository.saveExercise(model)
     }
 
 }

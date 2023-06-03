@@ -4,6 +4,7 @@ import android.graphics.drawable.GradientDrawable
 import android.widget.ImageView
 import android.widget.TextView
 import ru.freeit.crazytraining.core.theming.extensions.dp
+import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class AddingExerciseState(
     private val icon: Int,
@@ -11,6 +12,9 @@ class AddingExerciseState(
     private val title: String = "",
     val measuredState: ExerciseMeasuredValueListState
 ) {
+    val model: ExerciseModel
+        get() = ExerciseModel(icon, color, title, measuredState.checkedMeasuredModel)
+
     fun withChangedIcon(icon: Int) = AddingExerciseState(icon, color, title, measuredState)
     fun withChangedColor(color: Int) = AddingExerciseState(icon, color, title, measuredState)
     fun withChangedTitle(title: String) = AddingExerciseState(icon, color, title, measuredState)

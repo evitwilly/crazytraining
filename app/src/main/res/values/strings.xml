@@ -23,4 +23,5 @@
     <string name="quantity_description">shows how many times the exercise will be performed per set</string>
     <string name="distance_description">shows how much will be covered during the exercise set (measurement: kilometers/meters)</string>
     <string name="time_description">shows how long the exercise will be performed per set (measurement: hours/minutes)</string>
+    <string name="exercise_name">exercise name</string>
 </resources>
