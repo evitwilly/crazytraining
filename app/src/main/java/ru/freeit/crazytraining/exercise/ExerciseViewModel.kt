@@ -2,7 +2,7 @@ package ru.freeit.crazytraining.exercise
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import ru.freeit.crazytraining.core.navigation.BaseViewModel
 import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
 import ru.freeit.crazytraining.exercise.repository.ExerciseListRepository
 import ru.freeit.crazytraining.exercise.repository.ExerciseResourcesRepository
@@ -14,7 +14,7 @@ import ru.freeit.crazytraining.exercise.viewmodel_states.SettingsIconState
 class ExerciseViewModel(
     private val listRepository: ExerciseListRepository,
     resourcesRepository: ExerciseResourcesRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _addingExerciseState = MutableLiveData<AddingExerciseState>()
     val addingExerciseState: LiveData<AddingExerciseState> = _addingExerciseState

@@ -9,7 +9,6 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.ViewModelProvider
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.BaseFragment
 import ru.freeit.crazytraining.core.theming.extensions.*
@@ -20,11 +19,18 @@ import ru.freeit.crazytraining.core.theming.view.CaptionTextView
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreEditText
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
-import ru.freeit.crazytraining.core.viewmodel.viewModelFactory
 import ru.freeit.crazytraining.exercise.repository.ExerciseListRepositoryImpl
 import ru.freeit.crazytraining.exercise.repository.ExerciseResourcesRepositoryImpl
 
-class ExerciseFragment : BaseFragment() {
+class ExerciseFragment : BaseFragment<ExerciseViewModel>() {
+
+    override val viewModelKClass: Class<ExerciseViewModel> = ExerciseViewModel::class.java
+    override fun viewModelConstructor(ctx: Context): ExerciseViewModel {
+        return ExerciseViewModel(
+            listRepository = ExerciseListRepositoryImpl(),
+            resourcesRepository = ExerciseResourcesRepositoryImpl()
+        )
+    }
 
     override fun createView(context: Context, bundle: Bundle?): View {
         val contentView = CoreLinearLayout(context)
@@ -133,8 +139,6 @@ class ExerciseFragment : BaseFragment() {
         button.layoutParams(frameLayoutParams().matchWidth().wrapHeight().gravity(Gravity.BOTTOM))
         addFloatingView(button)
 
-        val viewModelFactory = viewModelFactory { ExerciseViewModel(ExerciseListRepositoryImpl(), ExerciseResourcesRepositoryImpl()) }
-        val viewModel = ViewModelProvider(this, viewModelFactory)[ExerciseViewModel::class.java]
         viewModel.addingExerciseState.observe(viewLifecycleOwner) { state ->
             state.bindViews(selectedTitleView, selectedIconView)
             state.measuredState.bindView(measuredValuesListView, viewModel::checkMeasuredState)

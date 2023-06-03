@@ -9,7 +9,7 @@ class Navigator(private val fragmentManager: FragmentManager) {
     val is_not_top_fragment: Boolean
         get() = fragmentManager.backStackEntryCount > 0
 
-    fun init(fragment: BaseFragment, bundle: Bundle?) {
+    fun init(fragment: BaseFragment<*>, bundle: Bundle?) {
         if (bundle == null) {
             fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
@@ -17,7 +17,7 @@ class Navigator(private val fragmentManager: FragmentManager) {
         }
     }
 
-    fun push(fragment: BaseFragment) {
+    fun push(fragment: BaseFragment<*>) {
         fragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(fragment::class.simpleName)

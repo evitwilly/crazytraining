@@ -8,7 +8,7 @@ import ru.freeit.crazytraining.core.theming.typeface.TypefaceStyle
 
 open class CoreTextView(ctx: Context): AppCompatTextView(ctx) {
 
-    private val themeManager = (context.applicationContext as App).themeManager
+    protected val themeManager = (context.applicationContext as App).themeManager
     protected val typefaceManager = (context.applicationContext as App).typefaceManager
 
     override fun onAttachedToWindow() {

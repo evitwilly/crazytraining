@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
-import androidx.lifecycle.ViewModelProvider
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.navigation.BaseFragment
@@ -13,16 +12,22 @@ import ru.freeit.crazytraining.core.repository.CalendarRepository
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreButton
-import ru.freeit.crazytraining.core.viewmodel.viewModelFactory
 import ru.freeit.crazytraining.exercise.ExerciseFragment
 import ru.freeit.crazytraining.settings.SettingsFragment
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.training.view.TrainingDateTextView
 
-class TrainingFragment : BaseFragment() {
+class TrainingFragment : BaseFragment<TrainingViewModel>() {
 
-    private var viewModel: TrainingViewModel? = null
-    
+    override val viewModelKClass: Class<TrainingViewModel> = TrainingViewModel::class.java
+    override fun viewModelConstructor(ctx: Context): TrainingViewModel {
+        val simpleDataStorage = (ctx.applicationContext as App).persistenceSimpleDataStorage
+        return TrainingViewModel(
+            calendarRepository = CalendarRepository.Base(),
+            checkedWeekdaysRepository = CheckedWeekdaysRepository.Base(simpleDataStorage)
+        )
+    }
+
     override fun createView(context: Context, bundle: Bundle?): View {
         val contentView = CoreLinearLayout(context)
         contentView.orientation = LinearLayout.VERTICAL
@@ -46,14 +51,6 @@ class TrainingFragment : BaseFragment() {
             .marginBottom(context.dp(16)))
         addFloatingView(trainingAddButton)
 
-        val simpleDataStorage = (context.applicationContext as App).persistenceSimpleDataStorage
-        val factory = viewModelFactory { TrainingViewModel(
-            calendarRepository = CalendarRepository.Base(),
-            checkedWeekdaysRepository = CheckedWeekdaysRepository.Base(simpleDataStorage)
-        ) }
-        val viewModel = ViewModelProvider(this, factory)[TrainingViewModel::class.java]
-        this.viewModel = viewModel
-
         viewModel.titleState.observe(viewLifecycleOwner) { title ->
             changeTitle(getString(title))
         }
@@ -67,7 +64,7 @@ class TrainingFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        viewModel?.checkToday()
+        viewModel.checkToday()
     }
 
 }
