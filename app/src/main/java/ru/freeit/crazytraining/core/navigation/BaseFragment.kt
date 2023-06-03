@@ -12,14 +12,19 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import ru.freeit.crazytraining.R
-import ru.freeit.crazytraining.core.theming.extensions.*
+import ru.freeit.crazytraining.core.theming.extensions.dp
+import ru.freeit.crazytraining.core.theming.extensions.frameLayoutParams
+import ru.freeit.crazytraining.core.theming.extensions.layoutParams
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
 import ru.freeit.crazytraining.core.theming.view.ToolbarButtonImageView
 import ru.freeit.crazytraining.core.theming.view.ToolbarTitleTextView
+import ru.freeit.crazytraining.core.viewmodel.viewModelFactory
 
-abstract class BaseFragment: Fragment() {
+abstract class BaseFragment<T : BaseViewModel>: Fragment() {
 
+    protected lateinit var viewModel: T
     protected lateinit var navigator: Navigator
 
     private var rootView: CoreFrameLayout? = null
@@ -30,10 +35,17 @@ abstract class BaseFragment: Fragment() {
     private val menuButtonMarginStart = 4
     private val toolbarHeight = 48
 
+    protected open val viewModelKClass: Class<T>
+        get() = BaseViewModel::class.java as Class<T>
+    protected open fun viewModelConstructor(ctx: Context): T = BaseViewModel() as T
+
     protected abstract fun createView(context: Context, bundle: Bundle?): View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val context = inflater.context
+
+        val factory = viewModelFactory { viewModelConstructor(context) }
+        viewModel = ViewModelProvider(this, factory)[viewModelKClass]
 
         val rootView = CoreFrameLayout(context)
         this.rootView = rootView
@@ -75,6 +87,19 @@ abstract class BaseFragment: Fragment() {
         val contentView = createView(context, savedInstanceState)
         contentView.layoutParams(frameLayoutParams().match().marginTop(context.dp(toolbarHeight)))
         rootView.addView(contentView, 0)
+
+        val bubbleMessageView = BubbleMessageView(context)
+        bubbleMessageView.layoutParams(frameLayoutParams().matchWidth().wrapHeight()
+            .marginStart(context.dp(16))
+            .marginEnd(context.dp(16))
+            .marginTop(context.dp(toolbarHeight + 8)))
+        rootView.addView(bubbleMessageView)
+
+        viewModel.bubbleState.observe(viewLifecycleOwner) { message ->
+            if (message != -1) {
+                bubbleMessageView.show(getString(message))
+            }
+        }
 
         return rootView
     }

@@ -2,15 +2,15 @@ package ru.freeit.crazytraining.training
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import ru.freeit.crazytraining.R
+import ru.freeit.crazytraining.core.navigation.BaseViewModel
 import ru.freeit.crazytraining.core.repository.CalendarRepository
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 
 class TrainingViewModel(
     private val calendarRepository: CalendarRepository,
     private val checkedWeekdaysRepository: CheckedWeekdaysRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _titleState = MutableLiveData<Int>()
     val titleState: LiveData<Int> = _titleState
