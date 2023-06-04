@@ -12,6 +12,9 @@ class AddingExerciseState(
     private val title: String = "",
     val measuredState: ExerciseMeasuredValueListState
 ) {
+    val is_valid: Boolean
+        get() = title.isNotBlank()
+
     val model: ExerciseModel
         get() = ExerciseModel(icon, color, title, measuredState.checkedMeasuredModel)
 
