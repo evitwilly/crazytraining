@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.navigation.BaseFragment
@@ -13,6 +15,7 @@ import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.exercise.ExerciseFragment
+import ru.freeit.crazytraining.exercise.repository.ExerciseListRepositoryImpl
 import ru.freeit.crazytraining.settings.SettingsFragment
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.training.view.TrainingDateTextView
@@ -23,6 +26,7 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
     override fun viewModelConstructor(ctx: Context): TrainingViewModel {
         val simpleDataStorage = (ctx.applicationContext as App).persistenceSimpleDataStorage
         return TrainingViewModel(
+            exerciseListRepository = ExerciseListRepositoryImpl(),
             calendarRepository = CalendarRepository.Base(),
             checkedWeekdaysRepository = CheckedWeekdaysRepository.Base(simpleDataStorage)
         )
@@ -40,6 +44,11 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
         val dateView = TrainingDateTextView(context)
         dateView.layoutParams(linearLayoutParams().wrap())
         contentView.addView(dateView)
+
+        val listView = RecyclerView(context)
+        listView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        listView.layoutParams(linearLayoutParams().matchWidth().height(0).weight(1f).marginTop(context.dp(8)))
+        contentView.addView(listView)
 
         val trainingAddButton = CoreButton(context)
         trainingAddButton.setText(R.string.add_exercise)
@@ -59,12 +68,16 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
             dateView.text = date.replaceFirstChar { it.titlecase() }
         }
 
+        viewModel.exerciseListState.observe(viewLifecycleOwner) { listState ->
+            listView.adapter = listState.adapter
+        }
+
         return contentView
     }
 
     override fun onStart() {
         super.onStart()
-        viewModel.checkToday()
+        viewModel.updateState()
     }
 
 }

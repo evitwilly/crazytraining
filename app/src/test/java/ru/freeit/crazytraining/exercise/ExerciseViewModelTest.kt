@@ -5,6 +5,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import ru.freeit.crazytraining.core.mocks.ExerciseListRepositoryMock
 import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.exercise.repository.ExerciseListRepository
@@ -20,11 +21,6 @@ internal class ExerciseViewModelTest {
     var rule: TestRule = InstantTaskExecutorRule()
 
     private val mockData = intArrayOf(1, 2, 3)
-
-    class ExerciseListRepositoryMock : ExerciseListRepository {
-        override fun saveExercise(model: ExerciseModel) {}
-        override fun exercises(): List<ExerciseModel> = emptyList()
-    }
 
     class ExerciseResourcesRepositoryMock(private val colors: IntArray, private val icons: IntArray) : ExerciseResourcesRepository {
         override fun colors() = colors

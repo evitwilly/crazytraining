@@ -5,9 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.BaseViewModel
 import ru.freeit.crazytraining.core.repository.CalendarRepository
+import ru.freeit.crazytraining.exercise.repository.ExerciseListRepository
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
+import ru.freeit.crazytraining.training.viewmodel_states.ExerciseListState
 
 class TrainingViewModel(
+    private val exerciseListRepository: ExerciseListRepository,
     private val calendarRepository: CalendarRepository,
     private val checkedWeekdaysRepository: CheckedWeekdaysRepository
 ) : BaseViewModel() {
@@ -18,7 +21,10 @@ class TrainingViewModel(
     private val _dateState = MutableLiveData<String>()
     val dateState: LiveData<String> = _dateState
 
-    fun checkToday() {
+    private val _exerciseListState = MutableLiveData<ExerciseListState>()
+    val exerciseListState: LiveData<ExerciseListState> = _exerciseListState
+
+    fun updateState() {
         val isTodayTraining = checkedWeekdaysRepository.readCheckedWeekdays().map { it.calendarVariable }.contains(calendarRepository.weekday())
         if (isTodayTraining) {
             _titleState.value = R.string.training
@@ -26,6 +32,7 @@ class TrainingViewModel(
             _titleState.value = R.string.weekend
         }
         _dateState.value = calendarRepository.weekdayMonthYearDateString()
+        _exerciseListState.value = ExerciseListState(exerciseListRepository.exercises())
     }
 
 }

@@ -6,6 +6,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import ru.freeit.crazytraining.R
+import ru.freeit.crazytraining.core.mocks.ExerciseListRepositoryMock
 import ru.freeit.crazytraining.core.models.WeekdayModel
 import ru.freeit.crazytraining.core.repository.CalendarRepository
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
@@ -32,8 +33,8 @@ internal class TrainingViewModelTest {
             WeekdayModel.FRIDAY
         ))
 
-        val viewModel = TrainingViewModel(calendar, checkedWeekdaysRepository)
-        viewModel.checkToday()
+        val viewModel = TrainingViewModel(ExerciseListRepositoryMock(), calendar, checkedWeekdaysRepository)
+        viewModel.updateState()
 
         assertEquals(R.string.training, viewModel.titleState.value)
     }
@@ -47,8 +48,8 @@ internal class TrainingViewModelTest {
             WeekdayModel.FRIDAY
         ))
 
-        val viewModel = TrainingViewModel(calendar, checkedWeekdaysRepository)
-        viewModel.checkToday()
+        val viewModel = TrainingViewModel(ExerciseListRepositoryMock(), calendar, checkedWeekdaysRepository)
+        viewModel.updateState()
 
         assertEquals(R.string.weekend, viewModel.titleState.value)
     }

@@ -95,10 +95,12 @@ abstract class BaseFragment<T : BaseViewModel>: Fragment() {
             .marginTop(context.dp(toolbarHeight + 8)))
         rootView.addView(bubbleMessageView)
 
-        viewModel.bubbleState.observe(viewLifecycleOwner) { message ->
-            if (message != -1) {
-                bubbleMessageView.show(getString(message))
-            }
+        viewModel.bubbleMessageState.observe(viewLifecycleOwner) { message ->
+            bubbleMessageView.show(getString(message))
+        }
+
+        viewModel.navigationBack.observe(viewLifecycleOwner) {
+            navigator.back()
         }
 
         return rootView

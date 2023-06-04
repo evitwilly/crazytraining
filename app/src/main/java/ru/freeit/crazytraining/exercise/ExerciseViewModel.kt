@@ -2,6 +2,7 @@ package ru.freeit.crazytraining.exercise
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.BaseViewModel
 import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
 import ru.freeit.crazytraining.exercise.repository.ExerciseListRepository
@@ -52,8 +53,13 @@ class ExerciseViewModel(
     }
 
     fun apply() {
-        val model = _addingExerciseState.value?.model ?: return
-        listRepository.saveExercise(model)
+        val state = _addingExerciseState.value ?: return
+        if (!state.is_valid) {
+            showBubbleMessage(R.string.exercise_name_is_empty)
+        } else {
+            listRepository.saveExercise(state.model)
+            back()
+        }
     }
 
 }
