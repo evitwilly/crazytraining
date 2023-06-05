@@ -1,22 +1,30 @@
 package ru.freeit.crazytraining.exercise
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import ru.freeit.crazytraining.core.mocks.ExerciseListRepositoryMock
+import ru.freeit.crazytraining.core.rules.MainDispatcherRule
 import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseResourcesRepository
+import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.exercise.viewmodel_states.AddingExerciseState
 import ru.freeit.crazytraining.exercise.viewmodel_states.ExerciseMeasuredValueListState
 import ru.freeit.crazytraining.exercise.viewmodel_states.ExerciseMeasuredValueState
 import ru.freeit.crazytraining.exercise.viewmodel_states.SettingsIconState
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class ExerciseViewModelTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val coroutineRule: TestRule = MainDispatcherRule()
 
     private val mockData = intArrayOf(1, 2, 3)
 
@@ -46,6 +54,25 @@ internal class ExerciseViewModelTest {
         val newMeasuredState = ExerciseMeasuredValueState(ExerciseMeasuredValueModel.DISTANCE, true)
         viewModel.checkMeasuredState(newMeasuredState)
         assertEquals(AddingExerciseState(icon = 3, color = 2, title = "exercise 1", measuredState = measuredState.withCheckedState(newMeasuredState)), viewModel.addingExerciseState.value)
+    }
+
+    @Test
+    fun `test apply button`() = runTest {
+        val repository = ExerciseListRepositoryMock()
+        val viewModel = ExerciseViewModel(repository, ExerciseResourcesRepositoryMock(mockData, mockData))
+        viewModel.checkColor(1)
+        viewModel.checkIcon(1)
+        viewModel.checkMeasuredState(ExerciseMeasuredValueState(ExerciseMeasuredValueModel.DISTANCE, true))
+
+        viewModel.apply()
+
+        assertEquals(emptyList<ExerciseModel>(), repository.exercises())
+
+        viewModel.changeTitle("exercise 1")
+
+        viewModel.apply()
+
+        assertEquals(listOf(ExerciseModel(1, 1, "exercise 1", ExerciseMeasuredValueModel.DISTANCE)), repository.exercises())
     }
 
 }

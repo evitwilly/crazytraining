@@ -2,6 +2,7 @@ package ru.freeit.crazytraining.exercise
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.launch
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.BaseViewModel
 import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
@@ -57,8 +58,10 @@ class ExerciseViewModel(
         if (!state.is_valid) {
             showBubbleMessage(R.string.exercise_name_is_empty)
         } else {
-            listRepository.saveExercise(state.model)
-            back()
+            uiScope.launch {
+                listRepository.saveExercise(state.model)
+                back()
+            }
         }
     }
 
