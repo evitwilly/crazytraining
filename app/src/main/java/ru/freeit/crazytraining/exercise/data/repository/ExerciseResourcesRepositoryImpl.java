@@ -1,4 +1,4 @@
-package ru.freeit.crazytraining.exercise.repository;
+package ru.freeit.crazytraining.exercise.data.repository;
 
 import androidx.annotation.NonNull;
 

@@ -7,9 +7,7 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import ru.freeit.crazytraining.core.mocks.ExerciseListRepositoryMock
 import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
-import ru.freeit.crazytraining.exercise.model.ExerciseModel
-import ru.freeit.crazytraining.exercise.repository.ExerciseListRepository
-import ru.freeit.crazytraining.exercise.repository.ExerciseResourcesRepository
+import ru.freeit.crazytraining.exercise.data.repository.ExerciseResourcesRepository
 import ru.freeit.crazytraining.exercise.viewmodel_states.AddingExerciseState
 import ru.freeit.crazytraining.exercise.viewmodel_states.ExerciseMeasuredValueListState
 import ru.freeit.crazytraining.exercise.viewmodel_states.ExerciseMeasuredValueState
@@ -22,7 +20,8 @@ internal class ExerciseViewModelTest {
 
     private val mockData = intArrayOf(1, 2, 3)
 
-    class ExerciseResourcesRepositoryMock(private val colors: IntArray, private val icons: IntArray) : ExerciseResourcesRepository {
+    class ExerciseResourcesRepositoryMock(private val colors: IntArray, private val icons: IntArray) :
+        ExerciseResourcesRepository {
         override fun colors() = colors
         override fun icons() = icons
     }

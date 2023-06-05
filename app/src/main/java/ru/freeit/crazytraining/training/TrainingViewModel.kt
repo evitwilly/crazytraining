@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.BaseViewModel
 import ru.freeit.crazytraining.core.repository.CalendarRepository
-import ru.freeit.crazytraining.exercise.repository.ExerciseListRepository
+import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepository
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.training.viewmodel_states.ExerciseListState
 

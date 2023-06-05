@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.BaseViewModel
 import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
-import ru.freeit.crazytraining.exercise.repository.ExerciseListRepository
-import ru.freeit.crazytraining.exercise.repository.ExerciseResourcesRepository
+import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepository
+import ru.freeit.crazytraining.exercise.data.repository.ExerciseResourcesRepository
 import ru.freeit.crazytraining.exercise.viewmodel_states.AddingExerciseState
 import ru.freeit.crazytraining.exercise.viewmodel_states.ExerciseMeasuredValueListState
 import ru.freeit.crazytraining.exercise.viewmodel_states.ExerciseMeasuredValueState

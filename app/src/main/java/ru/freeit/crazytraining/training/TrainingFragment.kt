@@ -15,7 +15,7 @@ import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.exercise.ExerciseFragment
-import ru.freeit.crazytraining.exercise.repository.ExerciseListRepositoryImpl
+import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
 import ru.freeit.crazytraining.settings.SettingsFragment
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.training.view.TrainingDateTextView

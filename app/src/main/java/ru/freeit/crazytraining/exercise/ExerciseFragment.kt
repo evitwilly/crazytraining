@@ -19,8 +19,8 @@ import ru.freeit.crazytraining.core.theming.view.CaptionTextView
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreEditText
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
-import ru.freeit.crazytraining.exercise.repository.ExerciseListRepositoryImpl
-import ru.freeit.crazytraining.exercise.repository.ExerciseResourcesRepositoryImpl
+import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
+import ru.freeit.crazytraining.exercise.data.repository.ExerciseResourcesRepositoryImpl
 
 class ExerciseFragment : BaseFragment<ExerciseViewModel>() {
 
