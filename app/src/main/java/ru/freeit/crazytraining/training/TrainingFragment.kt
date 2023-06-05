@@ -15,6 +15,7 @@ import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.exercise.ExerciseFragment
+import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
 import ru.freeit.crazytraining.settings.SettingsFragment
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
@@ -24,11 +25,11 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
 
     override val viewModelKClass: Class<TrainingViewModel> = TrainingViewModel::class.java
     override fun viewModelConstructor(ctx: Context): TrainingViewModel {
-        val simpleDataStorage = (ctx.applicationContext as App).persistenceSimpleDataStorage
+        val app = ctx.applicationContext as App
         return TrainingViewModel(
-            exerciseListRepository = ExerciseListRepositoryImpl(),
+            exerciseListRepository = ExerciseListRepositoryImpl(ExerciseDatabase(app.coreSQLiteOpenHelper)),
             calendarRepository = CalendarRepository.Base(),
-            checkedWeekdaysRepository = CheckedWeekdaysRepository.Base(simpleDataStorage)
+            checkedWeekdaysRepository = CheckedWeekdaysRepository.Base(app.persistenceSimpleDataStorage)
         )
     }
 

@@ -10,6 +10,7 @@ import android.widget.ScrollView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.widget.doAfterTextChanged
 import ru.freeit.crazytraining.R
+import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.navigation.BaseFragment
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
@@ -19,6 +20,7 @@ import ru.freeit.crazytraining.core.theming.view.CaptionTextView
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreEditText
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
+import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseResourcesRepositoryImpl
 
@@ -26,8 +28,9 @@ class ExerciseFragment : BaseFragment<ExerciseViewModel>() {
 
     override val viewModelKClass: Class<ExerciseViewModel> = ExerciseViewModel::class.java
     override fun viewModelConstructor(ctx: Context): ExerciseViewModel {
+        val coreSQLiteOpenHelper = (ctx.applicationContext as App).coreSQLiteOpenHelper
         return ExerciseViewModel(
-            listRepository = ExerciseListRepositoryImpl(),
+            listRepository = ExerciseListRepositoryImpl(ExerciseDatabase(coreSQLiteOpenHelper)),
             resourcesRepository = ExerciseResourcesRepositoryImpl()
         )
     }

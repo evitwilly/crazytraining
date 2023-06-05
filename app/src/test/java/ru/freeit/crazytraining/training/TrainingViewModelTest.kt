@@ -9,12 +9,19 @@ import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.mocks.ExerciseListRepositoryMock
 import ru.freeit.crazytraining.core.models.WeekdayModel
 import ru.freeit.crazytraining.core.repository.CalendarRepository
+import ru.freeit.crazytraining.core.rules.MainDispatcherRule
+import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
+import ru.freeit.crazytraining.training.viewmodel_states.ExerciseListState
 
 internal class TrainingViewModelTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val coroutineRule: TestRule = MainDispatcherRule()
 
     class TestCalendarRepository(private val calendarVariable: Int) : CalendarRepository {
         override fun weekday(): Int {
@@ -52,6 +59,19 @@ internal class TrainingViewModelTest {
         viewModel.updateState()
 
         assertEquals(R.string.weekend, viewModel.titleState.value)
+    }
+
+    @Test
+    fun `test exercises`() {
+        val exercise1 = ExerciseModel(1, 1, "exercise 1", ExerciseMeasuredValueModel.DISTANCE)
+        val exercise2 = ExerciseModel(2, 2, "exercise 2", ExerciseMeasuredValueModel.QUANTITY)
+        val exercises = listOf(exercise1, exercise2)
+        val exerciseListRepository = ExerciseListRepositoryMock(exercises)
+
+        val viewModel = TrainingViewModel(exerciseListRepository, TestCalendarRepository(1), CheckedWeekdaysRepository.Test())
+        viewModel.updateState()
+
+        assertEquals(ExerciseListState(exercises), viewModel.exerciseListState.value)
     }
 
 }

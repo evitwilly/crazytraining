@@ -4,6 +4,8 @@ import android.content.ContentValues
 import android.database.Cursor
 import ru.freeit.crazytraining.core.database.TableColumnDb
 import ru.freeit.crazytraining.core.database.TableDb
+import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class ExerciseTableDb(
     private val icon: Int = -1,
@@ -12,6 +14,9 @@ class ExerciseTableDb(
     private val measuredValue: Int = -1,
     id: Int = 0,
 ) : TableDb(id) {
+    val model: ExerciseModel
+        get() = ExerciseModel(icon, color, title, ExerciseMeasuredValueModel.values()[measuredValue])
+
     override val name: String = "exercise"
 
     private val iconColumn = TableColumnDb.Integer(column_icon)
