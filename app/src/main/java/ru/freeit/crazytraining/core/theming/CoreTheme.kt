@@ -4,7 +4,8 @@ import ru.freeit.crazytraining.core.theming.typeface.TypefaceStyle
 
 enum class CoreTheme(
     val primaryColor: Int = CoreColors.greenMedium,
-    val backgroundColor: Int,
+    val primaryBackgroundColor: Int,
+    val secondaryBackgroundColor: Int,
     val primaryTextColor: Int,
     val toolbarTitleSize: Float = 19f,
     val toolbarTitleStyle: TypefaceStyle = TypefaceStyle.SEMI_BOLD,
@@ -28,7 +29,8 @@ enum class CoreTheme(
 ) {
 
     LIGHT(
-        backgroundColor = CoreColors.white,
+        primaryBackgroundColor = CoreColors.white,
+        secondaryBackgroundColor = CoreColors.white,
         primaryTextColor = CoreColors.black,
         primaryImageColor = CoreColors.black,
         rippleColor = CoreColors.greenMedium,
@@ -37,7 +39,8 @@ enum class CoreTheme(
     ),
 
     DARK(
-        backgroundColor = CoreColors.black,
+        primaryBackgroundColor = CoreColors.black,
+        secondaryBackgroundColor = CoreColors.grayMedium,
         primaryTextColor = CoreColors.white,
         primaryImageColor = CoreColors.white,
         rippleColor = CoreColors.greenMedium,

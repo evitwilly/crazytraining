@@ -21,7 +21,8 @@ class CoreButton(ctx: Context) : AppCompatTextView(ctx) {
     init {
         isClickable = true
         isFocusable = true
-        padding(horizontal = context.dp(8), vertical = context.dp(4))
+        includeFontPadding = false
+        padding(horizontal = context.dp(8), vertical = context.dp(12))
     }
 
     override fun onAttachedToWindow() {

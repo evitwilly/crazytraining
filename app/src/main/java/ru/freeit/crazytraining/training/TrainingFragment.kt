@@ -36,25 +36,29 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
     override fun createView(context: Context, bundle: Bundle?): View {
         val contentView = CoreLinearLayout(context)
         contentView.orientation = LinearLayout.VERTICAL
-        contentView.padding(horizontal = context.dp(16), vertical = context.dp(8))
 
         changeMenuButtonVisible(true)
         changeMenuButtonDrawableResource(R.drawable.ic_settings)
         changeMenuButtonClickListener { navigator.push(SettingsFragment()) }
 
         val dateView = TrainingDateTextView(context)
-        dateView.layoutParams(linearLayoutParams().wrap())
+        dateView.layoutParams(linearLayoutParams().wrap().marginTop(context.dp(8))
+            .marginStart(context.dp(16))
+            .marginEnd(context.dp(16)))
         contentView.addView(dateView)
 
         val listView = RecyclerView(context)
         listView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        listView.layoutParams(linearLayoutParams().matchWidth().height(0).weight(1f).marginTop(context.dp(8)))
+        listView.clipToPadding = false
+        listView.padding(top = context.dp(8), start = context.dp(16), end = context.dp(16), bottom = context.dp(64))
+        listView.layoutParams(linearLayoutParams().matchWidth().height(0).weight(1f))
         contentView.addView(listView)
 
         val trainingAddButton = CoreButton(context)
         trainingAddButton.setText(R.string.add_exercise)
         trainingAddButton.changeStartIcon(R.drawable.ic_add, 24)
         trainingAddButton.setOnClickListener { navigator.push(ExerciseFragment()) }
+        trainingAddButton.padding(context.dp(8))
         trainingAddButton.layoutParams(frameLayoutParams().wrap()
             .gravity(Gravity.BOTTOM or Gravity.END)
             .marginEnd(context.dp(16))
