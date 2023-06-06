@@ -8,7 +8,7 @@ import ru.freeit.crazytraining.core.theming.CoreTheme
 open class CoreLinearLayout(ctx: Context): LinearLayout(ctx) {
 
     protected open fun onThemeChanged(theme: CoreTheme) {
-        setBackgroundColor(theme.backgroundColor)
+        setBackgroundColor(theme.primaryBackgroundColor)
     }
 
     protected val themeManager = (context.applicationContext as App).themeManager
