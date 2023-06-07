@@ -6,6 +6,7 @@ import android.graphics.drawable.InsetDrawable
 import androidx.appcompat.widget.AppCompatEditText
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreTheme
+import ru.freeit.crazytraining.core.theming.colors.ColorType.*
 import ru.freeit.crazytraining.core.theming.extensions.dp
 import ru.freeit.crazytraining.core.theming.extensions.padding
 import ru.freeit.crazytraining.core.theming.typeface.TypefaceStyle
@@ -26,10 +27,12 @@ class CoreEditText(ctx: Context) : AppCompatEditText(ctx) {
     }
 
     private fun onThemeChanged(theme: CoreTheme) {
-        setTextColor(theme.primaryTextColor)
+        val textColor = theme.colorsStyle.color(primaryTextColor)
+        setHintTextColor(textColor)
+        setTextColor(textColor)
         background = InsetDrawable(
             GradientDrawable().apply {
-                setStroke(context.dp(2), theme.primaryColor)
+                setStroke(context.dp(2), theme.colorsStyle.color(primaryColor))
             },
             -context.dp(2),
             -context.dp(2),

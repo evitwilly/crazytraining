@@ -8,8 +8,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
+import ru.freeit.crazytraining.core.theming.colors.ColorType.*
 import ru.freeit.crazytraining.core.theming.extensions.*
-import ru.freeit.crazytraining.core.theming.layout.components.CoreSecondaryLinearLayout
+import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.typeface.TypefaceStyle
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
@@ -30,7 +31,7 @@ class ExerciseViewHolder(
         fun from(parent: ViewGroup) : ExerciseViewHolder {
             val context = parent.context
 
-            val contentLinearView = CoreSecondaryLinearLayout(context)
+            val contentLinearView = CoreLinearLayout(context, backgroundColor = secondaryBackgroundColor)
             contentLinearView.elevation = context.dp(2f)
             contentLinearView.orientation = LinearLayout.VERTICAL
             contentLinearView.padding(context.dp(12))
@@ -63,4 +64,5 @@ class ExerciseViewHolder(
             return ExerciseViewHolder(contentLinearView, titleView, iconView)
         }
     }
+
 }
