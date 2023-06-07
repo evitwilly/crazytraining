@@ -33,7 +33,7 @@ internal class TrainingViewModelTest {
 
     @Test
     fun `test title when today is training`() {
-        val calendar = TestCalendarRepository(0)
+        val calendar = TestCalendarRepository(2)
         val checkedWeekdaysRepository = CheckedWeekdaysRepository.Test(mutableListOf(
             WeekdayModel.MONDAY,
             WeekdayModel.WEDNESDAY,
