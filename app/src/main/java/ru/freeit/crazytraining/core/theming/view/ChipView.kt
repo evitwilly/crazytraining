@@ -8,6 +8,7 @@ import android.view.View
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreColors
 import ru.freeit.crazytraining.core.theming.CoreTheme
+import ru.freeit.crazytraining.core.theming.colors.ColorType.*
 import ru.freeit.crazytraining.core.theming.extensions.dp
 import ru.freeit.crazytraining.core.theming.extensions.fontSizeInPixels
 import ru.freeit.crazytraining.core.theming.typeface.TypefaceStyle
@@ -21,12 +22,12 @@ class ChipView(ctx: Context): View(ctx) {
         val chipTextSize = context.fontSizeInPixels(theme.chipTextSize)
         val chipTextStyle = typefaceManager.typeface(theme.chipTextStyle)
 
-        selectedPaint.color = theme.chipSelectedColor
-        selectedTextPaint.color = theme.chipSelectedTextColor
+        selectedPaint.color = theme.colorsStyle.color(primaryColor)
+        selectedTextPaint.color = theme.colorsStyle.color(colorOnPrimary)
         selectedTextPaint.textSize = chipTextSize
         selectedTextPaint.typeface = chipTextStyle
-        unselectedPaint.color = theme.chipUnselectedColor
-        unselectedTextPaint.color = theme.chipUnselectedColor
+        unselectedPaint.color = theme.colorsStyle.color(unselectedColor)
+        unselectedTextPaint.color = theme.colorsStyle.color(unselectedColor)
         unselectedTextPaint.textSize = chipTextSize
         unselectedTextPaint.typeface = chipTextStyle
         invalidate()

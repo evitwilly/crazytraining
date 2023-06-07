@@ -7,6 +7,8 @@ import android.graphics.drawable.RippleDrawable
 import androidx.annotation.StringRes
 import ru.freeit.crazytraining.core.theming.CoreColors
 import ru.freeit.crazytraining.core.theming.CoreTheme
+import ru.freeit.crazytraining.core.theming.colors.ColorType
+import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.typeface.TypefaceStyle
@@ -55,20 +57,21 @@ class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
     }
 
     private fun drawState(theme: CoreTheme) {
-        val radius = context.dp(16f)
+        val radius = context.dp(theme.cornerRadiusStyle.value(CornerRadiusType.medium))
+        val primaryColor = theme.colorsStyle.color(ColorType.primaryColor)
         val gradientDrawable = if (checked) {
             GradientDrawable().apply {
                 cornerRadius = radius
-                setColor(theme.primaryColor)
+                setColor(primaryColor)
             }
         } else {
             GradientDrawable().apply {
                 cornerRadius = radius
-                setStroke(context.dp(2), theme.primaryColor)
+                setStroke(context.dp(2), primaryColor)
             }
         }
         background = RippleDrawable(
-            ColorStateList.valueOf(theme.rippleColor),
+            ColorStateList.valueOf(primaryColor),
             gradientDrawable,
             GradientDrawable().apply {
                 cornerRadius = radius

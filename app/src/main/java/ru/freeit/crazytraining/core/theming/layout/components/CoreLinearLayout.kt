@@ -1,14 +1,30 @@
 package ru.freeit.crazytraining.core.theming.layout.components
 
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
+import android.util.AttributeSet
 import android.widget.LinearLayout
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreTheme
+import ru.freeit.crazytraining.core.theming.colors.ColorType
+import ru.freeit.crazytraining.core.theming.colors.ColorType.*
+import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
+import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
 
-open class CoreLinearLayout(ctx: Context): LinearLayout(ctx) {
+open class CoreLinearLayout @JvmOverloads constructor(
+    ctx: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0,
+    private val backgroundColor: ColorType = primaryBackgroundColor,
+    private val cornerRadiusStyle: CornerRadiusType = CornerRadiusType.medium,
+    private val cornerTreatmentStrategy: CornerTreatmentStrategy = CornerTreatmentStrategy.None()
+): LinearLayout(ctx, attrs, defStyleAttr) {
 
     protected open fun onThemeChanged(theme: CoreTheme) {
-        setBackgroundColor(theme.primaryBackgroundColor)
+        val gradientDrawable = GradientDrawable()
+        gradientDrawable.cornerRadii = cornerTreatmentStrategy.floatArrayOf(theme.cornerRadiusStyle.value(cornerRadiusStyle))
+        gradientDrawable.setColor(theme.colorsStyle.color(backgroundColor))
+        background = gradientDrawable
     }
 
     protected val themeManager = (context.applicationContext as App).themeManager

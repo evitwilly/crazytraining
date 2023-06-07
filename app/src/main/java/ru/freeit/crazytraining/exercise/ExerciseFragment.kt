@@ -73,7 +73,7 @@ class ExerciseFragment : BaseFragment<ExerciseViewModel>() {
         titleEditView.isSingleLine = true
         titleEditView.setHint(R.string.exercise_name)
         titleEditView.fontSize(18f)
-        titleEditView.fontFamily(TypefaceStyle.MEDIUM)
+        titleEditView.fontFamily(TypefaceStyle.REGULAR)
         titleEditView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
             .marginStart(context.dp(16))
             .marginEnd(context.dp(16))
