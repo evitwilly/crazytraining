@@ -1,4 +1,4 @@
-package ru.freeit.crazytraining.core.theming.typeface
+package ru.freeit.crazytraining.core.theming.text
 
 enum class TypefaceStyle(val typefaceManagerPath: String) {
     LIGHT("sf_pro_rounded_light.ttf"),

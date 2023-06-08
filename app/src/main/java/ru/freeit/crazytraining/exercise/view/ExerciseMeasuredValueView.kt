@@ -11,7 +11,7 @@ import ru.freeit.crazytraining.core.theming.colors.ColorType
 import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
-import ru.freeit.crazytraining.core.theming.typeface.TypefaceStyle
+import ru.freeit.crazytraining.core.theming.text.TextType
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 
 class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
@@ -22,8 +22,8 @@ class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
             drawState(themeManager.selected_theme)
         }
 
-    private val titleView = CoreTextView(context)
-    private val contentView = CoreTextView(context)
+    private val titleView = CoreTextView(context, textStyle = TextType.Title3)
+    private val contentView = CoreTextView(context, textStyle = TextType.Body2)
 
     init {
         isClickable = true
@@ -31,15 +31,11 @@ class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
         orientation = VERTICAL
         padding(context.dp(12))
 
-        titleView.fontSize(17f)
         titleView.includeFontPadding = false
-        titleView.fontFamily(TypefaceStyle.BOLD)
         titleView.layoutParams(linearLayoutParams().matchWidth().wrapHeight())
         addView(titleView)
 
-        contentView.fontSize(16f)
         contentView.includeFontPadding = false
-        contentView.fontFamily(TypefaceStyle.MEDIUM)
         contentView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginTop(context.dp(4)))
         addView(contentView)
     }

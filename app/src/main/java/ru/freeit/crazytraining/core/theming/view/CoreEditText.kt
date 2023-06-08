@@ -8,10 +8,14 @@ import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreTheme
 import ru.freeit.crazytraining.core.theming.colors.ColorType.*
 import ru.freeit.crazytraining.core.theming.extensions.dp
+import ru.freeit.crazytraining.core.theming.extensions.fontSize
 import ru.freeit.crazytraining.core.theming.extensions.padding
-import ru.freeit.crazytraining.core.theming.typeface.TypefaceStyle
+import ru.freeit.crazytraining.core.theming.text.TextType
 
-class CoreEditText(ctx: Context) : AppCompatEditText(ctx) {
+class CoreEditText @JvmOverloads constructor(
+    ctx: Context,
+    private val textStyle: TextType = TextType.Body1
+) : AppCompatEditText(ctx) {
 
     private val themeManager = (context.applicationContext as App).themeManager
     private val typefaceManager = (context.applicationContext as App).typefaceManager
@@ -30,6 +34,11 @@ class CoreEditText(ctx: Context) : AppCompatEditText(ctx) {
         val textColor = theme.colorsStyle.color(primaryTextColor)
         setHintTextColor(textColor)
         setTextColor(textColor)
+
+        val (fontFamily, textSize) = theme.textStyle.style(textStyle)
+        typeface = typefaceManager.typeface(fontFamily)
+        fontSize(textSize)
+
         background = InsetDrawable(
             GradientDrawable().apply {
                 setStroke(context.dp(2), theme.colorsStyle.color(primaryColor))
@@ -41,10 +50,6 @@ class CoreEditText(ctx: Context) : AppCompatEditText(ctx) {
         )
         includeFontPadding = false
         padding(horizontal = context.dp(2), vertical = context.dp(8))
-    }
-
-    fun fontFamily(style: TypefaceStyle) {
-        typeface = typefaceManager.typeface(style)
     }
 
 }
