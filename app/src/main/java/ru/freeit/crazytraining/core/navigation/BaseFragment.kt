@@ -18,8 +18,9 @@ import ru.freeit.crazytraining.core.theming.extensions.dp
 import ru.freeit.crazytraining.core.theming.extensions.frameLayoutParams
 import ru.freeit.crazytraining.core.theming.extensions.layoutParams
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
+import ru.freeit.crazytraining.core.theming.text.TextType.Title2
+import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.core.theming.view.ToolbarButtonImageView
-import ru.freeit.crazytraining.core.theming.view.ToolbarTitleTextView
 import ru.freeit.crazytraining.core.viewmodel.viewModelFactory
 
 abstract class BaseFragment<T : BaseViewModel>: Fragment() {
@@ -54,7 +55,7 @@ abstract class BaseFragment<T : BaseViewModel>: Fragment() {
         toolbarView.layoutParams(frameLayoutParams().matchWidth().height(context.dp(toolbarHeight)))
         rootView.addView(toolbarView)
 
-        val titleView = ToolbarTitleTextView(context)
+        val titleView = CoreTextView(context, textStyle = Title2)
         this.titleView = titleView
         titleView.maxLines = 2
         titleView.ellipsize = TextUtils.TruncateAt.END

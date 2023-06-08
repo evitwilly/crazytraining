@@ -1,4 +1,4 @@
-package ru.freeit.crazytraining.core.theming.typeface
+package ru.freeit.crazytraining.core.theming.text
 
 import android.content.res.AssetManager
 import android.graphics.Typeface

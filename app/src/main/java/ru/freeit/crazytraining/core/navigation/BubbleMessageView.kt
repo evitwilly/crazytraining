@@ -10,20 +10,17 @@ import androidx.core.view.isVisible
 import ru.freeit.crazytraining.core.theming.colors.ColorType.colorOnPrimary
 import ru.freeit.crazytraining.core.theming.colors.ColorType.primaryColor
 import ru.freeit.crazytraining.core.theming.extensions.dp
-import ru.freeit.crazytraining.core.theming.extensions.fontSize
 import ru.freeit.crazytraining.core.theming.extensions.padding
-import ru.freeit.crazytraining.core.theming.typeface.TypefaceStyle
+import ru.freeit.crazytraining.core.theming.text.TextType
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 
-class BubbleMessageView(ctx: Context) : CoreTextView(ctx, textColor = colorOnPrimary) {
+class BubbleMessageView(ctx: Context) : CoreTextView(ctx, textColor = colorOnPrimary, textStyle = TextType.Body2) {
 
     private var animator: Animator? = null
     private val hideRunnable = Runnable { isVisible = false }
 
     init {
         isVisible = false
-        fontSize(16f)
-        fontFamily(TypefaceStyle.MEDIUM)
         includeFontPadding = false
         background = GradientDrawable().apply {
             setColor(themeManager.selected_theme.colorsStyle.color(primaryColor))

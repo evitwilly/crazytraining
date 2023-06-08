@@ -6,11 +6,11 @@ import android.graphics.Paint
 import ru.freeit.crazytraining.core.theming.CoreTheme
 import ru.freeit.crazytraining.core.theming.colors.ColorType.*
 import ru.freeit.crazytraining.core.theming.extensions.dp
-import ru.freeit.crazytraining.core.theming.extensions.fontSize
 import ru.freeit.crazytraining.core.theming.extensions.padding
+import ru.freeit.crazytraining.core.theming.text.TextType.Title1
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 
-class TrainingDateTextView(ctx: Context) : CoreTextView(ctx) {
+class TrainingDateTextView(ctx: Context) : CoreTextView(ctx, textStyle = Title1) {
 
     private val lineStrokeWidth = context.dp(4f)
     private val greenPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -27,14 +27,11 @@ class TrainingDateTextView(ctx: Context) : CoreTextView(ctx) {
         greenPaint.style = Paint.Style.STROKE
 
         canvas.drawLine(0f, height - lineStrokeWidth, width.toFloat(), height - lineStrokeWidth, greenPaint)
-
     }
 
     override fun onThemeChanged(theme: CoreTheme) {
         super.onThemeChanged(theme)
         greenPaint.color = theme.colorsStyle.color(primaryColor)
-        typeface = typefaceManager.typeface(theme.trainingDateTitleStyle)
-        fontSize(theme.trainingDateTitleSize)
     }
 
 }

@@ -7,13 +7,16 @@ import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreTheme
 import ru.freeit.crazytraining.core.theming.colors.ColorType
 import ru.freeit.crazytraining.core.theming.colors.ColorType.*
-import ru.freeit.crazytraining.core.theming.typeface.TypefaceStyle
+import ru.freeit.crazytraining.core.theming.extensions.fontSize
+import ru.freeit.crazytraining.core.theming.text.TextType
+import ru.freeit.crazytraining.core.theming.text.TextType.*
 
 open class CoreTextView @JvmOverloads constructor(
     ctx: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
-    private val textColor: ColorType = primaryTextColor
+    private val textColor: ColorType = primaryTextColor,
+    private val textStyle: TextType = Body1
 ): AppCompatTextView(ctx, attrs, defStyleAttr) {
 
     protected val themeManager = (context.applicationContext as App).themeManager
@@ -30,11 +33,10 @@ open class CoreTextView @JvmOverloads constructor(
     }
 
     protected open fun onThemeChanged(theme: CoreTheme) {
+        val (fontFamily, textSize) = theme.textStyle.style(textStyle)
+        typeface = typefaceManager.typeface(fontFamily)
+        fontSize(textSize)
         setTextColor(theme.colorsStyle.color(textColor))
-    }
-
-    fun fontFamily(style: TypefaceStyle) {
-        typeface = typefaceManager.typeface(style)
     }
 
 }

@@ -12,7 +12,7 @@ import ru.freeit.crazytraining.core.theming.extensions.layoutParams
 import ru.freeit.crazytraining.core.theming.extensions.linearLayoutParams
 import ru.freeit.crazytraining.core.theming.extensions.padding
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
-import ru.freeit.crazytraining.core.theming.view.CaptionTextView
+import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.core.theming.view.FlowLayout
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.settings.view.ThemeSwitchView
@@ -32,7 +32,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel>() {
 
         changeTitle(getString(R.string.settings))
 
-        val themeCaptionView = CaptionTextView(context)
+        val themeCaptionView = CoreTextView(context)
         themeCaptionView.setText(R.string.select_theme)
         themeCaptionView.layoutParams(linearLayoutParams().matchWidth().wrapHeight())
         contentView.addView(themeCaptionView)
@@ -43,7 +43,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel>() {
         themeSwitchView.layoutParams(linearLayoutParams().width(context.dp(120)).height(context.dp(56)).marginTop(context.dp(8)))
         contentView.addView(themeSwitchView)
 
-        val daysCaptionView = CaptionTextView(context)
+        val daysCaptionView = CoreTextView(context)
         daysCaptionView.setText(R.string.select_training_days)
         daysCaptionView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginTop(context.dp(16)))
         contentView.addView(daysCaptionView)

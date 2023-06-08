@@ -11,7 +11,8 @@ import ru.freeit.crazytraining.core.theming.CoreTheme
 import ru.freeit.crazytraining.core.theming.colors.ColorType.*
 import ru.freeit.crazytraining.core.theming.extensions.dp
 import ru.freeit.crazytraining.core.theming.extensions.fontSizeInPixels
-import ru.freeit.crazytraining.core.theming.typeface.TypefaceStyle
+import ru.freeit.crazytraining.core.theming.text.TextType
+import ru.freeit.crazytraining.core.theming.text.TypefaceStyle
 
 class ChipView(ctx: Context): View(ctx) {
 
@@ -19,8 +20,10 @@ class ChipView(ctx: Context): View(ctx) {
     private val typefaceManager = (context.applicationContext as App).typefaceManager
 
     private val onThemeChanged: (CoreTheme) -> Unit = { theme ->
-        val chipTextSize = context.fontSizeInPixels(theme.chipTextSize)
-        val chipTextStyle = typefaceManager.typeface(theme.chipTextStyle)
+        val (fontFamily, fontSize) = theme.textStyle.style(TextType.Body2)
+
+        val chipTextSize = context.fontSizeInPixels(fontSize)
+        val chipTextStyle = typefaceManager.typeface(fontFamily)
 
         selectedPaint.color = theme.colorsStyle.color(primaryColor)
         selectedTextPaint.color = theme.colorsStyle.color(colorOnPrimary)

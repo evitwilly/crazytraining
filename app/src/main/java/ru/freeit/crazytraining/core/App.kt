@@ -4,7 +4,7 @@ import android.app.Application
 import ru.freeit.crazytraining.core.cache.PersistenceSimpleDataStorage
 import ru.freeit.crazytraining.core.database.CoreSQLiteOpenHelper
 import ru.freeit.crazytraining.core.theming.CoreThemeManager
-import ru.freeit.crazytraining.core.theming.typeface.TypefaceManager
+import ru.freeit.crazytraining.core.theming.text.TypefaceManager
 
 class App: Application() {
 
