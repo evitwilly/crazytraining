@@ -18,7 +18,7 @@ class TrainingDateTextView(ctx: Context) : CoreTextView(ctx, textStyle = Title1)
     }
 
     init {
-        padding(bottom = context.dp(4), end = context.dp(4))
+        padding(bottom = context.dp(8), end = context.dp(4))
     }
 
     override fun onDraw(canvas: Canvas) {

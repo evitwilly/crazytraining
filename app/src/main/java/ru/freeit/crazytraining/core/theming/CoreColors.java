@@ -11,4 +11,6 @@ public class CoreColors {
     public static final int white = 0xffffffff;
     public static final int black = 0xff000000;
 
+    public static final int transparent = 0;
+
 }

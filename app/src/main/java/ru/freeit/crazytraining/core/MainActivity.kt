@@ -1,10 +1,18 @@
 package ru.freeit.crazytraining.core
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.FrameLayout
+import android.view.Gravity
+import androidx.appcompat.app.AppCompatActivity
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.Navigator
+import ru.freeit.crazytraining.core.theming.extensions.dp
+import ru.freeit.crazytraining.core.theming.extensions.frameLayoutParams
+import ru.freeit.crazytraining.core.theming.extensions.layoutParams
+import ru.freeit.crazytraining.core.theming.extensions.linearLayoutParams
+import ru.freeit.crazytraining.core.theming.layout.components.BottomNavigationView
+import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
+import ru.freeit.crazytraining.exercise.history.HistoryFragment
+import ru.freeit.crazytraining.exercise.list.ExerciseListFragment
 import ru.freeit.crazytraining.training.TrainingFragment
 
 class MainActivity : AppCompatActivity() {
@@ -12,12 +20,40 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val fragmentContainer = FrameLayout(this)
+        val coreFrameView = CoreFrameLayout(this)
+        setContentView(coreFrameView)
+
+        val bottomNavigationViewHeight = dp(56)
+
+        val fragmentContainer = CoreFrameLayout(this)
         fragmentContainer.id = R.id.fragment_container
-        setContentView(fragmentContainer)
+        fragmentContainer.layoutParams(linearLayoutParams().match().marginBottom(bottomNavigationViewHeight))
+        coreFrameView.addView(fragmentContainer)
 
         val navigator = Navigator(supportFragmentManager)
-        navigator.init(TrainingFragment(), savedInstanceState)
+
+        val bottomNavigationView = BottomNavigationView(this)
+        bottomNavigationView.layoutParams(frameLayoutParams().matchWidth().height(bottomNavigationViewHeight).gravity(Gravity.BOTTOM))
+        bottomNavigationView.changeTabs(listOf(
+            BottomNavigationView.BottomNavigationTab(
+                drawableResource = R.drawable.ic_training,
+                stringResource = R.string.training,
+                clickListener = { navigator.replace(TrainingFragment()) }
+            ),
+            BottomNavigationView.BottomNavigationTab(
+                drawableResource = R.drawable.ic_exercises,
+                stringResource = R.string.exercises,
+                clickListener = { navigator.replace(ExerciseListFragment()) }
+            ),
+            BottomNavigationView.BottomNavigationTab(
+                drawableResource = R.drawable.ic_history,
+                stringResource = R.string.history,
+                clickListener = { navigator.replace(HistoryFragment()) }
+            )
+        ))
+        coreFrameView.addView(bottomNavigationView)
+
+        if (savedInstanceState == null) bottomNavigationView.changeSelectedTab(0)
 
     }
 

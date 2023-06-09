@@ -6,7 +6,8 @@ class TextStyle(
     private val title3: Pair<TypefaceStyle, Float>,
     private val body1: Pair<TypefaceStyle, Float>,
     private val body2: Pair<TypefaceStyle, Float>,
-    private val caption: Pair<TypefaceStyle, Float>
+    private val caption1: Pair<TypefaceStyle, Float>,
+    private val caption2: Pair<TypefaceStyle, Float>
 ) {
     fun style(type: TextType): Pair<TypefaceStyle, Float> {
         return when (type) {
@@ -15,7 +16,8 @@ class TextStyle(
             TextType.Title3 -> title3
             TextType.Body1 -> body1
             TextType.Body2 -> body2
-            TextType.Caption -> caption
+            TextType.Caption1 -> caption1
+            TextType.Caption2 -> caption2
         }
     }
 }

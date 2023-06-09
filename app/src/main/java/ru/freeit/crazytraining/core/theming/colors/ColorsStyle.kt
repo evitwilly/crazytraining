@@ -20,6 +20,7 @@ class ColorsStyle(
             ColorType.secondaryBackgroundColor -> secondaryBackgroundColor
             ColorType.primaryTextColor -> primaryTextColor
             ColorType.unselectedColor -> unselectedColor
+            ColorType.transparent -> CoreColors.transparent
         }
     }
 }

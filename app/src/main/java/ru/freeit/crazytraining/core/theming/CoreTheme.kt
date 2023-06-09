@@ -12,12 +12,13 @@ enum class CoreTheme(
         title3 = TypefaceStyle.BOLD to 17f,
         body1 = TypefaceStyle.REGULAR to 17f,
         body2 = TypefaceStyle.MEDIUM to 16f,
-        caption = TypefaceStyle.SEMI_BOLD to 17f
+        caption1 = TypefaceStyle.SEMI_BOLD to 17f,
+        caption2 = TypefaceStyle.REGULAR to 13f
     ),
     val cornerRadiusStyle: CornerRadiusStyle = CornerRadiusStyle(
         small = 8f,
         medium = 16f,
-        big = 24f
+        big = 32f
     ),
     val colorsStyle: ColorsStyle
 ) {

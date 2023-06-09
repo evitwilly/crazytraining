@@ -12,7 +12,7 @@ import ru.freeit.crazytraining.core.theming.text.TextType.*
 
 open class CoreTextView @JvmOverloads constructor(
     ctx: Context,
-    private val textColor: ColorType = primaryTextColor,
+    private var textColor: ColorType = primaryTextColor,
     private val textStyle: TextType = Body1
 ): AppCompatTextView(ctx) {
 
@@ -38,6 +38,11 @@ open class CoreTextView @JvmOverloads constructor(
         typeface = typefaceManager.typeface(fontFamily)
         fontSize(textSize)
         setTextColor(theme.colorsStyle.color(textColor))
+    }
+
+    fun changeTextColor(color: ColorType) {
+        textColor = color
+        setTextColor(themeManager.selected_theme.colorsStyle.color(color))
     }
 
 }
