@@ -1,7 +1,6 @@
 package ru.freeit.crazytraining.core.theming.layout.params
 
 import android.widget.LinearLayout
-import ru.freeit.crazytraining.core.theming.layout.params.AbstractMarginLP
 
 private const val match = LinearLayout.LayoutParams.MATCH_PARENT
 private const val wrap = LinearLayout.LayoutParams.WRAP_CONTENT

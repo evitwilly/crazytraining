@@ -14,8 +14,10 @@ class ExerciseModel(
     @ColorInt
     private val color: Int,
     private val title: String = "",
-    private val measuredValueModel: ExerciseMeasuredValueModel = ExerciseMeasuredValueModel.QUANTITY
+    private val measuredValueModel: ExerciseMeasuredValueModel = ExerciseMeasuredValueModel.QUANTITY,
+    private val sets: List<ExerciseSetModel> = emptyList(),
 ) {
+
    val database: ExerciseTableDb
        get() = ExerciseTableDb(icon, color, title, measuredValueModel.ordinal)
 
@@ -35,6 +37,8 @@ class ExerciseModel(
            view.background = background
        }
    }
+
+   fun withSets(sets: List<ExerciseSetModel>) = ExerciseModel(icon, color, title, measuredValueModel, sets)
 
    override fun equals(other: Any?): Boolean {
        if (other == null) return false

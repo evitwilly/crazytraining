@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 
 abstract class CoreDatabase<T : TableDb>(database: CoreSQLiteOpenHelper) {
 
-    private val sqliteDb: SQLiteDatabase = database.writableDatabase
+    protected val sqliteDb: SQLiteDatabase = database.writableDatabase
 
     abstract val defaultItem: T
     abstract fun item(cursor: Cursor) : T

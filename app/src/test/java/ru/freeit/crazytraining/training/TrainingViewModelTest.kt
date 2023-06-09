@@ -23,17 +23,21 @@ internal class TrainingViewModelTest {
     @get:Rule
     val coroutineRule: TestRule = MainDispatcherRule()
 
-    class TestCalendarRepository(private val calendarVariable: Int) : CalendarRepository {
-        override fun weekday(): Int {
+    class CalendarRepositoryMock(private val calendarVariable: Int) : CalendarRepository {
+
+        override fun weekday(dateTime: Long): Int {
             return calendarVariable
         }
 
-        override fun weekdayMonthYearDateString(): String = ""
+        override fun weekdayMonthYearDateString(dateTime: Long): String = ""
+
+        override fun timeStringFrom(timeMillis: Long): String = ""
+
     }
 
     @Test
     fun `test title when today is training`() {
-        val calendar = TestCalendarRepository(2)
+        val calendar = CalendarRepositoryMock(2)
         val checkedWeekdaysRepository = CheckedWeekdaysRepository.Test(mutableListOf(
             WeekdayModel.MONDAY,
             WeekdayModel.WEDNESDAY,
@@ -48,7 +52,7 @@ internal class TrainingViewModelTest {
 
     @Test
     fun `test title when today is weekend`() {
-        val calendar = TestCalendarRepository(1)
+        val calendar = CalendarRepositoryMock(1)
         val checkedWeekdaysRepository = CheckedWeekdaysRepository.Test(mutableListOf(
             WeekdayModel.MONDAY,
             WeekdayModel.WEDNESDAY,
@@ -68,7 +72,7 @@ internal class TrainingViewModelTest {
         val exercises = listOf(exercise1, exercise2)
         val exerciseListRepository = ExerciseListRepositoryMock(exercises)
 
-        val viewModel = TrainingViewModel(exerciseListRepository, TestCalendarRepository(1), CheckedWeekdaysRepository.Test())
+        val viewModel = TrainingViewModel(exerciseListRepository, CalendarRepositoryMock(1), CheckedWeekdaysRepository.Test())
         viewModel.updateState()
 
         assertEquals(ExerciseListState(exercises), viewModel.exerciseListState.value)
