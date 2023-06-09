@@ -4,9 +4,13 @@ import android.content.Context
 import androidx.appcompat.widget.AppCompatImageView
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreTheme
+import ru.freeit.crazytraining.core.theming.colors.ColorType
 import ru.freeit.crazytraining.core.theming.colors.ColorType.primaryTextColor
 
-open class CoreImageView(ctx: Context): AppCompatImageView(ctx) {
+open class CoreImageView @JvmOverloads constructor(
+    ctx: Context,
+    private val tintColor: ColorType = primaryTextColor
+): AppCompatImageView(ctx) {
 
     private val themeManager = (context.applicationContext as App).themeManager
 
@@ -21,7 +25,7 @@ open class CoreImageView(ctx: Context): AppCompatImageView(ctx) {
     }
 
     protected open fun onThemeChanged(theme: CoreTheme) {
-        setColorFilter(theme.colorsStyle.color(primaryTextColor))
+        setColorFilter(theme.colorsStyle.color(tintColor))
     }
 
 }

@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.navigation.BaseFragment
-import ru.freeit.crazytraining.core.repository.CalendarRepository
+import ru.freeit.crazytraining.core.repository.CalendarRepositoryImpl
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.exercise.ExerciseFragment
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
+import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
 import ru.freeit.crazytraining.settings.SettingsFragment
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
@@ -26,9 +27,13 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
     override val viewModelKClass: Class<TrainingViewModel> = TrainingViewModel::class.java
     override fun viewModelConstructor(ctx: Context): TrainingViewModel {
         val app = ctx.applicationContext as App
+        val sqliteOpenHelper = app.coreSQLiteOpenHelper
         return TrainingViewModel(
-            exerciseListRepository = ExerciseListRepositoryImpl(ExerciseDatabase(app.coreSQLiteOpenHelper)),
-            calendarRepository = CalendarRepository.Base(),
+            exerciseListRepository = ExerciseListRepositoryImpl(
+                ExerciseDatabase(sqliteOpenHelper),
+                ExerciseSetDatabase(sqliteOpenHelper)
+            ),
+            calendarRepository = CalendarRepositoryImpl(),
             checkedWeekdaysRepository = CheckedWeekdaysRepository.Base(app.persistenceSimpleDataStorage)
         )
     }

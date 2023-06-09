@@ -8,8 +8,7 @@ class ExerciseDatabase(db: CoreSQLiteOpenHelper) : CoreDatabase<ExerciseTableDb>
 
     override val defaultItem = ExerciseTableDb()
 
-    override fun item(cursor: Cursor): ExerciseTableDb {
-        return ExerciseTableDb().fromCursor(cursor)
-    }
+    override fun item(cursor: Cursor) = ExerciseTableDb().fromCursor(cursor)
 
 }
+

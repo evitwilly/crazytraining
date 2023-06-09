@@ -9,10 +9,10 @@ sealed class TableColumnDb<T>(val name: String, private val type: String) {
 
     abstract fun value(cursor: Cursor): T
 
-    class Integer(name: String) : TableColumnDb<Int>(name, "integer") {
-        override fun value(cursor: Cursor): Int {
+    class Integer(name: String) : TableColumnDb<Long>(name, "integer") {
+        override fun value(cursor: Cursor): Long {
             val index = cursor.getColumnIndex(name)
-            return if (index >= 0) cursor.getInt(index) else 0
+            return if (index >= 0) cursor.getLong(index) else 0L
         }
     }
 

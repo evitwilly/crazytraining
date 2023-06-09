@@ -20,7 +20,7 @@ import ru.freeit.crazytraining.core.theming.extensions.layoutParams
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
 import ru.freeit.crazytraining.core.theming.text.TextType.Title2
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
-import ru.freeit.crazytraining.core.theming.view.ToolbarButtonImageView
+import ru.freeit.crazytraining.core.theming.view.CoreImageButtonView
 import ru.freeit.crazytraining.core.viewmodel.viewModelFactory
 
 abstract class BaseFragment<T : BaseViewModel>: Fragment() {
@@ -64,7 +64,7 @@ abstract class BaseFragment<T : BaseViewModel>: Fragment() {
         toolbarView.addView(titleView)
 
         navigator = Navigator(parentFragmentManager)
-        val backButtonView = ToolbarButtonImageView(context)
+        val backButtonView = CoreImageButtonView(context)
         backButtonView.isVisible = navigator.is_not_top_fragment
         backButtonView.layoutParams(frameLayoutParams().width(context.dp(menuButtonSize)).height(context.dp(menuButtonSize))
             .gravity(Gravity.START or Gravity.CENTER_VERTICAL).marginStart(context.dp(menuButtonMarginStart)))
@@ -75,7 +75,7 @@ abstract class BaseFragment<T : BaseViewModel>: Fragment() {
         backButtonView.setOnClickListener { navigator.back() }
         toolbarView.addView(backButtonView)
 
-        val menuButtonView = ToolbarButtonImageView(context)
+        val menuButtonView = CoreImageButtonView(context)
         this.menuButtonView = menuButtonView
         menuButtonView.isVisible = false
         menuButtonView.layoutParams(frameLayoutParams().width(context.dp(menuButtonSize)).height(context.dp(menuButtonSize))

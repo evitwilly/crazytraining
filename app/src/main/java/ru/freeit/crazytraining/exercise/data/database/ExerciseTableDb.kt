@@ -14,6 +14,7 @@ class ExerciseTableDb(
     private val measuredValue: Int = -1,
     id: Int = 0,
 ) : TableDb(id) {
+
     val model: ExerciseModel
         get() = ExerciseModel(icon, color, title, ExerciseMeasuredValueModel.values()[measuredValue])
 
@@ -36,10 +37,10 @@ class ExerciseTableDb(
 
     fun fromCursor(cursor: Cursor) =
         ExerciseTableDb(
-            iconColumn.value(cursor),
-            colorColumn.value(cursor),
+            iconColumn.value(cursor).toInt(),
+            colorColumn.value(cursor).toInt(),
             titleColumn.value(cursor),
-            measuredValueColumn.value(cursor),
+            measuredValueColumn.value(cursor).toInt(),
             id(cursor),
         )
 

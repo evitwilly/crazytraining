@@ -2,6 +2,7 @@ package ru.freeit.crazytraining.core.mocks
 
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepository
+import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 
 class ExerciseListRepositoryMock(params: List<ExerciseModel> = emptyList()) : ExerciseListRepository {
     private val items = mutableListOf<ExerciseModel>()
@@ -15,5 +16,9 @@ class ExerciseListRepositoryMock(params: List<ExerciseModel> = emptyList()) : Ex
     }
 
     override suspend fun exercises(): List<ExerciseModel> = items
+
+    override suspend fun saveExerciseSet(model: ExerciseSetModel) {}
+
+    override suspend fun exercisesWithSets(): List<ExerciseModel> = emptyList()
 
 }
