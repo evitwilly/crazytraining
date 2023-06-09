@@ -26,4 +26,6 @@
     <string name="exercise_name">exercise name</string>
     <string name="exercise_name_is_empty">Exercise name is empty</string>
     <string name="set">set</string>
+    <string name="exercises">Exercises</string>
+    <string name="history">History</string>
 </resources>

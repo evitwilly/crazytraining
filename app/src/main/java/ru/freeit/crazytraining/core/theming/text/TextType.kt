@@ -6,5 +6,6 @@ enum class TextType {
     Title3,
     Body1,
     Body2,
-    Caption
+    Caption1,
+    Caption2
 }

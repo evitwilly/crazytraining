@@ -9,7 +9,7 @@ import ru.freeit.crazytraining.core.theming.colors.ColorType.primaryTextColor
 
 open class CoreImageView @JvmOverloads constructor(
     ctx: Context,
-    private val tintColor: ColorType = primaryTextColor
+    private var tintColor: ColorType = primaryTextColor
 ): AppCompatImageView(ctx) {
 
     private val themeManager = (context.applicationContext as App).themeManager
@@ -26,6 +26,11 @@ open class CoreImageView @JvmOverloads constructor(
 
     protected open fun onThemeChanged(theme: CoreTheme) {
         setColorFilter(theme.colorsStyle.color(tintColor))
+    }
+
+    fun changeTint(color: ColorType) {
+        tintColor = color
+        setColorFilter(themeManager.selected_theme.colorsStyle.color(color))
     }
 
 }

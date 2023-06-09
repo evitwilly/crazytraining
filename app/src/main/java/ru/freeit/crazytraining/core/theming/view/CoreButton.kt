@@ -12,13 +12,13 @@ import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
 import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
 import ru.freeit.crazytraining.core.theming.extensions.dp
 import ru.freeit.crazytraining.core.theming.extensions.padding
-import ru.freeit.crazytraining.core.theming.text.TextType.Caption
+import ru.freeit.crazytraining.core.theming.text.TextType.Caption1
 
 class CoreButton @JvmOverloads constructor(
     ctx: Context,
     private val cornerRadiusType: CornerRadiusType = CornerRadiusType.medium,
     private val cornerTreatmentStrategy: CornerTreatmentStrategy = CornerTreatmentStrategy.None()
-) : CoreTextView(ctx, textColor = colorOnPrimary, textStyle = Caption) {
+) : CoreTextView(ctx, textColor = colorOnPrimary, textStyle = Caption1) {
 
     init {
         isClickable = true
