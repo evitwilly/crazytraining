@@ -2,7 +2,6 @@ package ru.freeit.crazytraining.training
 
 import android.content.Context
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,8 +12,6 @@ import ru.freeit.crazytraining.core.navigation.BaseFragment
 import ru.freeit.crazytraining.core.repository.CalendarRepositoryImpl
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
-import ru.freeit.crazytraining.core.theming.view.CoreButton
-import ru.freeit.crazytraining.exercise.ExerciseFragment
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
@@ -59,27 +56,12 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
         listView.layoutParams(linearLayoutParams().matchWidth().height(0).weight(1f))
         contentView.addView(listView)
 
-        val trainingAddButton = CoreButton(context)
-        trainingAddButton.setText(R.string.add_exercise)
-        trainingAddButton.changeStartIcon(R.drawable.ic_add, 24)
-        trainingAddButton.setOnClickListener { navigator.push(ExerciseFragment()) }
-        trainingAddButton.padding(context.dp(8))
-        trainingAddButton.layoutParams(frameLayoutParams().wrap()
-            .gravity(Gravity.BOTTOM or Gravity.END)
-            .marginEnd(context.dp(16))
-            .marginBottom(context.dp(16)))
-        addFloatingView(trainingAddButton)
-
         viewModel.titleState.observe(viewLifecycleOwner) { title ->
             changeTitle(getString(title))
         }
 
         viewModel.dateState.observe(viewLifecycleOwner) { date ->
             dateView.text = date.replaceFirstChar { it.titlecase() }
-        }
-
-        viewModel.exerciseListState.observe(viewLifecycleOwner) { listState ->
-            listView.adapter = listState.adapter
         }
 
         return contentView

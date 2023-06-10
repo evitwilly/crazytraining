@@ -24,8 +24,7 @@ class ExerciseMeasuredValueListState(private val items: List<ExerciseMeasuredVal
         items.forEach { state ->
             val exerciseMeasuredValueView = ExerciseMeasuredValueView(context)
             exerciseMeasuredValueView.checked = state.checked
-            exerciseMeasuredValueView.changeTitle(state.model.title)
-            exerciseMeasuredValueView.changeContent(state.model.description)
+            exerciseMeasuredValueView.changeMeasuredValueModel(state.model)
             exerciseMeasuredValueView.setOnClickListener { checkListener.invoke(state.withChangedChecked(true)) }
             exerciseMeasuredValueView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginBottom(context.dp(12)))
             parent.addView(exerciseMeasuredValueView)
@@ -38,5 +37,7 @@ class ExerciseMeasuredValueListState(private val items: List<ExerciseMeasuredVal
 
         return items == other.items
     }
+
+    override fun hashCode(): Int = items.hashCode()
 
 }

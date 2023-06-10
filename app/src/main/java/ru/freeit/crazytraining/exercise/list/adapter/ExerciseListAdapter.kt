@@ -1,4 +1,4 @@
-package ru.freeit.crazytraining.training.adapter
+package ru.freeit.crazytraining.exercise.list.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

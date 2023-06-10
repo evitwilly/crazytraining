@@ -38,6 +38,13 @@ class ExerciseModel(
        }
    }
 
+    fun bindMeasuredValue(view: TextView) {
+        val unit = measuredValueModel.unit
+        if (unit != -1) {
+            view.setText(unit)
+        }
+    }
+
    fun withSets(sets: List<ExerciseSetModel>) = ExerciseModel(icon, color, title, measuredValueModel, sets)
 
    override fun equals(other: Any?): Boolean {
