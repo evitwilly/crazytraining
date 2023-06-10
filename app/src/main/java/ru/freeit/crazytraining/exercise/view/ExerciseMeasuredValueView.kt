@@ -4,7 +4,8 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
-import androidx.annotation.StringRes
+import android.view.Gravity
+import androidx.core.view.isVisible
 import ru.freeit.crazytraining.core.theming.CoreColors
 import ru.freeit.crazytraining.core.theming.CoreTheme
 import ru.freeit.crazytraining.core.theming.colors.ColorType
@@ -13,6 +14,7 @@ import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.text.TextType
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
+import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
 
 class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
 
@@ -23,7 +25,8 @@ class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
         }
 
     private val titleView = CoreTextView(context, textStyle = TextType.Title3)
-    private val contentView = CoreTextView(context, textStyle = TextType.Body2)
+    private val contentView = CoreTextView(context)
+    private val measuredView = CoreTextView(context, textStyle = TextType.Body2)
 
     init {
         isClickable = true
@@ -31,25 +34,29 @@ class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
         orientation = VERTICAL
         padding(context.dp(12))
 
-        titleView.includeFontPadding = false
         titleView.layoutParams(linearLayoutParams().matchWidth().wrapHeight())
         addView(titleView)
 
-        contentView.includeFontPadding = false
-        contentView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginTop(context.dp(4)))
+        contentView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+            .marginTop(context.dp(4)))
         addView(contentView)
+
+        measuredView.layoutParams(linearLayoutParams().wrap().gravity(Gravity.END)
+            .marginTop(context.dp(4)))
+        addView(measuredView)
     }
 
     override fun onThemeChanged(theme: CoreTheme) {
         drawState(theme)
     }
 
-    fun changeTitle(@StringRes resource: Int) {
-        titleView.setText(resource)
-    }
-
-    fun changeContent(@StringRes resource: Int) {
-        contentView.setText(resource)
+    fun changeMeasuredValueModel(model: ExerciseMeasuredValueModel) {
+        with(model) {
+            titleView.setText(title)
+            contentView.setText(description)
+            measuredView.isVisible = unit != -1
+            if (unit != -1) measuredView.setText(unit)
+        }
     }
 
     private fun drawState(theme: CoreTheme) {

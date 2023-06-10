@@ -13,7 +13,7 @@ import ru.freeit.crazytraining.core.rules.MainDispatcherRule
 import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
-import ru.freeit.crazytraining.training.viewmodel_states.ExerciseListState
+import ru.freeit.crazytraining.exercise.list.viewmodel_states.ExerciseListState
 
 internal class TrainingViewModelTest {
 

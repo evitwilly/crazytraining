@@ -28,4 +28,6 @@
     <string name="set">set</string>
     <string name="exercises">Exercises</string>
     <string name="history">History</string>
+    <string name="kilometers_meteres">kilometers/meters</string>
+    <string name="hours_minutes">hours/minutes</string>
 </resources>

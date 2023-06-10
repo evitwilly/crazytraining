@@ -1,4 +1,4 @@
-package ru.freeit.crazytraining.training.adapter
+package ru.freeit.crazytraining.exercise.list.adapter
 
 import android.view.Gravity
 import android.view.ViewGroup
@@ -7,24 +7,25 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.theming.colors.ColorType.*
 import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
-import ru.freeit.crazytraining.core.theming.view.CoreButton
+import ru.freeit.crazytraining.core.theming.text.TextType
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class ExerciseViewHolder(
     view: LinearLayout,
     private val titleView: TextView,
-    private val imageView: ImageView
+    private val imageView: ImageView,
+    private val measuredView: TextView
 ) : RecyclerView.ViewHolder(view) {
 
     fun bind(model: ExerciseModel) = with(model) {
         bindTitle(titleView)
         bindImage(imageView)
+        bindMeasuredValue(measuredView)
     }
 
     companion object {
@@ -50,19 +51,15 @@ class ExerciseViewHolder(
             headerFrameView.addView(iconView)
 
             val titleView = CoreTextView(context)
-            titleView.includeFontPadding = false
             titleView.layoutParams(frameLayoutParams().matchWidth().wrapHeight().marginStart(context.dp(40))
                 .gravity(Gravity.TOP))
             headerFrameView.addView(titleView)
 
-            val button = CoreButton(context)
-            button.changeStartIcon(R.drawable.ic_add)
-            button.setText(R.string.set)
-            button.layoutParams(linearLayoutParams().wrap().gravity(Gravity.END).marginTop(context.dp(8)))
-            button.padding(horizontal = context.dp(8), vertical = context.dp(4))
-            contentLinearView.addView(button)
+            val measuredView = CoreTextView(context, textStyle = TextType.Body2)
+            measuredView.layoutParams(linearLayoutParams().wrap().gravity(Gravity.END))
+            contentLinearView.addView(measuredView)
 
-            return ExerciseViewHolder(contentLinearView, titleView, iconView)
+            return ExerciseViewHolder(contentLinearView, titleView, iconView, measuredView)
         }
     }
 
