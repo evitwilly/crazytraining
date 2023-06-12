@@ -1,6 +1,6 @@
-package ru.freeit.crazytraining.exercise.viewmodel_states
+package ru.freeit.crazytraining.exercise.detail.viewmodel_states
 
-import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
 
 class ExerciseMeasuredValueState(val model: ExerciseMeasuredValueModel, val checked: Boolean) {
     fun withChangedChecked(checked: Boolean) = ExerciseMeasuredValueState(model, checked)
@@ -10,5 +10,11 @@ class ExerciseMeasuredValueState(val model: ExerciseMeasuredValueModel, val chec
         if (other !is ExerciseMeasuredValueState) return false
 
         return model == other.model && checked == other.checked
+    }
+
+    override fun hashCode(): Int {
+        var result = model.hashCode()
+        result = 31 * result + checked.hashCode()
+        return result
     }
 }

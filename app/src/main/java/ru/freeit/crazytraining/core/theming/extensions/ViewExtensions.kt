@@ -29,6 +29,11 @@ fun View.padding(all: Int) {
     padding(all, all, all, all)
 }
 
+fun Int.withAlpha(alpha: Float): Int {
+    val alphaInteger = (255 * alpha).toInt()
+    return this + (alphaInteger shl 24)
+}
+
 fun View.layoutParams(params: AbstractLP<*, *>) {
     layoutParams = params.build()
 }

@@ -11,7 +11,7 @@ import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.navigation.BaseFragment
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.view.CoreButton
-import ru.freeit.crazytraining.exercise.ExerciseFragment
+import ru.freeit.crazytraining.exercise.detail.ExerciseDetailFragment
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
@@ -39,7 +39,7 @@ class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
         val trainingAddButton = CoreButton(context)
         trainingAddButton.setText(R.string.add_exercise)
         trainingAddButton.changeStartIcon(R.drawable.ic_add, 24)
-        trainingAddButton.setOnClickListener { navigator.push(ExerciseFragment()) }
+        trainingAddButton.setOnClickListener { navigator.push(ExerciseDetailFragment()) }
         trainingAddButton.padding(context.dp(8))
         trainingAddButton.layoutParams(frameLayoutParams().wrap()
             .gravity(Gravity.BOTTOM or Gravity.END)

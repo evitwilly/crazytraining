@@ -11,7 +11,7 @@ import ru.freeit.crazytraining.core.theming.extensions.layoutParams
 import ru.freeit.crazytraining.core.theming.extensions.linearLayoutParams
 import ru.freeit.crazytraining.core.theming.layout.components.BottomNavigationView
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
-import ru.freeit.crazytraining.exercise.history.HistoryFragment
+import ru.freeit.crazytraining.history.HistoryFragment
 import ru.freeit.crazytraining.exercise.list.ExerciseListFragment
 import ru.freeit.crazytraining.training.TrainingFragment
 

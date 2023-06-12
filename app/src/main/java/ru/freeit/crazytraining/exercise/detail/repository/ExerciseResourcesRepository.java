@@ -1,4 +1,4 @@
-package ru.freeit.crazytraining.exercise.data.repository;
+package ru.freeit.crazytraining.exercise.detail.repository;
 
 public interface ExerciseResourcesRepository {
     int[] icons();

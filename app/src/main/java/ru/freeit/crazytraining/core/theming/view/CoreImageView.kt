@@ -12,7 +12,7 @@ open class CoreImageView @JvmOverloads constructor(
     private var tintColor: ColorType = primaryTextColor
 ): AppCompatImageView(ctx) {
 
-    private val themeManager = (context.applicationContext as App).themeManager
+    val themeManager = (context.applicationContext as App).themeManager
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()

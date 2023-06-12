@@ -1,4 +1,4 @@
-package ru.freeit.crazytraining.exercise.view
+package ru.freeit.crazytraining.exercise.detail.view
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -14,7 +14,7 @@ import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.text.TextType
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
-import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
 
 class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
 

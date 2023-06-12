@@ -28,7 +28,8 @@ enum class CoreTheme(
             primaryBackgroundColor = CoreColors.white,
             secondaryBackgroundColor = CoreColors.white,
             primaryTextColor = CoreColors.black,
-            unselectedColor = CoreColors.black
+            unselectedColor = CoreColors.black,
+            colorError = CoreColors.red
         )
     ),
 
@@ -37,7 +38,8 @@ enum class CoreTheme(
             primaryBackgroundColor = CoreColors.black,
             secondaryBackgroundColor = CoreColors.grayMedium,
             primaryTextColor = CoreColors.white,
-            unselectedColor = CoreColors.greenMedium
+            unselectedColor = CoreColors.greenMedium,
+            colorError = CoreColors.red
         )
     )
 

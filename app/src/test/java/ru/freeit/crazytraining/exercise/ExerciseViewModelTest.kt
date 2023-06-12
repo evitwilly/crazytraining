@@ -9,12 +9,13 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import ru.freeit.crazytraining.core.mocks.ExerciseListRepositoryMock
 import ru.freeit.crazytraining.core.rules.MainDispatcherRule
-import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
-import ru.freeit.crazytraining.exercise.data.repository.ExerciseResourcesRepository
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.detail.repository.ExerciseResourcesRepository
+import ru.freeit.crazytraining.exercise.detail.ExerciseDetailViewModel
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
-import ru.freeit.crazytraining.exercise.viewmodel_states.AddingExerciseState
-import ru.freeit.crazytraining.exercise.viewmodel_states.ExerciseMeasuredValueListState
-import ru.freeit.crazytraining.exercise.viewmodel_states.ExerciseMeasuredValueState
+import ru.freeit.crazytraining.exercise.detail.viewmodel_states.AddingExerciseState
+import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueListState
+import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueState
 import ru.freeit.crazytraining.exercise.viewmodel_states.SettingsIconState
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -36,7 +37,7 @@ internal class ExerciseViewModelTest {
 
     @Test
     fun `test changing states`() {
-        val viewModel = ExerciseViewModel(ExerciseListRepositoryMock(), ExerciseResourcesRepositoryMock(mockData, mockData))
+        val viewModel = ExerciseDetailViewModel(ExerciseListRepositoryMock(), ExerciseResourcesRepositoryMock(mockData, mockData))
 
         val measuredState = ExerciseMeasuredValueListState(ExerciseMeasuredValueModel.measuredStates)
         assertEquals(SettingsIconState(mockData, mockData), viewModel.settingsIconState.value)
@@ -59,7 +60,7 @@ internal class ExerciseViewModelTest {
     @Test
     fun `test apply button`() = runTest {
         val repository = ExerciseListRepositoryMock()
-        val viewModel = ExerciseViewModel(repository, ExerciseResourcesRepositoryMock(mockData, mockData))
+        val viewModel = ExerciseDetailViewModel(repository, ExerciseResourcesRepositoryMock(mockData, mockData))
         viewModel.checkColor(1)
         viewModel.checkIcon(1)
         viewModel.checkMeasuredState(ExerciseMeasuredValueState(ExerciseMeasuredValueModel.DISTANCE, true))

@@ -1,14 +1,13 @@
-package ru.freeit.crazytraining.exercise.viewmodel_states
+package ru.freeit.crazytraining.exercise.detail.viewmodel_states
 
 import android.graphics.drawable.GradientDrawable
 import android.widget.ImageView
-import android.widget.TextView
 import ru.freeit.crazytraining.core.theming.extensions.dp
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class AddingExerciseState(
-    private val icon: Int,
-    private val color: Int,
+    val icon: Int,
+    val color: Int,
     private val title: String = "",
     val measuredState: ExerciseMeasuredValueListState
 ) {
@@ -23,8 +22,7 @@ class AddingExerciseState(
     fun withChangedTitle(title: String) = AddingExerciseState(icon, color, title, measuredState)
     fun withChangedMeasuredState(measuredState: ExerciseMeasuredValueListState) = AddingExerciseState(icon, color, title, measuredState)
 
-    fun bindViews(titleView: TextView, imageView: ImageView) {
-        titleView.text = title
+    fun bindImageView(imageView: ImageView) {
         imageView.setImageResource(icon)
         imageView.setColorFilter(color)
         val background = GradientDrawable()
@@ -37,6 +35,14 @@ class AddingExerciseState(
         if (other == null) return false
         if (other !is AddingExerciseState) return false
         return icon == other.icon && color == other.color && title == other.title && measuredState == other.measuredState
+    }
+
+    override fun hashCode(): Int {
+        var result = icon
+        result = 31 * result + color
+        result = 31 * result + title.hashCode()
+        result = 31 * result + measuredState.hashCode()
+        return result
     }
 
 }

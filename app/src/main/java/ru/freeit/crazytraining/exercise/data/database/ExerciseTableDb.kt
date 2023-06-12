@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import ru.freeit.crazytraining.core.database.TableColumnDb
 import ru.freeit.crazytraining.core.database.TableDb
-import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class ExerciseTableDb(
