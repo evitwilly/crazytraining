@@ -7,6 +7,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import ru.freeit.crazytraining.core.theming.extensions.dp
 import ru.freeit.crazytraining.exercise.data.database.ExerciseTableDb
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
 
 class ExerciseModel(
     @DrawableRes

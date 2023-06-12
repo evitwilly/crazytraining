@@ -7,6 +7,7 @@ public class CoreColors {
     public static final int greenDark = 0xff366f00;
 
     public static final int grayMedium = 0xff333333;
+    public static final int red = 0xffff0000;
 
     public static final int white = 0xffffffff;
     public static final int black = 0xff000000;

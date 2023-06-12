@@ -30,4 +30,10 @@
     <string name="history">History</string>
     <string name="kilometers_meteres">kilometers/meters</string>
     <string name="hours_minutes">hours/minutes</string>
+    <string name="change_color">change color</string>
+    <string name="change_icon">change icon</string>
+    <string name="icon_settings">Icon settings</string>
+    <string name="apply">Apply</string>
+    <string name="edit_icon">edit icon</string>
+    <string name="the_field_is_empty">the field is empty</string>
 </resources>

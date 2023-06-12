@@ -1,4 +1,4 @@
-package ru.freeit.crazytraining.exercise.data.repository;
+package ru.freeit.crazytraining.exercise.detail.repository;
 
 import androidx.annotation.NonNull;
 
@@ -25,12 +25,12 @@ public class ExerciseResourcesRepositoryImpl implements ExerciseResourcesReposit
     @Override
     public int[] colors() {
         return new int[] {
-            0xff990f02,
-            0xffbc544b,
-            0xff0047ab,
-            0xff4682b4,
             0xff0b6623,
             0xff808000,
+            0xff0047ab,
+            0xff4682b4,
+            0xff990f02,
+            0xffbc544b,
             0xffffa500,
             0xffff7f50
         };

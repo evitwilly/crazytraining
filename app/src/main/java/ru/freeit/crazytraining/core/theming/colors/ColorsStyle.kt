@@ -9,7 +9,8 @@ class ColorsStyle(
     private val primaryBackgroundColor: Int,
     private val secondaryBackgroundColor: Int,
     private val primaryTextColor: Int,
-    private val unselectedColor: Int
+    private val unselectedColor: Int,
+    private val colorError: Int
 ) {
     fun color(type: ColorType): Int {
         return when(type) {
@@ -21,6 +22,7 @@ class ColorsStyle(
             ColorType.primaryTextColor -> primaryTextColor
             ColorType.unselectedColor -> unselectedColor
             ColorType.transparent -> CoreColors.transparent
+            ColorType.colorError -> colorError
         }
     }
 }

@@ -10,7 +10,7 @@ import ru.freeit.crazytraining.core.mocks.ExerciseListRepositoryMock
 import ru.freeit.crazytraining.core.models.WeekdayModel
 import ru.freeit.crazytraining.core.repository.CalendarRepository
 import ru.freeit.crazytraining.core.rules.MainDispatcherRule
-import ru.freeit.crazytraining.exercise.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.exercise.list.viewmodel_states.ExerciseListState

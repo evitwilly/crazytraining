@@ -8,5 +8,6 @@ enum class ColorType {
     secondaryBackgroundColor,
     primaryTextColor,
     unselectedColor,
+    colorError,
     transparent
 }

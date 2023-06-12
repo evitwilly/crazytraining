@@ -1,4 +1,4 @@
-package ru.freeit.crazytraining.exercise.history
+package ru.freeit.crazytraining.history
 
 import android.content.Context
 import android.os.Bundle
