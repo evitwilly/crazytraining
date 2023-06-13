@@ -9,9 +9,24 @@ import ru.freeit.crazytraining.exercise.detail.adapter.ExerciseColorViewHolder
 import ru.freeit.crazytraining.exercise.detail.adapter.ExerciseIconViewHolder
 
 sealed class ExerciseIconSettingsListState(
+    protected val items: IntArray,
     protected val checkedIcon: Int,
     protected val checkedColor: Int
 ) {
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null) return false
+        if (other !is ExerciseIconSettingsListState) return false
+
+        return items.contentEquals(other.items) && checkedIcon == other.checkedIcon && checkedColor == other.checkedColor
+    }
+
+    override fun hashCode(): Int {
+        var result = items.contentHashCode()
+        result = 31 * result + checkedIcon
+        result = 31 * result + checkedColor
+        return result
+    }
 
     abstract fun bindTextView(view: TextView)
     abstract fun bindItems(listView: RecyclerView, selectListener: (Int) -> Unit)
@@ -21,11 +36,7 @@ sealed class ExerciseIconSettingsListState(
         view.setColorFilter(checkedColor)
     }
 
-    class Icons(
-        private val items: IntArray,
-        checkedIcon: Int,
-        checkedColor: Int
-    ) : ExerciseIconSettingsListState(checkedIcon, checkedColor) {
+    class Icons(items: IntArray, checkedIcon: Int, checkedColor: Int) : ExerciseIconSettingsListState(items, checkedIcon, checkedColor) {
 
         override fun bindTextView(view: TextView) {
             view.setText(R.string.change_color)
@@ -40,11 +51,7 @@ sealed class ExerciseIconSettingsListState(
 
     }
 
-    class Colors(
-        private val items: IntArray,
-        checkedIcon: Int,
-        checkedColor: Int
-    ) : ExerciseIconSettingsListState(checkedIcon, checkedColor) {
+    class Colors(items: IntArray, checkedIcon: Int, checkedColor: Int) : ExerciseIconSettingsListState(items, checkedIcon, checkedColor) {
 
         override fun bindTextView(view: TextView) {
             view.setText(R.string.change_icon)
