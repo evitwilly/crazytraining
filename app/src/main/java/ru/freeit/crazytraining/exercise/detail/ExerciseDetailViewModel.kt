@@ -12,7 +12,6 @@ import ru.freeit.crazytraining.exercise.detail.repository.ExerciseResourcesRepos
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.AddingExerciseState
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueListState
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueState
-import ru.freeit.crazytraining.exercise.viewmodel_states.SettingsIconState
 
 class ExerciseDetailViewModel(
     private val listRepository: ExerciseListRepository,
@@ -21,9 +20,6 @@ class ExerciseDetailViewModel(
 
     private val _addingExerciseState = MutableLiveData<AddingExerciseState>()
     val addingExerciseState: LiveData<AddingExerciseState> = _addingExerciseState
-
-    private val _settingsIconState = MutableLiveData<SettingsIconState>()
-    val settingsIconState: LiveData<SettingsIconState> = _settingsIconState
 
     private val _titleError = SingleLiveEvent<Int>()
     val titleError: LiveData<Int> = _titleError
@@ -35,12 +31,9 @@ class ExerciseDetailViewModel(
         get() = addingExerciseState.value?.color ?: 0
 
     init {
-        val icons = resourcesRepository.icons()
-        val colors = resourcesRepository.colors()
-        _settingsIconState.value = SettingsIconState(icons = icons, colors = colors)
         _addingExerciseState.value = AddingExerciseState(
-            icon = icons[0],
-            color = colors[0],
+            icon = resourcesRepository.icons().first(),
+            color = resourcesRepository.colors().first(),
             measuredState = ExerciseMeasuredValueListState(ExerciseMeasuredValueModel.measuredStates)
         )
     }

@@ -8,18 +8,17 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import ru.freeit.crazytraining.core.mocks.ExerciseListRepositoryMock
+import ru.freeit.crazytraining.core.mocks.ExerciseResourcesRepositoryMock
 import ru.freeit.crazytraining.core.rules.MainDispatcherRule
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
-import ru.freeit.crazytraining.exercise.detail.repository.ExerciseResourcesRepository
 import ru.freeit.crazytraining.exercise.detail.ExerciseDetailViewModel
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.AddingExerciseState
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueListState
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueState
-import ru.freeit.crazytraining.exercise.viewmodel_states.SettingsIconState
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class ExerciseViewModelTest {
+internal class ExerciseViewModelDetailTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -29,18 +28,11 @@ internal class ExerciseViewModelTest {
 
     private val mockData = intArrayOf(1, 2, 3)
 
-    class ExerciseResourcesRepositoryMock(private val colors: IntArray, private val icons: IntArray) :
-        ExerciseResourcesRepository {
-        override fun colors() = colors
-        override fun icons() = icons
-    }
-
     @Test
     fun `test changing states`() {
         val viewModel = ExerciseDetailViewModel(ExerciseListRepositoryMock(), ExerciseResourcesRepositoryMock(mockData, mockData))
 
         val measuredState = ExerciseMeasuredValueListState(ExerciseMeasuredValueModel.measuredStates)
-        assertEquals(SettingsIconState(mockData, mockData), viewModel.settingsIconState.value)
         assertEquals(AddingExerciseState(icon = mockData[0], color = mockData[0], measuredState = measuredState), viewModel.addingExerciseState.value)
 
         viewModel.changeTitle("exercise 1")

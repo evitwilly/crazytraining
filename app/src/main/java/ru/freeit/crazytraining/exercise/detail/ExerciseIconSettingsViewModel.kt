@@ -45,10 +45,6 @@ class ExerciseIconSettingsViewModel(
         updateState()
     }
 
-    fun apply() {
-
-    }
-
     private fun updateState() {
         if (checkedIcon == 0)
             checkedIcon = repo.icons().first()
