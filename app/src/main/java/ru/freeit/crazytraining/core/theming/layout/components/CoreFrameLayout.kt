@@ -19,7 +19,7 @@ class CoreFrameLayout @JvmOverloads constructor(
 
     private val onThemeChanged: (CoreTheme) -> Unit = { theme ->
         val gradientDrawable = GradientDrawable()
-        gradientDrawable.cornerRadii = cornerTreatmentStrategy.floatArrayOf(theme.cornerRadiusStyle.style(cornerRadiusStyle))
+        gradientDrawable.cornerRadii = cornerTreatmentStrategy.floatArrayOf(theme.cornerRadiusStyle.style(context, cornerRadiusStyle))
         gradientDrawable.setColor(theme.colorsStyle.color(backgroundColor))
         background = gradientDrawable
     }

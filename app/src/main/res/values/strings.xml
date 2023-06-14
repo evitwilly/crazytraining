@@ -36,4 +36,6 @@
     <string name="apply">Apply</string>
     <string name="edit_icon">edit icon</string>
     <string name="the_field_is_empty">the field is empty</string>
+    <string name="edit">edit</string>
+    <string name="remove">remove</string>
 </resources>

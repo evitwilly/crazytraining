@@ -23,4 +23,8 @@ interface CornerTreatmentStrategy {
         override fun floatArrayOf(radius: Float) = floatArrayOf(radius / 2f, radius, 0f, 0f, 0f, 0f, radius / 2f, radius)
     }
 
+    class StartBottomTopEndRounded : CornerTreatmentStrategy {
+        override fun floatArrayOf(radius: Float) = floatArrayOf(0f, 0f, radius, radius, 0f, 0f, radius, radius)
+    }
+
 }

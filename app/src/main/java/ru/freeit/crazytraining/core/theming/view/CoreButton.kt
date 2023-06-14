@@ -41,7 +41,7 @@ class CoreButton @JvmOverloads constructor(
 
         val gradientBackground = GradientDrawable()
         gradientBackground.setColor(theme.colorsStyle.color(primaryColor))
-        gradientBackground.cornerRadii = cornerTreatmentStrategy.floatArrayOf(theme.cornerRadiusStyle.style(cornerRadiusType))
+        gradientBackground.cornerRadii = cornerTreatmentStrategy.floatArrayOf(theme.cornerRadiusStyle.style(context, cornerRadiusType))
 
         val rippleColor = ColorStateList.valueOf(theme.colorsStyle.color(primaryDarkColor))
 

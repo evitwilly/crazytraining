@@ -1,5 +1,8 @@
 package ru.freeit.crazytraining.core.theming.corners
 
+import android.content.Context
+import ru.freeit.crazytraining.core.theming.extensions.dp
+
 class CornerRadiusStyle(
     private val small: Float,
     private val medium: Float,
@@ -7,13 +10,14 @@ class CornerRadiusStyle(
     private val max: Float = 100f
 ) {
 
-    fun style(type: CornerRadiusType): Float {
-        return when (type) {
+    fun style(ctx: Context, type: CornerRadiusType): Float {
+        val dimension = when (type) {
             CornerRadiusType.small -> small
             CornerRadiusType.medium -> medium
             CornerRadiusType.big -> big
             CornerRadiusType.maximum -> max
         }
+        return ctx.dp(dimension)
     }
 
 }
