@@ -13,7 +13,11 @@ class ExerciseListRepositoryImpl(
 ) : ExerciseListRepository {
 
     override suspend fun saveExercise(model: ExerciseModel) = withContext(Dispatchers.Default) {
-        exerciseDatabase.save(model.database)
+        if (model.id > 0) {
+            exerciseDatabase.update(model.database)
+        } else {
+            exerciseDatabase.save(model.database)
+        }
     }
 
     override suspend fun exercises() = withContext(Dispatchers.Default) {

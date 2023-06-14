@@ -12,10 +12,12 @@ import ru.freeit.crazytraining.exercise.detail.repository.ExerciseResourcesRepos
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.AddingExerciseState
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueListState
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueState
+import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class ExerciseDetailViewModel(
+    private val argument: ExerciseModel?,
     private val listRepository: ExerciseListRepository,
-    resourcesRepository: ExerciseResourcesRepository
+    resourcesRepository: ExerciseResourcesRepository,
 ) : BaseViewModel() {
 
     private val _addingExerciseState = MutableLiveData<AddingExerciseState>()
@@ -31,7 +33,7 @@ class ExerciseDetailViewModel(
         get() = addingExerciseState.value?.color ?: 0
 
     init {
-        _addingExerciseState.value = AddingExerciseState(
+        _addingExerciseState.value = argument?.addingExerciseState ?: AddingExerciseState(
             icon = resourcesRepository.icons().first(),
             color = resourcesRepository.colors().first(),
             measuredState = ExerciseMeasuredValueListState(ExerciseMeasuredValueModel.measuredStates)
@@ -62,7 +64,7 @@ class ExerciseDetailViewModel(
             _titleError.value = R.string.the_field_is_empty
         } else {
             uiScope.launch {
-                listRepository.saveExercise(state.model)
+                listRepository.saveExercise(state.model(argument?.id ?: 0))
                 back()
             }
         }

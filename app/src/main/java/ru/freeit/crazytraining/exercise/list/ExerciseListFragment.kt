@@ -51,7 +51,7 @@ class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
         viewModel.exerciseListState.observe(viewLifecycleOwner) { listState ->
             listView.adapter = ExerciseListAdapter(
                 items = listState.items,
-                editClickListener = {},
+                editClickListener = { model -> navigator.push(ExerciseDetailFragment(model)) },
                 removeClickListener = {}
             )
         }

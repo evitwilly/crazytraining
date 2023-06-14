@@ -29,8 +29,23 @@ internal class ExerciseViewModelDetailTest {
     private val mockData = intArrayOf(1, 2, 3)
 
     @Test
+    fun `test argument`() {
+        val viewModel = ExerciseDetailViewModel(
+            argument = ExerciseModel(1, 2, "exercise 1", ExerciseMeasuredValueModel.QUANTITY, emptyList(), 1),
+            listRepository = ExerciseListRepositoryMock(),
+            resourcesRepository = ExerciseResourcesRepositoryMock(mockData, mockData)
+        )
+
+        assertEquals(AddingExerciseState(1, 2, "exercise 1", ExerciseMeasuredValueListState(emptyList())), viewModel.addingExerciseState.value)
+    }
+
+    @Test
     fun `test changing states`() {
-        val viewModel = ExerciseDetailViewModel(ExerciseListRepositoryMock(), ExerciseResourcesRepositoryMock(mockData, mockData))
+        val viewModel = ExerciseDetailViewModel(
+            argument = null,
+            listRepository = ExerciseListRepositoryMock(),
+            resourcesRepository = ExerciseResourcesRepositoryMock(mockData, mockData)
+        )
 
         val measuredState = ExerciseMeasuredValueListState(ExerciseMeasuredValueModel.measuredStates)
         assertEquals(AddingExerciseState(icon = mockData[0], color = mockData[0], measuredState = measuredState), viewModel.addingExerciseState.value)
@@ -52,7 +67,11 @@ internal class ExerciseViewModelDetailTest {
     @Test
     fun `test apply button`() = runTest {
         val repository = ExerciseListRepositoryMock()
-        val viewModel = ExerciseDetailViewModel(repository, ExerciseResourcesRepositoryMock(mockData, mockData))
+        val viewModel = ExerciseDetailViewModel(
+            argument = null,
+            listRepository = repository,
+            resourcesRepository = ExerciseResourcesRepositoryMock(mockData, mockData)
+        )
         viewModel.checkColor(1)
         viewModel.checkIcon(1)
         viewModel.checkMeasuredState(ExerciseMeasuredValueState(ExerciseMeasuredValueModel.DISTANCE, true))

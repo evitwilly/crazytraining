@@ -76,6 +76,10 @@ class CoreEditText @JvmOverloads constructor(
         editView.isSingleLine = true
     }
 
+    fun changeText(text: String) {
+        editView.setText(text)
+    }
+
     fun changeHint(@StringRes hint: Int) {
         editView.setHint(hint)
     }

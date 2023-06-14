@@ -39,7 +39,7 @@ class ExerciseViewHolder(
         val observer = Observer<ExerciseEditButtonState> { state ->
             with(state) {
                 bindImageView(editButtonView)
-                bindButtons(buttonsView)
+                bindButtons(buttonsView, model)
             }
         }
         editButtonView.setOnClickListener { viewModel.toggle() }

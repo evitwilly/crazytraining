@@ -1,14 +1,13 @@
 package ru.freeit.crazytraining.exercise.list.adapter
 
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class ExerciseListAdapter(
     private val items: List<ExerciseModel>,
-    private val editClickListener: OnClickListener,
-    private val removeClickListener: OnClickListener
+    private val editClickListener: (ExerciseModel) -> Unit,
+    private val removeClickListener: (ExerciseModel) -> Unit
 ) : RecyclerView.Adapter<ExerciseViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {

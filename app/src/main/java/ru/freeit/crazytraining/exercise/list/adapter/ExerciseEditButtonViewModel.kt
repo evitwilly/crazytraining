@@ -1,13 +1,13 @@
 package ru.freeit.crazytraining.exercise.list.adapter
 
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.freeit.crazytraining.R
+import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class ExerciseEditButtonViewModel(
-    private val editClickListener: View.OnClickListener,
-    private val removeClickListener: View.OnClickListener
+    private val editClickListener: (ExerciseModel) -> Unit,
+    private val removeClickListener: (ExerciseModel) -> Unit
 ) {
 
     private val _state = MutableLiveData<ExerciseEditButtonState>()

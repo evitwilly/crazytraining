@@ -14,8 +14,15 @@ class AddingExerciseState(
     val is_valid: Boolean
         get() = title.isNotBlank()
 
-    val model: ExerciseModel
-        get() = ExerciseModel(icon, color, title, measuredState.checkedMeasuredModel)
+    fun model(id: Int): ExerciseModel {
+        return ExerciseModel(
+            icon = icon,
+            color = color,
+            title = title,
+            measuredValueModel = measuredState.checkedMeasuredModel,
+            id = id
+        )
+    }
 
     fun withChangedIcon(icon: Int) = AddingExerciseState(icon, color, title, measuredState)
     fun withChangedColor(color: Int) = AddingExerciseState(icon, color, title, measuredState)
