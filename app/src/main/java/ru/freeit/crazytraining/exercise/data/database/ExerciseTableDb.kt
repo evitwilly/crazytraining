@@ -16,7 +16,13 @@ class ExerciseTableDb(
 ) : TableDb(id) {
 
     val model: ExerciseModel
-        get() = ExerciseModel(icon, color, title, ExerciseMeasuredValueModel.values()[measuredValue])
+        get() = ExerciseModel(
+            icon = icon,
+            color = color,
+            title = title,
+            measuredValueModel = ExerciseMeasuredValueModel.values()[measuredValue],
+            id = id
+        )
 
     override val name: String = "exercise"
 

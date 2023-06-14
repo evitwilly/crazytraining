@@ -23,6 +23,10 @@ abstract class CoreDatabase<T : TableDb>(database: CoreSQLiteOpenHelper) {
         sqliteDb.insert(item.name, null, item.contentValues)
     }
 
+    fun update(item: T) {
+        sqliteDb.update(item.name, item.contentValues, "${TableDb.column_id} = ?", arrayOf(item.id.toString()))
+    }
+
     fun delete(item: T) {
         sqliteDb.delete(item.name, "${TableDb.column_id} = ?", arrayOf(item.id.toString()))
     }

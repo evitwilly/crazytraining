@@ -38,4 +38,6 @@
     <string name="the_field_is_empty">the field is empty</string>
     <string name="edit">edit</string>
     <string name="remove">remove</string>
+    <string name="edit_exercise">Edit exercise</string>
+    <string name="save">Save</string>
 </resources>

@@ -2,6 +2,7 @@ package ru.freeit.crazytraining.core.navigation
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -125,6 +126,11 @@ abstract class BaseFragment<T : BaseViewModel>: Fragment() {
 
     protected fun addFloatingView(view: View) {
         rootView?.addView(view)
+    }
+
+    protected inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
+        android.os.Build.VERSION.SDK_INT >= 33 -> getParcelable(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getParcelable(key) as? T
     }
 
     override fun onDestroyView() {

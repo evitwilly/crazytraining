@@ -1,6 +1,8 @@
 package ru.freeit.crazytraining.exercise.model
 
 import android.graphics.drawable.GradientDrawable
+import android.os.Parcel
+import android.os.Parcelable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
@@ -8,21 +10,35 @@ import androidx.annotation.DrawableRes
 import ru.freeit.crazytraining.core.theming.extensions.dp
 import ru.freeit.crazytraining.exercise.data.database.ExerciseTableDb
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.detail.viewmodel_states.AddingExerciseState
+import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueListState
 
 class ExerciseModel(
     @DrawableRes
     private val icon: Int,
     @ColorInt
     private val color: Int,
-    private val title: String = "",
+    val title: String = "",
     private val measuredValueModel: ExerciseMeasuredValueModel = ExerciseMeasuredValueModel.QUANTITY,
     private val sets: List<ExerciseSetModel> = emptyList(),
-) {
+    val id: Int = 0,
+) : Parcelable {
+
+   val addingExerciseState: AddingExerciseState
+       get() = AddingExerciseState(icon, color, title, ExerciseMeasuredValueListState(emptyList()))
 
    val database: ExerciseTableDb
-       get() = ExerciseTableDb(icon, color, title, measuredValueModel.ordinal)
+       get() = ExerciseTableDb(icon, color, title, measuredValueModel.ordinal, id)
 
-   fun bindTitle(view: TextView) {
+    constructor(parcel: Parcel) : this(
+        icon = parcel.readInt(),
+        color = parcel.readInt(),
+        title = parcel.readString().orEmpty(),
+        measuredValueModel = ExerciseMeasuredValueModel.values()[parcel.readInt()],
+        id = parcel.readInt()
+    )
+
+    fun bindTitle(view: TextView) {
        view.text = title
    }
 
@@ -61,6 +77,23 @@ class ExerciseModel(
         result = 31 * result + title.hashCode()
         result = 31 * result + measuredValueModel.hashCode()
         return result
+    }
+
+    override fun describeContents(): Int = 0
+
+    override fun writeToParcel(destination: Parcel, arg: Int) {
+        with(destination) {
+            writeInt(icon)
+            writeInt(color)
+            writeString(title)
+            writeInt(measuredValueModel.ordinal)
+            writeInt(id)
+        }
+    }
+
+    companion object CREATOR : Parcelable.Creator<ExerciseModel> {
+        override fun createFromParcel(parcel: Parcel) = ExerciseModel(parcel)
+        override fun newArray(size: Int) = arrayOfNulls<ExerciseModel>(size)
     }
 
 }
