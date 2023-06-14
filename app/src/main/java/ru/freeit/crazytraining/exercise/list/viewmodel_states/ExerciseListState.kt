@@ -1,11 +1,8 @@
 package ru.freeit.crazytraining.exercise.list.viewmodel_states
 
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
-import ru.freeit.crazytraining.exercise.list.adapter.ExerciseListAdapter
 
-class ExerciseListState(private val items: List<ExerciseModel>) {
-    val adapter: ExerciseListAdapter
-        get() = ExerciseListAdapter(items)
+class ExerciseListState(val items: List<ExerciseModel>) {
 
     override fun equals(other: Any?): Boolean {
         if (other == null) return false

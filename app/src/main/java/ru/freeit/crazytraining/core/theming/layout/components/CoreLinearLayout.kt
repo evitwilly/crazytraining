@@ -23,7 +23,7 @@ open class CoreLinearLayout @JvmOverloads constructor(
 
     protected open fun onThemeChanged(theme: CoreTheme) {
         val gradientDrawable = GradientDrawable()
-        val radius = cornerTreatmentStrategy.floatArrayOf(theme.cornerRadiusStyle.style(cornerRadiusStyle))
+        val radius = cornerTreatmentStrategy.floatArrayOf(theme.cornerRadiusStyle.style(context, cornerRadiusStyle))
         gradientDrawable.cornerRadii = radius
         gradientDrawable.setColor(theme.colorsStyle.color(backgroundColor))
 

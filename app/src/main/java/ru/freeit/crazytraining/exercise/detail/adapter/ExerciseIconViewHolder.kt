@@ -22,7 +22,7 @@ class ExerciseIconViewHolder(
         imageView.background = if (item == checkedIcon) {
             val theme = imageView.themeManager.selected_theme
             GradientDrawable().apply {
-                cornerRadius = theme.cornerRadiusStyle.style(CornerRadiusType.medium)
+                cornerRadius = theme.cornerRadiusStyle.style(imageView.context, CornerRadiusType.medium)
                 setStroke(
                     imageView.context.dp(2),
                     theme.colorsStyle.color(ColorType.primaryColor)

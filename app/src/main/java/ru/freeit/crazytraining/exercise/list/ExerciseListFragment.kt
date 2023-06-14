@@ -15,6 +15,7 @@ import ru.freeit.crazytraining.exercise.detail.ExerciseDetailFragment
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
+import ru.freeit.crazytraining.exercise.list.adapter.ExerciseListAdapter
 
 class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
 
@@ -48,7 +49,11 @@ class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
         addFloatingView(trainingAddButton)
 
         viewModel.exerciseListState.observe(viewLifecycleOwner) { listState ->
-            listView.adapter = listState.adapter
+            listView.adapter = ExerciseListAdapter(
+                items = listState.items,
+                editClickListener = {},
+                removeClickListener = {}
+            )
         }
 
         return listView
