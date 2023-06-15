@@ -1,4 +1,4 @@
-package ru.freeit.crazytraining.core.navigation
+package ru.freeit.crazytraining.core.navigation.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -15,6 +15,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import ru.freeit.crazytraining.R
+import ru.freeit.crazytraining.core.navigation.Navigator
 import ru.freeit.crazytraining.core.theming.extensions.dp
 import ru.freeit.crazytraining.core.theming.extensions.frameLayoutParams
 import ru.freeit.crazytraining.core.theming.extensions.layoutParams

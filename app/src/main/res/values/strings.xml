@@ -40,4 +40,8 @@
     <string name="remove">remove</string>
     <string name="edit_exercise">Edit exercise</string>
     <string name="save">Save</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="remove_exercise">Remove exercise</string>
+    <string name="remove_exercise_warning">Do you really want to delete the exercise?\nAll workouts for this exercise will be lost!</string>
 </resources>

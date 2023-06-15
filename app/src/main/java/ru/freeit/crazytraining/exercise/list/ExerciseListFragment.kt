@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
-import ru.freeit.crazytraining.core.navigation.BaseFragment
+import ru.freeit.crazytraining.core.navigation.dialogs.CoreDialog
+import ru.freeit.crazytraining.core.navigation.dialogs.CoreDialogFragmentResult
+import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.exercise.detail.ExerciseDetailFragment
@@ -48,11 +50,23 @@ class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
             .marginBottom(context.dp(16)))
         addFloatingView(trainingAddButton)
 
+        val fragmentDialogResult = CoreDialogFragmentResult(parentFragmentManager)
+        fragmentDialogResult.onOkClick(viewLifecycleOwner) {
+            viewModel.remove()
+        }
+
         viewModel.exerciseListState.observe(viewLifecycleOwner) { listState ->
             listView.adapter = ExerciseListAdapter(
                 items = listState.items,
                 editClickListener = { model -> navigator.push(ExerciseDetailFragment(model)) },
-                removeClickListener = {}
+                removeClickListener = { model ->
+                    viewModel.cache(model)
+                    navigator.show(CoreDialog(
+                        title = getString(R.string.remove_exercise),
+                        message = getString(R.string.remove_exercise_warning),
+                        buttons = CoreDialog.Buttons.OK_CANCEL)
+                    )
+                }
             )
         }
 

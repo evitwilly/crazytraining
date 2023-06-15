@@ -7,6 +7,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreTheme
 import ru.freeit.crazytraining.core.theming.colors.ColorType.*
@@ -39,6 +40,7 @@ class CoreEditText @JvmOverloads constructor(
     init {
         orientation = VERTICAL
 
+        editView.id = R.id.edit_view_1
         editView.includeFontPadding = false
         editView.layoutParams(linearLayoutParams().matchWidth().wrapHeight())
 

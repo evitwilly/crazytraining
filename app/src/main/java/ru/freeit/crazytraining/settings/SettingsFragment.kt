@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
-import ru.freeit.crazytraining.core.navigation.BaseFragment
+import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
 import ru.freeit.crazytraining.core.theming.extensions.dp
 import ru.freeit.crazytraining.core.theming.extensions.layoutParams
 import ru.freeit.crazytraining.core.theming.extensions.linearLayoutParams

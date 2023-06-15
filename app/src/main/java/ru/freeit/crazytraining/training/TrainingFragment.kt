@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
-import ru.freeit.crazytraining.core.navigation.BaseFragment
+import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
 import ru.freeit.crazytraining.core.repository.CalendarRepositoryImpl
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
