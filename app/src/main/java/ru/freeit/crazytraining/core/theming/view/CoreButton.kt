@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
+import android.view.Gravity
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import ru.freeit.crazytraining.core.theming.CoreTheme
@@ -23,6 +24,7 @@ class CoreButton @JvmOverloads constructor(
     init {
         isClickable = true
         isFocusable = true
+        gravity = Gravity.CENTER
         padding(horizontal = context.dp(8), vertical = context.dp(12))
     }
 

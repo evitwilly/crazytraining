@@ -2,6 +2,8 @@ package ru.freeit.crazytraining.core.navigation
 
 import androidx.fragment.app.FragmentManager
 import ru.freeit.crazytraining.R
+import ru.freeit.crazytraining.core.navigation.dialogs.CoreDialog
+import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
 
 class Navigator(private val fragmentManager: FragmentManager) {
 
@@ -19,6 +21,10 @@ class Navigator(private val fragmentManager: FragmentManager) {
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(fragment::class.simpleName)
             .commit()
+    }
+
+    fun show(dialog: CoreDialog) {
+        dialog.show(fragmentManager, dialog.name)
     }
 
     fun back() {

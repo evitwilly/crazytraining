@@ -1,4 +1,4 @@
-package ru.freeit.crazytraining.core.navigation
+package ru.freeit.crazytraining.core.navigation.fragment
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

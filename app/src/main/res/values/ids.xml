@@ -2,4 +2,5 @@
 <resources>
     <item name="fragment_container" type="id" />
     <item name="bottom_navigation_view" type="id" />
+    <item name="edit_view_1" type="id" />
 </resources>

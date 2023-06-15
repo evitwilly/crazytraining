@@ -4,8 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import ru.freeit.crazytraining.R
-import ru.freeit.crazytraining.core.navigation.BaseFragment
-import ru.freeit.crazytraining.core.navigation.BaseViewModel
+import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
+import ru.freeit.crazytraining.core.navigation.fragment.BaseViewModel
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
 
 class HistoryFragment : BaseFragment<BaseViewModel>() {

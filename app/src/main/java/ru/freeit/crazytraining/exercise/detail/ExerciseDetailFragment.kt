@@ -11,7 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
-import ru.freeit.crazytraining.core.navigation.BaseFragment
+import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
 import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout

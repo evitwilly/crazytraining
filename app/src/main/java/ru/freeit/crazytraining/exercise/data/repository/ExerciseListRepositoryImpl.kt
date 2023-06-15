@@ -20,6 +20,12 @@ class ExerciseListRepositoryImpl(
         }
     }
 
+    override suspend fun removeExercise(model: ExerciseModel) = withContext(Dispatchers.Default) {
+        if (model.id > 0) {
+            exerciseDatabase.delete(model.database)
+        }
+    }
+
     override suspend fun exercises() = withContext(Dispatchers.Default) {
         exerciseDatabase.items().map { it.model }
     }

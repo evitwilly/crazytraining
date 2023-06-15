@@ -2,7 +2,7 @@ package ru.freeit.crazytraining.exercise.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.freeit.crazytraining.core.navigation.BaseViewModel
+import ru.freeit.crazytraining.core.navigation.fragment.BaseViewModel
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseIconSettingsListState
 import ru.freeit.crazytraining.exercise.detail.repository.ExerciseResourcesRepository
 
