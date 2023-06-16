@@ -41,4 +41,6 @@ class ExerciseEditButtonViewModel(private val buttons: List<ExerciseEditButtonSt
 
     override fun hashCode() = imageResource
 
+    override fun toString() = imageResource.toString()
+
 }

@@ -21,6 +21,10 @@ class ExerciseDetailState(
         return result
     }
 
+    override fun toString(): String {
+        return "{ exercise_model -> $exerciseModel, editButtonViewModel -> $editButtonViewModel }"
+    }
+
 }
 
 class ExerciseListState(val items: List<ExerciseDetailState>) {
@@ -33,4 +37,9 @@ class ExerciseListState(val items: List<ExerciseDetailState>) {
     }
 
     override fun hashCode(): Int = items.hashCode()
+
+    override fun toString(): String {
+        return "[${items.joinToString { it.toString() }}]"
+    }
+
 }
