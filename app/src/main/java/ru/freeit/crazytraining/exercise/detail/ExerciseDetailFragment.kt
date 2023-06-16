@@ -117,7 +117,7 @@ class ExerciseDetailFragment() : BaseFragment<ExerciseDetailViewModel>() {
             titleEditView.error = getString(error)
         }
 
-        viewModel.addingExerciseState.observe(viewLifecycleOwner) { state ->
+        viewModel.exerciseSettingsState.observe(viewLifecycleOwner) { state ->
             titleEditView.error = ""
             with(state) {
                 bindImageView(iconImageView)

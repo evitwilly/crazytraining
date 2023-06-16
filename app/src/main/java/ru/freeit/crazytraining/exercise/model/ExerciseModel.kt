@@ -10,8 +10,9 @@ import androidx.annotation.DrawableRes
 import ru.freeit.crazytraining.core.theming.extensions.dp
 import ru.freeit.crazytraining.exercise.data.database.ExerciseTableDb
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
-import ru.freeit.crazytraining.exercise.detail.viewmodel_states.AddingExerciseState
+import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseSettingsState
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueListState
+import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueState
 
 class ExerciseModel(
     @DrawableRes
@@ -24,8 +25,13 @@ class ExerciseModel(
     val id: Int = 0,
 ) : Parcelable {
 
-   val addingExerciseState: AddingExerciseState
-       get() = AddingExerciseState(icon, color, title, ExerciseMeasuredValueListState(emptyList()))
+   val exerciseSettingsState: ExerciseSettingsState
+       get() = ExerciseSettingsState(
+           icon = icon,
+           color = color,
+           title = title,
+           measuredState = ExerciseMeasuredValueListState(listOf(ExerciseMeasuredValueState(measuredValueModel, true)))
+       )
 
    val database: ExerciseTableDb
        get() = ExerciseTableDb(icon, color, title, measuredValueModel.ordinal, id)
@@ -77,6 +83,10 @@ class ExerciseModel(
         result = 31 * result + title.hashCode()
         result = 31 * result + measuredValueModel.hashCode()
         return result
+    }
+
+    override fun toString(): String {
+        return "{ icon -> $icon, color -> $color, title -> $title, measured_value_model -> $measuredValueModel, id -> $id"
     }
 
     override fun describeContents(): Int = 0

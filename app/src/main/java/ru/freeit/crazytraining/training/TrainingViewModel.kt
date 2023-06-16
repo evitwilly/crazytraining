@@ -2,7 +2,6 @@ package ru.freeit.crazytraining.training
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.launch
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.fragment.BaseViewModel
 import ru.freeit.crazytraining.core.repository.CalendarRepository
@@ -33,9 +32,6 @@ class TrainingViewModel(
             _titleState.value = R.string.weekend
         }
         _dateState.value = calendarRepository.weekdayMonthYearDateString()
-        uiScope.launch {
-            _exerciseListState.value = ExerciseListState(exerciseListRepository.exercises())
-        }
     }
 
 }
