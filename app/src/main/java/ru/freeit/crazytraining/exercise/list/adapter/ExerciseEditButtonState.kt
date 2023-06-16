@@ -37,9 +37,33 @@ class ExerciseEditButtonState(
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (other == null) return false
+        if (other !is ExerciseEditButtonState) return false
+
+        return imageResource == other.imageResource && buttons == other.buttons
+    }
+
+    override fun hashCode(): Int {
+        var result = imageResource
+        result = 31 * result + buttons.hashCode()
+        return result
+    }
+
     class Button(
         val stringResource: Int,
         val clickListener: (ExerciseModel) -> Unit
-    )
+    ) {
+
+        override fun equals(other: Any?): Boolean {
+            if (other == null) return false
+            if (other !is Button) return false
+
+            return stringResource == other.stringResource
+        }
+
+        override fun hashCode() = stringResource
+
+    }
 
 }

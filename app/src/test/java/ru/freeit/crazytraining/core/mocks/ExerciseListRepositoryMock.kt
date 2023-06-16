@@ -12,6 +12,11 @@ class ExerciseListRepositoryMock(params: List<ExerciseModel> = emptyList()) : Ex
         items.addAll(params)
     }
 
+    fun changeItems(newItems: List<ExerciseModel>) {
+        items.clear()
+        items.addAll(newItems)
+    }
+
     override suspend fun saveExercise(model: ExerciseModel) {
         items.add(model)
     }
