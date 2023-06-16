@@ -1,29 +1,19 @@
 package ru.freeit.crazytraining.exercise.list.adapter
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import ru.freeit.crazytraining.exercise.model.ExerciseModel
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import ru.freeit.crazytraining.exercise.list.viewmodel_states.ExerciseDetailState
 
-class ExerciseListAdapter(
-    private val items: List<ExerciseModel>,
-    private val editClickListener: (ExerciseModel) -> Unit,
-    private val removeClickListener: (ExerciseModel) -> Unit
-) : RecyclerView.Adapter<ExerciseViewHolder>() {
+class ExerciseListAdapter: ListAdapter<ExerciseDetailState, ExerciseViewHolder>(object: DiffUtil.ItemCallback<ExerciseDetailState>() {
+    override fun areItemsTheSame(oldItem: ExerciseDetailState, newItem: ExerciseDetailState) = true
+    override fun areContentsTheSame(oldItem: ExerciseDetailState, newItem: ExerciseDetailState) = oldItem == newItem
+}) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
-        return ExerciseViewHolder.from(
-            parent = parent,
-            viewModel = ExerciseEditButtonViewModel(
-                editClickListener = editClickListener,
-                removeClickListener = removeClickListener
-            )
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ExerciseViewHolder.from(parent = parent)
 
     override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(getItem(position))
     }
-
-    override fun getItemCount() = items.size
 
 }

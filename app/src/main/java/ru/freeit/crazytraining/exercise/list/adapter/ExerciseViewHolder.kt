@@ -19,7 +19,7 @@ import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.text.TextType
 import ru.freeit.crazytraining.core.theming.view.CoreImageButtonView
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
-import ru.freeit.crazytraining.exercise.model.ExerciseModel
+import ru.freeit.crazytraining.exercise.list.viewmodel_states.ExerciseDetailState
 
 class ExerciseViewHolder(
     view: LinearLayout,
@@ -28,20 +28,24 @@ class ExerciseViewHolder(
     private val measuredView: TextView,
     private val editButtonView: ImageView,
     private val buttonsView: LinearLayout,
-    private val viewModel: ExerciseEditButtonViewModel
 ) : RecyclerView.ViewHolder(view) {
 
-    fun bind(model: ExerciseModel) = with(model) {
-        bindTitle(titleView)
-        bindImage(imageView)
-        bindMeasuredValue(measuredView)
+    fun bind(detailState: ExerciseDetailState) {
+        val model = detailState.exerciseModel
 
-        val observer = Observer<ExerciseEditButtonState> { state ->
-            with(state) {
+        with(model) {
+            bindTitle(titleView)
+            bindImage(imageView)
+            bindMeasuredValue(measuredView)
+        }
+
+        val observer = Observer<ExerciseEditButtonState> { editButtonState ->
+            with(editButtonState) {
                 bindImageView(editButtonView)
                 bindButtons(buttonsView, model)
             }
         }
+        val viewModel = detailState.editButtonViewModel
         editButtonView.setOnClickListener { viewModel.toggle() }
         editButtonView.doOnAttach { viewModel.state.observeForever(observer) }
         editButtonView.doOnDetach { viewModel.state.removeObserver(observer) }
@@ -49,7 +53,7 @@ class ExerciseViewHolder(
     }
 
     companion object {
-        fun from(parent: ViewGroup, viewModel: ExerciseEditButtonViewModel) : ExerciseViewHolder {
+        fun from(parent: ViewGroup) : ExerciseViewHolder {
             val context = parent.context
 
             val contentLinearView = CoreLinearLayout(context,
@@ -101,7 +105,7 @@ class ExerciseViewHolder(
             buttonsView.orientation = LinearLayout.HORIZONTAL
             contentLinearView.addView(buttonsView)
 
-            return ExerciseViewHolder(contentLinearView, titleView, iconView, measuredView, editButtonView, buttonsView, viewModel)
+            return ExerciseViewHolder(contentLinearView, titleView, iconView, measuredView, editButtonView, buttonsView)
         }
     }
 

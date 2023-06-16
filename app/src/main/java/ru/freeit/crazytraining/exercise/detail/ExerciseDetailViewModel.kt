@@ -9,7 +9,7 @@ import ru.freeit.crazytraining.core.viewmodel.SingleLiveEvent
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepository
 import ru.freeit.crazytraining.exercise.detail.repository.ExerciseResourcesRepository
-import ru.freeit.crazytraining.exercise.detail.viewmodel_states.AddingExerciseState
+import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseSettingsState
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueListState
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueState
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
@@ -20,20 +20,20 @@ class ExerciseDetailViewModel(
     resourcesRepository: ExerciseResourcesRepository,
 ) : BaseViewModel() {
 
-    private val _addingExerciseState = MutableLiveData<AddingExerciseState>()
-    val addingExerciseState: LiveData<AddingExerciseState> = _addingExerciseState
+    private val _exerciseSettingsState = MutableLiveData<ExerciseSettingsState>()
+    val exerciseSettingsState: LiveData<ExerciseSettingsState> = _exerciseSettingsState
 
     private val _titleError = SingleLiveEvent<Int>()
     val titleError: LiveData<Int> = _titleError
 
     val checked_icon_fragment_arg: Int
-        get() = addingExerciseState.value?.icon ?: 0
+        get() = exerciseSettingsState.value?.icon ?: 0
 
     val checked_color_fragment_arg: Int
-        get() = addingExerciseState.value?.color ?: 0
+        get() = exerciseSettingsState.value?.color ?: 0
 
     init {
-        _addingExerciseState.value = argument?.addingExerciseState ?: AddingExerciseState(
+        _exerciseSettingsState.value = argument?.exerciseSettingsState ?: ExerciseSettingsState(
             icon = resourcesRepository.icons().first(),
             color = resourcesRepository.colors().first(),
             measuredState = ExerciseMeasuredValueListState(ExerciseMeasuredValueModel.measuredStates)
@@ -41,25 +41,25 @@ class ExerciseDetailViewModel(
     }
 
     fun changeTitle(title: String) {
-        _addingExerciseState.value = _addingExerciseState.value?.withChangedTitle(title)
+        _exerciseSettingsState.value = _exerciseSettingsState.value?.withChangedTitle(title)
     }
 
     fun checkColor(color: Int) {
-        _addingExerciseState.value = _addingExerciseState.value?.withChangedColor(color)
+        _exerciseSettingsState.value = _exerciseSettingsState.value?.withChangedColor(color)
     }
 
     fun checkIcon(icon: Int) {
-        _addingExerciseState.value = _addingExerciseState.value?.withChangedIcon(icon)
+        _exerciseSettingsState.value = _exerciseSettingsState.value?.withChangedIcon(icon)
     }
 
     fun checkMeasuredState(newState: ExerciseMeasuredValueState) {
-        val measuredState = _addingExerciseState.value?.measuredState ?: return
+        val measuredState = _exerciseSettingsState.value?.measuredState ?: return
         val newMeasuredState = measuredState.withCheckedState(newState)
-        _addingExerciseState.value = _addingExerciseState.value?.withChangedMeasuredState(newMeasuredState)
+        _exerciseSettingsState.value = _exerciseSettingsState.value?.withChangedMeasuredState(newMeasuredState)
     }
 
     fun apply() {
-        val state = _addingExerciseState.value ?: return
+        val state = _exerciseSettingsState.value ?: return
         if (!state.is_valid) {
             _titleError.value = R.string.the_field_is_empty
         } else {

@@ -17,6 +17,7 @@ import ru.freeit.crazytraining.exercise.detail.ExerciseDetailFragment
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
+import ru.freeit.crazytraining.exercise.list.adapter.ExerciseEditButtonState
 import ru.freeit.crazytraining.exercise.list.adapter.ExerciseListAdapter
 
 class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
@@ -24,11 +25,34 @@ class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
     override val viewModelKClass = ExerciseListViewModel::class.java
     override fun viewModelConstructor(ctx: Context): ExerciseListViewModel {
         val coreSQLiteOpenHelper = (ctx.applicationContext as App).coreSQLiteOpenHelper
-        return ExerciseListViewModel(ExerciseListRepositoryImpl(
-            ExerciseDatabase(coreSQLiteOpenHelper),
-            ExerciseSetDatabase(coreSQLiteOpenHelper)
-        ))
+        return ExerciseListViewModel(
+            repository = ExerciseListRepositoryImpl(
+                ExerciseDatabase(coreSQLiteOpenHelper),
+                ExerciseSetDatabase(coreSQLiteOpenHelper)
+            ),
+            itemButtons = listOf(
+                ExerciseEditButtonState.Button(
+                    stringResource = R.string.edit,
+                    clickListener = { model -> navigator.push(ExerciseDetailFragment(model)) }
+                ),
+                ExerciseEditButtonState.Button(
+                    stringResource = R.string.remove,
+                    clickListener = { model ->
+                        viewModel.cache(model)
+                        navigator.show(
+                            CoreDialog(
+                                title = getString(R.string.remove_exercise),
+                                message = getString(R.string.remove_exercise_warning),
+                                buttons = CoreDialog.Buttons.OK_CANCEL
+                            )
+                        )
+                    }
+                )
+            )
+        )
     }
+
+    private val adapter = ExerciseListAdapter()
 
     override fun createView(context: Context, bundle: Bundle?): View {
         changeTitle(getString(R.string.exercises))
@@ -38,6 +62,7 @@ class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
         listView.clipToPadding = false
         listView.padding(top = context.dp(8), start = context.dp(16), end = context.dp(16), bottom = context.dp(64))
         listView.layoutParams(linearLayoutParams().matchWidth().height(0).weight(1f))
+        listView.adapter = adapter
 
         val trainingAddButton = CoreButton(context)
         trainingAddButton.setText(R.string.add_exercise)
@@ -56,18 +81,7 @@ class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
         }
 
         viewModel.exerciseListState.observe(viewLifecycleOwner) { listState ->
-            listView.adapter = ExerciseListAdapter(
-                items = listState.items,
-                editClickListener = { model -> navigator.push(ExerciseDetailFragment(model)) },
-                removeClickListener = { model ->
-                    viewModel.cache(model)
-                    navigator.show(CoreDialog(
-                        title = getString(R.string.remove_exercise),
-                        message = getString(R.string.remove_exercise_warning),
-                        buttons = CoreDialog.Buttons.OK_CANCEL)
-                    )
-                }
-            )
+            adapter.submitList(listState.items)
         }
 
         return listView

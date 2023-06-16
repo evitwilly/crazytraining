@@ -3,12 +3,8 @@ package ru.freeit.crazytraining.exercise.list.adapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.freeit.crazytraining.R
-import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
-class ExerciseEditButtonViewModel(
-    private val editClickListener: (ExerciseModel) -> Unit,
-    private val removeClickListener: (ExerciseModel) -> Unit
-) {
+class ExerciseEditButtonViewModel(private val buttons: List<ExerciseEditButtonState.Button>) {
 
     private val _state = MutableLiveData<ExerciseEditButtonState>()
     val state: LiveData<ExerciseEditButtonState> = _state
@@ -28,19 +24,21 @@ class ExerciseEditButtonViewModel(
         else
             R.drawable.ic_edit
 
-        val buttons = if (imageResource == R.drawable.ic_close) {
-            listOf(
-                ExerciseEditButtonState.Button(R.string.edit, editClickListener),
-                ExerciseEditButtonState.Button(R.string.remove, removeClickListener)
-            )
-        } else {
-            listOf()
-        }
+        val buttons = if (imageResource == R.drawable.ic_close) buttons else emptyList()
 
         _state.value = ExerciseEditButtonState(
             imageResource = imageResource,
             buttons = buttons
         )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null) return false
+        if (other !is ExerciseEditButtonViewModel) return false
+
+        return imageResource == other.imageResource
+    }
+
+    override fun hashCode() = imageResource
 
 }

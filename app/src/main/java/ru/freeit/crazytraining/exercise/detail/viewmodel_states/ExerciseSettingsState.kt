@@ -5,7 +5,7 @@ import android.widget.ImageView
 import ru.freeit.crazytraining.core.theming.extensions.dp
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
-class AddingExerciseState(
+class ExerciseSettingsState(
     val icon: Int,
     val color: Int,
     private val title: String = "",
@@ -24,10 +24,10 @@ class AddingExerciseState(
         )
     }
 
-    fun withChangedIcon(icon: Int) = AddingExerciseState(icon, color, title, measuredState)
-    fun withChangedColor(color: Int) = AddingExerciseState(icon, color, title, measuredState)
-    fun withChangedTitle(title: String) = AddingExerciseState(icon, color, title, measuredState)
-    fun withChangedMeasuredState(measuredState: ExerciseMeasuredValueListState) = AddingExerciseState(icon, color, title, measuredState)
+    fun withChangedIcon(icon: Int) = ExerciseSettingsState(icon, color, title, measuredState)
+    fun withChangedColor(color: Int) = ExerciseSettingsState(icon, color, title, measuredState)
+    fun withChangedTitle(title: String) = ExerciseSettingsState(icon, color, title, measuredState)
+    fun withChangedMeasuredState(measuredState: ExerciseMeasuredValueListState) = ExerciseSettingsState(icon, color, title, measuredState)
 
     fun bindImageView(imageView: ImageView) {
         imageView.setImageResource(icon)
@@ -40,7 +40,7 @@ class AddingExerciseState(
 
     override fun equals(other: Any?): Boolean {
         if (other == null) return false
-        if (other !is AddingExerciseState) return false
+        if (other !is ExerciseSettingsState) return false
         return icon == other.icon && color == other.color && title == other.title && measuredState == other.measuredState
     }
 
