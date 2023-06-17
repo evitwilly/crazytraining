@@ -31,7 +31,7 @@ internal class ExerciseViewModelDetailTest {
     @Test
     fun `test argument`() {
         val viewModel = ExerciseDetailViewModel(
-            argument = ExerciseModel(1, 2, "exercise 1", ExerciseMeasuredValueModel.QUANTITY, emptyList(), 1),
+            argument = ExerciseModel(1, 2, "exercise 1", ExerciseMeasuredValueModel.QUANTITY, 1),
             listRepository = ExerciseListRepositoryMock(),
             resourcesRepository = ExerciseResourcesRepositoryMock(mockData, mockData)
         )
@@ -96,7 +96,7 @@ internal class ExerciseViewModelDetailTest {
     fun `test apply button when editing existing exercise`() = runTest {
         val repository = ExerciseListRepositoryMock()
         val viewModel = ExerciseDetailViewModel(
-            argument = ExerciseModel(1, 2, "exercise", ExerciseMeasuredValueModel.DISTANCE, emptyList(), 1),
+            argument = ExerciseModel(1, 2, "exercise", ExerciseMeasuredValueModel.DISTANCE, 1),
             listRepository = repository,
             resourcesRepository = ExerciseResourcesRepositoryMock(mockData, mockData)
         )
@@ -104,7 +104,7 @@ internal class ExerciseViewModelDetailTest {
 
         viewModel.apply()
 
-        assertEquals(listOf(ExerciseModel(2, 2, "exercise", ExerciseMeasuredValueModel.DISTANCE, emptyList(), 1)), repository.exercises())
+        assertEquals(listOf(ExerciseModel(2, 2, "exercise", ExerciseMeasuredValueModel.DISTANCE, 1)), repository.exercises())
     }
 
 }

@@ -6,6 +6,8 @@ import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
+import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailState
+import ru.freeit.crazytraining.training.viewmodel_states.TrainingListState
 
 class ExerciseListRepositoryImpl(
     private val exerciseDatabase: ExerciseDatabase,
@@ -35,10 +37,11 @@ class ExerciseListRepositoryImpl(
     }
 
     override suspend fun exercisesWithSets() = withContext(Dispatchers.Default) {
-        exerciseDatabase.items().map { database ->
+        val detailStates = exerciseDatabase.items().map { database ->
             val sets = exerciseSetDatabase.itemsByExerciseId(database.id).map { it.model }
-            database.model.withSets(sets)
+            TrainingDetailState(database.model, sets)
         }
+        TrainingListState(detailStates)
     }
 
 }
