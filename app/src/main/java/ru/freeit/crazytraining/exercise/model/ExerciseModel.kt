@@ -21,7 +21,6 @@ class ExerciseModel(
     private val color: Int,
     val title: String = "",
     private val measuredValueModel: ExerciseMeasuredValueModel = ExerciseMeasuredValueModel.QUANTITY,
-    private val sets: List<ExerciseSetModel> = emptyList(),
     val id: Int = 0,
 ) : Parcelable {
 
@@ -67,8 +66,6 @@ class ExerciseModel(
             view.setText(unit)
         }
     }
-
-   fun withSets(sets: List<ExerciseSetModel>) = ExerciseModel(icon, color, title, measuredValueModel, sets)
 
    override fun equals(other: Any?): Boolean {
        if (other == null) return false

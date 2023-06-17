@@ -40,7 +40,7 @@ class ExerciseSetTableDb(
             put(column_exercise_id, exercise_id)
         }
 
-    fun cursorByExerciseId(db: SQLiteDatabase, id: Int) = cursor(db, "$exerciseId = ?", arrayOf(id.toString()))
+    fun cursorByExerciseId(db: SQLiteDatabase, id: Int) = cursor(db, "$column_id = ?", arrayOf(id.toString()))
 
     fun fromCursor(cursor: Cursor) =
         ExerciseSetTableDb(

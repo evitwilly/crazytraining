@@ -11,6 +11,7 @@ import ru.freeit.crazytraining.core.models.WeekdayModel
 import ru.freeit.crazytraining.core.repository.CalendarRepository
 import ru.freeit.crazytraining.core.rules.MainDispatcherRule
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
+import ru.freeit.crazytraining.training.viewmodel_states.TrainingTextState
 
 internal class TrainingViewModelTest {
 
@@ -20,13 +21,16 @@ internal class TrainingViewModelTest {
     @get:Rule
     val coroutineRule: TestRule = MainDispatcherRule()
 
-    class CalendarRepositoryMock(private val calendarVariable: Int) : CalendarRepository {
+    class CalendarRepositoryMock(
+        private val calendarVariable: Int,
+        private val date: String = ""
+    ) : CalendarRepository {
 
         override fun weekday(dateTime: Long): Int {
             return calendarVariable
         }
 
-        override fun weekdayMonthYearDateString(dateTime: Long): String = ""
+        override fun weekdayMonthYearDateString(dateTime: Long): String = date
 
         override fun timeStringFrom(timeMillis: Long): String = ""
 
@@ -34,7 +38,8 @@ internal class TrainingViewModelTest {
 
     @Test
     fun `test title when today is training`() {
-        val calendar = CalendarRepositoryMock(2)
+        val date = "Saturday, 3 June, 2023"
+        val calendar = CalendarRepositoryMock(2, date)
         val checkedWeekdaysRepository = CheckedWeekdaysRepository.Test(mutableListOf(
             WeekdayModel.MONDAY,
             WeekdayModel.WEDNESDAY,
@@ -44,7 +49,7 @@ internal class TrainingViewModelTest {
         val viewModel = TrainingViewModel(ExerciseListRepositoryMock(), calendar, checkedWeekdaysRepository)
         viewModel.updateState()
 
-        assertEquals(R.string.training, viewModel.titleState.value)
+        assertEquals(TrainingTextState(R.string.training, date), viewModel.textState.value)
     }
 
     @Test
@@ -59,7 +64,7 @@ internal class TrainingViewModelTest {
         val viewModel = TrainingViewModel(ExerciseListRepositoryMock(), calendar, checkedWeekdaysRepository)
         viewModel.updateState()
 
-        assertEquals(R.string.weekend, viewModel.titleState.value)
+        assertEquals(TrainingTextState(R.string.weekend, ""), viewModel.textState.value)
     }
 
 }
