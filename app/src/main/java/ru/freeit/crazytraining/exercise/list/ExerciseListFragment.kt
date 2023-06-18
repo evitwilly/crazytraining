@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
-import ru.freeit.crazytraining.core.navigation.dialogs.CoreDialog
+import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialog
 import ru.freeit.crazytraining.core.navigation.dialogs.CoreDialogFragmentResult
 import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
 import ru.freeit.crazytraining.core.theming.extensions.*
@@ -40,10 +40,10 @@ class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
                     clickListener = { model ->
                         viewModel.cache(model)
                         navigator.show(
-                            CoreDialog(
+                            ButtonsAlertDialog(
                                 title = getString(R.string.remove_exercise),
                                 message = getString(R.string.remove_exercise_warning),
-                                buttons = CoreDialog.Buttons.OK_CANCEL
+                                buttons = ButtonsAlertDialog.Buttons.OK_CANCEL
                             )
                         )
                     }

@@ -21,6 +21,7 @@ import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryIm
 import ru.freeit.crazytraining.settings.SettingsFragment
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.training.adapter.TrainingListAdapter
+import ru.freeit.crazytraining.training.dialogs.MeasuredValuesDialog
 import ru.freeit.crazytraining.training.view.TrainingDateTextView
 
 class TrainingFragment : BaseFragment<TrainingViewModel>() {
@@ -39,7 +40,9 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
         )
     }
 
-    private val adapter = TrainingListAdapter()
+    private val adapter = TrainingListAdapter(
+        exerciseSetListener = { navigator.show(MeasuredValuesDialog()) }
+    )
 
     override fun createView(context: Context, bundle: Bundle?): View {
         val contentView = CoreLinearLayout(context)

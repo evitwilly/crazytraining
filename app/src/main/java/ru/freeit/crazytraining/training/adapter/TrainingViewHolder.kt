@@ -6,26 +6,29 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.theming.colors.ColorType
 import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
+import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailState
 
 class TrainingViewHolder(
     view: View,
     private val iconView: ImageView,
-    private val titleView: TextView
+    private val titleView: CoreTextView,
+    private val buttonView: CoreButton
 ) : RecyclerView.ViewHolder(view) {
 
-    fun bind(state: TrainingDetailState) {
+    fun bind(state: TrainingDetailState, listener: () -> Unit) {
         with(state.model) {
             bindImage(iconView)
             bindTitle(titleView)
         }
+        buttonView.setOnClickListener { listener.invoke() }
     }
 
     companion object {
@@ -59,7 +62,16 @@ class TrainingViewHolder(
                 .gravity(Gravity.TOP))
             headerFrameView.addView(titleView)
 
-            return TrainingViewHolder(contentLinearView, iconView, titleView)
+            val buttonView = CoreButton(context)
+            buttonView.padding(horizontal = context.dp(8), vertical = context.dp(2))
+            buttonView.changeStartIcon(R.drawable.ic_add, 16)
+            buttonView.setText(R.string.set)
+            buttonView.layoutParams(linearLayoutParams().wrap().gravity(Gravity.END)
+                .marginTop(context.dp(8))
+                .marginEnd(context.dp(12)))
+            contentLinearView.addView(buttonView)
+
+            return TrainingViewHolder(contentLinearView, iconView, titleView, buttonView)
         }
     }
 

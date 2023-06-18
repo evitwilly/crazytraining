@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailState
 
-class TrainingListAdapter : ListAdapter<TrainingDetailState, TrainingViewHolder>(
+class TrainingListAdapter(
+    private val exerciseSetListener: () -> Unit
+) : ListAdapter<TrainingDetailState, TrainingViewHolder>(
     object: DiffUtil.ItemCallback<TrainingDetailState>() {
         override fun areItemsTheSame(oldItem: TrainingDetailState, newItem: TrainingDetailState) = true
         override fun areContentsTheSame(oldItem: TrainingDetailState, newItem: TrainingDetailState) = oldItem == newItem
@@ -15,7 +17,7 @@ class TrainingListAdapter : ListAdapter<TrainingDetailState, TrainingViewHolder>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = TrainingViewHolder.from(parent)
 
     override fun onBindViewHolder(holder: TrainingViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), exerciseSetListener)
     }
 
 }
