@@ -3,6 +3,7 @@ package ru.freeit.crazytraining.core.theming.view
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
+import android.text.InputType
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.isVisible
@@ -76,6 +77,10 @@ class CoreEditText @JvmOverloads constructor(
 
     fun singleLine() {
         editView.isSingleLine = true
+    }
+
+    fun numbered() {
+        editView.inputType = InputType.TYPE_CLASS_NUMBER
     }
 
     fun changeText(text: String) {
