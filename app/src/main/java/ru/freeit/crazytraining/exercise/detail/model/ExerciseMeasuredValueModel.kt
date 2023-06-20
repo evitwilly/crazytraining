@@ -3,7 +3,7 @@ package ru.freeit.crazytraining.exercise.detail.model
 import androidx.annotation.StringRes
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueState
-import ru.freeit.crazytraining.training.dialogs.MeasuredValuesState
+import ru.freeit.crazytraining.training.dialogs.viewmodel_states.MeasuredValuesState
 
 enum class ExerciseMeasuredValueModel(
     @StringRes val title: Int,

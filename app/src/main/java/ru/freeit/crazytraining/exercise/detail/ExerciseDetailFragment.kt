@@ -114,11 +114,11 @@ class ExerciseDetailFragment() : BaseFragment<ExerciseDetailViewModel>() {
         addFloatingView(button)
 
         viewModel.titleError.observe(viewLifecycleOwner) { error ->
-            titleEditView.error = getString(error)
+            titleEditView.error = CoreEditText.Error.Text(getString(error))
         }
 
         viewModel.exerciseSettingsState.observe(viewLifecycleOwner) { state ->
-            titleEditView.error = ""
+            titleEditView.error = CoreEditText.Error.Empty
             with(state) {
                 bindImageView(iconImageView)
                 measuredState.bindView(measuredValuesListView, viewModel::checkMeasuredState)
