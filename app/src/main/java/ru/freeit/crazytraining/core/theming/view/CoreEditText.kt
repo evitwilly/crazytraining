@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
 import android.text.InputType
+import android.text.TextWatcher
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.isVisible
@@ -18,7 +19,9 @@ import ru.freeit.crazytraining.core.theming.text.TextType
 
 class CoreEditText @JvmOverloads constructor(
     ctx: Context,
-    private val textStyle: TextType = TextType.Body1
+    private val textStyle: TextType = TextType.Body1,
+    private val horizontalPadding: Int = 2,
+    private val verticalPadding: Int = 8
 ) : CoreLinearLayout(ctx) {
 
     private val typefaceManager = (context.applicationContext as App).typefaceManager
@@ -26,15 +29,28 @@ class CoreEditText @JvmOverloads constructor(
     private val editView = AppCompatEditText(context)
     private val errorView = CoreTextView(context, textColor = colorError, textStyle = TextType.Caption2)
 
-    var error: CharSequence = ""
+    val text: String
+        get() = editView.text.toString()
+
+    var error: Error = Error.Empty
         set(value) {
-            errorView.text = value
-            errorView.isVisible = value.isNotBlank()
-            if (value.isNotBlank()) {
-                editBackgroundByColor(themeManager.selected_theme.colorsStyle.color(colorError))
-            } else {
-                editBackgroundByColor(themeManager.selected_theme.colorsStyle.color(primaryColor))
+            when (value) {
+                is Error.Field -> {
+                    editBackgroundByColor(themeManager.selected_theme.colorsStyle.color(colorError))
+                    errorView.isVisible = false
+                }
+                is Error.Text -> {
+                    errorView.isVisible = true
+                    errorView.text = value.error
+                    editBackgroundByColor(themeManager.selected_theme.colorsStyle.color(colorError))
+                }
+                is Error.Empty -> {
+                    errorView.text = ""
+                    errorView.isVisible = false
+                    editBackgroundByColor(themeManager.selected_theme.colorsStyle.color(primaryColor))
+                }
             }
+
             field = value
         }
 
@@ -48,8 +64,7 @@ class CoreEditText @JvmOverloads constructor(
         addView(editView)
 
         errorView.isVisible = false
-        errorView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
-            .marginTop(context.dp(8)))
+        errorView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginTop(context.dp(8)))
         addView(errorView)
     }
 
@@ -87,6 +102,25 @@ class CoreEditText @JvmOverloads constructor(
         editView.setText(text)
     }
 
+    fun changeHint(text: String) {
+        editView.hint = text
+    }
+
+    fun addTextWatcher(watcher: TextWatcher) {
+        editView.addTextChangedListener(watcher)
+    }
+
+    fun removeTextWatcher(watcher: TextWatcher) {
+        editView.removeTextChangedListener(watcher)
+    }
+
+    fun moveCursorToEnd() {
+        val string = editView.text.toString()
+        if (string.isNotEmpty()) {
+            editView.setSelection(string.length)
+        }
+    }
+
     fun changeHint(@StringRes hint: Int) {
         editView.setHint(hint)
     }
@@ -103,7 +137,17 @@ class CoreEditText @JvmOverloads constructor(
             -context.dp(2),
             0
         )
-        editView.padding(horizontal = context.dp(2), vertical = context.dp(8))
+        editView.padding(horizontal = context.dp(horizontalPadding), vertical = context.dp(verticalPadding))
+    }
+
+    sealed interface Error {
+
+        object Empty : Error
+
+        object Field : Error
+
+        class Text(val error: String) : Error
+
     }
 
 }

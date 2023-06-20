@@ -48,8 +48,9 @@
     <string name="distance_dialog_title">How far did you run?</string>
     <string name="time_dialog_title">How long did it last?</string>
     <string name="add">Add</string>
-    <string name="km">km</string>
-    <string name="m">m</string>
+    <string name="kilometers">kilometers</string>
+    <string name="meters">meters</string>
     <string name="hours">hours</string>
     <string name="minutes">minutes</string>
+    <string name="both_fields_are_empty">both fields are empty</string>
 </resources>

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.freeit.crazytraining.core.viewmodel.SingleLiveEvent
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.training.dialogs.viewmodel_states.MeasuredValuesState
 
 class MeasuredValuesViewModel(argument: ExerciseMeasuredValueModel) : ViewModel() {
 
@@ -25,7 +26,9 @@ class MeasuredValuesViewModel(argument: ExerciseMeasuredValueModel) : ViewModel(
     }
 
     fun apply() {
-        _amountState.value = cachedAmount
+        if (cachedAmount > 0) {
+            _amountState.value = cachedAmount
+        }
     }
 
 }

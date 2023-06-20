@@ -41,7 +41,7 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
     }
 
     private val adapter = TrainingListAdapter(
-        exerciseSetListener = { navigator.show(MeasuredValuesDialog()) }
+        exerciseSetListener = { model -> navigator.show(MeasuredValuesDialog(model.measuredValueModel)) }
     )
 
     override fun createView(context: Context, bundle: Bundle?): View {

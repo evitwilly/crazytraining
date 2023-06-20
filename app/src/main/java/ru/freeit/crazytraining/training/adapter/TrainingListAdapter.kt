@@ -3,11 +3,10 @@ package ru.freeit.crazytraining.training.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailState
 
-class TrainingListAdapter(
-    private val exerciseSetListener: () -> Unit
-) : ListAdapter<TrainingDetailState, TrainingViewHolder>(
+class TrainingListAdapter(private val exerciseSetListener: (ExerciseModel) -> Unit) : ListAdapter<TrainingDetailState, TrainingViewHolder>(
     object: DiffUtil.ItemCallback<TrainingDetailState>() {
         override fun areItemsTheSame(oldItem: TrainingDetailState, newItem: TrainingDetailState) = true
         override fun areContentsTheSame(oldItem: TrainingDetailState, newItem: TrainingDetailState) = oldItem == newItem

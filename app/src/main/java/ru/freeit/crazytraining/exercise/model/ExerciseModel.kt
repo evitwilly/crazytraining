@@ -20,7 +20,7 @@ class ExerciseModel(
     @ColorInt
     private val color: Int,
     val title: String = "",
-    private val measuredValueModel: ExerciseMeasuredValueModel = ExerciseMeasuredValueModel.QUANTITY,
+    val measuredValueModel: ExerciseMeasuredValueModel = ExerciseMeasuredValueModel.QUANTITY,
     val id: Int = 0,
 ) : Parcelable {
 
