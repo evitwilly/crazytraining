@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialog
-import ru.freeit.crazytraining.core.navigation.dialogs.CoreDialogFragmentResult
+import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialogResult
 import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
 import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.view.CoreButton
@@ -75,7 +75,7 @@ class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
             .marginBottom(context.dp(16)))
         addFloatingView(trainingAddButton)
 
-        val fragmentDialogResult = CoreDialogFragmentResult(parentFragmentManager)
+        val fragmentDialogResult = ButtonsAlertDialogResult(parentFragmentManager)
         fragmentDialogResult.onOkClick(viewLifecycleOwner) {
             viewModel.remove()
         }

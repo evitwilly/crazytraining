@@ -9,5 +9,6 @@ interface ExerciseListRepository {
     suspend fun removeExercise(model: ExerciseModel)
     suspend fun exercises() : List<ExerciseModel>
     suspend fun saveExerciseSet(model: ExerciseSetModel)
+    suspend fun removeExerciseSet(model: ExerciseSetModel)
     suspend fun exercisesWithSets() : TrainingListState
 }

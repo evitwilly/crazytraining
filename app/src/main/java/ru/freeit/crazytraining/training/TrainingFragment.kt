@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
+import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialog
+import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialogResult
 import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
 import ru.freeit.crazytraining.core.repository.CalendarRepositoryImpl
 import ru.freeit.crazytraining.core.theming.extensions.dp
@@ -22,6 +24,7 @@ import ru.freeit.crazytraining.settings.SettingsFragment
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.training.adapter.TrainingListAdapter
 import ru.freeit.crazytraining.training.dialogs.MeasuredValuesDialog
+import ru.freeit.crazytraining.training.dialogs.MeasuredValuesDialogResult
 import ru.freeit.crazytraining.training.view.TrainingDateTextView
 
 class TrainingFragment : BaseFragment<TrainingViewModel>() {
@@ -41,7 +44,18 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
     }
 
     private val adapter = TrainingListAdapter(
-        exerciseSetListener = { model -> navigator.show(MeasuredValuesDialog(model.measuredValueModel)) }
+        addSetListener = { model ->
+            viewModel.cacheExercise(model)
+            navigator.show(MeasuredValuesDialog(model.measuredValueModel))
+        },
+        removeSetListener = { model ->
+            viewModel.cacheExerciseSet(model)
+            navigator.show(ButtonsAlertDialog(
+                title = "",
+                message = getString(R.string.do_you_really_want_to_remove_item),
+                buttons = ButtonsAlertDialog.Buttons.OK_CANCEL
+            ))
+        }
     )
 
     override fun createView(context: Context, bundle: Bundle?): View {
@@ -72,6 +86,16 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
         }
 
         viewModel.trainingState.observe(viewLifecycleOwner) { state -> adapter.submitList(state.items) }
+
+        val fragmentAddSetResult = MeasuredValuesDialogResult(parentFragmentManager)
+        fragmentAddSetResult.onResult(viewLifecycleOwner) { amount ->
+            viewModel.addSet(amount)
+        }
+
+        val fragmentRemoveSetResult = ButtonsAlertDialogResult(parentFragmentManager)
+        fragmentRemoveSetResult.onOkClick(viewLifecycleOwner) {
+            viewModel.removeSet()
+        }
 
         return contentView
     }

@@ -15,21 +15,26 @@ import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
+import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailState
 
 class TrainingViewHolder(
     view: View,
+    private val exerciseSetsLayoutView: CoreLinearLayout,
     private val iconView: ImageView,
     private val titleView: CoreTextView,
     private val buttonView: CoreButton
 ) : RecyclerView.ViewHolder(view) {
 
-    fun bind(state: TrainingDetailState, listener: (ExerciseModel) -> Unit) {
+    fun bind(state: TrainingDetailState, addListener: (ExerciseModel) -> Unit, removeListener: (ExerciseSetModel) -> Unit) {
         with(state.model) {
             bindImage(iconView)
             bindTitle(titleView)
         }
-        buttonView.setOnClickListener { listener.invoke(state.model) }
+
+        state.bindSetsViews(exerciseSetsLayoutView, removeListener)
+
+        buttonView.setOnClickListener { addListener.invoke(state.model) }
     }
 
     companion object {
@@ -63,6 +68,12 @@ class TrainingViewHolder(
                 .gravity(Gravity.TOP))
             headerFrameView.addView(titleView)
 
+            val exerciseSetsLayoutView = CoreLinearLayout(context, backgroundColor = ColorType.transparent)
+            exerciseSetsLayoutView.orientation = LinearLayout.VERTICAL
+            exerciseSetsLayoutView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+                .marginStart(context.dp(12)).marginEnd(context.dp(12)).marginTop(context.dp(8)))
+            contentLinearView.addView(exerciseSetsLayoutView)
+
             val buttonView = CoreButton(context)
             buttonView.padding(horizontal = context.dp(8), vertical = context.dp(2))
             buttonView.changeStartIcon(R.drawable.ic_add, 16)
@@ -72,7 +83,7 @@ class TrainingViewHolder(
                 .marginEnd(context.dp(12)))
             contentLinearView.addView(buttonView)
 
-            return TrainingViewHolder(contentLinearView, iconView, titleView, buttonView)
+            return TrainingViewHolder(contentLinearView, exerciseSetsLayoutView, iconView, titleView, buttonView)
         }
     }
 

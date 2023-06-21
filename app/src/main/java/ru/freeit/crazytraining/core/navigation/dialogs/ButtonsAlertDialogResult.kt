@@ -4,7 +4,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 
-class CoreDialogFragmentResult(private val fragmentManager: FragmentManager) {
+class ButtonsAlertDialogResult(private val fragmentManager: FragmentManager) {
 
     fun okClick() {
         fragmentManager.setFragmentResult(request_key, bundleOf(ok_key to 1))
