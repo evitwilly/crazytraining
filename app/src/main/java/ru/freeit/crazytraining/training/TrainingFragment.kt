@@ -81,8 +81,8 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
         contentView.addView(listView)
 
         viewModel.textState.observe(viewLifecycleOwner) { state ->
-            changeTitle(getString(state.title))
-            dateView.setText(state.title)
+            changeTitle(state.title(context))
+            state.date(dateView)
         }
 
         viewModel.trainingState.observe(viewLifecycleOwner) { state -> adapter.submitList(state.items) }

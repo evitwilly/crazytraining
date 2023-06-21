@@ -56,6 +56,6 @@
     <string name="do_you_really_want_to_remove_item">Do you really want to remove the item?</string>
     <plurals name="set_title">
         <item quantity="one">%d set - %d time</item>
-        <item quantity="many">%d set - %d times</item>
+        <item quantity="other">%d set - %d times</item>
     </plurals>
 </resources>
