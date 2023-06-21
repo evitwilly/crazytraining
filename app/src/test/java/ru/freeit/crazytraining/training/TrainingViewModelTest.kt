@@ -32,7 +32,11 @@ internal class TrainingViewModelTest {
 
         override fun weekdayMonthYearDateString(dateTime: Long): String = date
 
-        override fun timeStringFrom(timeMillis: Long): String = ""
+        override fun timeStringFrom(millis: Long): String = ""
+
+        override fun dateStringFrom(millis: Long): String = ""
+
+        override fun dateTimeMillis(): Long = 0
 
     }
 

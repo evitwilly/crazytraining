@@ -62,6 +62,17 @@ class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
     private fun drawState(theme: CoreTheme) {
         val radius = theme.cornerRadiusStyle.style(context, CornerRadiusType.medium)
         val primaryColor = theme.colorsStyle.color(ColorType.primaryColor)
+
+        val color = if (checked) {
+            ColorType.colorOnPrimary
+        } else {
+            ColorType.primaryTextColor
+        }
+
+        titleView.changeTextColor(color)
+        contentView.changeTextColor(color)
+        measuredView.changeTextColor(color)
+
         val gradientDrawable = if (checked) {
             GradientDrawable().apply {
                 cornerRadius = radius

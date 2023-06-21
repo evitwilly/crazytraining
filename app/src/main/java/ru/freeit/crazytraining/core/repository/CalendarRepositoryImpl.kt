@@ -17,12 +17,15 @@ class CalendarRepositoryImpl : CalendarRepository {
         return weekdayMonthYearSimpleDateFormat.format(Date())
     }
 
-    override fun timeStringFrom(timeMillis: Long): String {
-        checkLocale {  locale -> hourMinutesSimpleDateFormat =
-            SimpleDateFormat(hourMinutesFormat, locale)
-        }
-        return hourMinutesSimpleDateFormat.format(timeMillis)
+    override fun timeStringFrom(millis: Long): String {
+        return hourMinutesSimpleDateFormat.format(millis)
     }
+
+    override fun dateStringFrom(millis: Long): String {
+        return dateSimpleDateFormat.format(millis)
+    }
+
+    override fun dateTimeMillis(): Long = System.currentTimeMillis()
 
     private fun checkLocale(callback: (Locale) -> Unit) {
         val newLocale = Locale.getDefault()
@@ -34,12 +37,15 @@ class CalendarRepositoryImpl : CalendarRepository {
 
     private companion object {
         const val weekdayMonthYearFormat = "EEEE\ndd MMM, yyyy"
+        const val dateFormat = "dd.MM.yyyy"
         const val hourMinutesFormat = "HH:mm"
 
         val calendar = Calendar.getInstance()
         var locale = Locale.getDefault()
         var weekdayMonthYearSimpleDateFormat = SimpleDateFormat(weekdayMonthYearFormat, locale)
-        var hourMinutesSimpleDateFormat = SimpleDateFormat(hourMinutesFormat, locale)
+
+        val hourMinutesSimpleDateFormat = SimpleDateFormat(hourMinutesFormat, locale)
+        val dateSimpleDateFormat = SimpleDateFormat(dateFormat, locale)
     }
 
 }

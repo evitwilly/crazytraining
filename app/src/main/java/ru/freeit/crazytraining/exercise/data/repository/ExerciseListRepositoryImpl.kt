@@ -36,9 +36,13 @@ class ExerciseListRepositoryImpl(
         exerciseSetDatabase.save(model.database)
     }
 
+    override suspend fun removeExerciseSet(model: ExerciseSetModel) = withContext(Dispatchers.Default) {
+        exerciseSetDatabase.delete(model.database)
+    }
+
     override suspend fun exercisesWithSets() = withContext(Dispatchers.Default) {
         val detailStates = exerciseDatabase.items().map { database ->
-            val sets = exerciseSetDatabase.itemsByExerciseId(database.id).map { it.model }
+            val sets = exerciseSetDatabase.itemsByExerciseId(database.id).map { it.model(database.id) }
             TrainingDetailState(database.model, sets)
         }
         TrainingListState(detailStates)

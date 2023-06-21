@@ -56,7 +56,7 @@ class ButtonsAlertDialog() : CoreDialog() {
         buttonsView.orientation = LinearLayout.HORIZONTAL
         contentView.addView(buttonsView)
 
-        val fragmentResult = CoreDialogFragmentResult(parentFragmentManager)
+        val fragmentResult = ButtonsAlertDialogResult(parentFragmentManager)
 
         fun createButton(stringResource: Int): CoreButton {
             val buttonView = CoreButton(context)
