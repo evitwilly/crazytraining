@@ -1,6 +1,17 @@
 package ru.freeit.crazytraining.training.viewmodel_states
 
-class TrainingTextState(val title: Int, val date: String) {
+import android.content.Context
+import android.widget.TextView
+
+class TrainingTextState(
+    private val title: Int,
+    private val date: String
+) {
+
+    fun title(ctx: Context) = ctx.getString(title)
+    fun date(view: TextView) {
+        view.text = date
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other == null) return false
