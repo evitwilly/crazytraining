@@ -6,9 +6,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import ru.freeit.crazytraining.R
+import ru.freeit.crazytraining.core.mocks.CalendarRepositoryMock
 import ru.freeit.crazytraining.core.mocks.ExerciseListRepositoryMock
 import ru.freeit.crazytraining.core.models.WeekdayModel
-import ru.freeit.crazytraining.core.repository.CalendarRepository
 import ru.freeit.crazytraining.core.rules.MainDispatcherRule
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingTextState
@@ -20,25 +20,6 @@ internal class TrainingViewModelTest {
 
     @get:Rule
     val coroutineRule: TestRule = MainDispatcherRule()
-
-    class CalendarRepositoryMock(
-        private val calendarVariable: Int,
-        private val date: String = ""
-    ) : CalendarRepository {
-
-        override fun weekday(dateTime: Long): Int {
-            return calendarVariable
-        }
-
-        override fun weekdayMonthYearDateString(dateTime: Long): String = date
-
-        override fun timeStringFrom(millis: Long): String = ""
-
-        override fun dateStringFrom(millis: Long): String = ""
-
-        override fun dateTimeMillis(): Long = 0
-
-    }
 
     @Test
     fun `test title when today is training`() {

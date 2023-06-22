@@ -12,6 +12,7 @@ enum class CoreTheme(
         title3 = TypefaceStyle.BOLD to 17f,
         body1 = TypefaceStyle.REGULAR to 17f,
         body2 = TypefaceStyle.MEDIUM to 16f,
+        body3 = TypefaceStyle.REGULAR to 24f,
         caption1 = TypefaceStyle.SEMI_BOLD to 17f,
         caption2 = TypefaceStyle.REGULAR to 13f
     ),

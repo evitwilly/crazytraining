@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.theming.colors.ColorType
 import ru.freeit.crazytraining.core.theming.extensions.dp
@@ -34,13 +35,13 @@ class ButtonsAlertDialog() : CoreDialog() {
             backgroundColor = ColorType.secondaryBackgroundColor
         )
         contentView.clipChildren = true
+        contentView.padding(top = context.dp(12))
         contentView.orientation = LinearLayout.VERTICAL
 
         val titleView = CoreTextView(context, textStyle = TextType.Title2)
         titleView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
             .marginStart(context.dp(16))
-            .marginEnd(context.dp(16))
-            .marginTop(context.dp(12)))
+            .marginEnd(context.dp(16)))
         contentView.addView(titleView)
 
         val descView = CoreTextView(context)
@@ -70,6 +71,7 @@ class ButtonsAlertDialog() : CoreDialog() {
 
         val title = args?.getString(title_key).orEmpty()
         titleView.text = title
+        titleView.isVisible = title.isNotBlank()
 
         val message = args?.getString(message_key).orEmpty()
         descView.text = message

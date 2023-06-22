@@ -5,7 +5,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import ru.freeit.crazytraining.core.mocks.CalendarRepositoryMock
+import ru.freeit.crazytraining.core.mocks.ExerciseListRepositoryMock
 import ru.freeit.crazytraining.core.models.WeekdayModel
+import ru.freeit.crazytraining.core.rules.MainDispatcherRule
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayListState
 import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayState
@@ -18,9 +21,16 @@ internal class SettingsViewModelTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
+    @get:Rule
+    val coroutineRule: TestRule = MainDispatcherRule()
+
     @Test
     fun `test when cache is empty`() {
-        val viewModel = SettingsViewModel(CheckedWeekdaysRepository.Test())
+        val viewModel = SettingsViewModel(
+            CheckedWeekdaysRepository.Test(),
+            CalendarRepositoryMock(),
+            ExerciseListRepositoryMock()
+        )
 
         val expected = WeekdayListState(
             listOf(
@@ -43,7 +53,11 @@ internal class SettingsViewModelTest {
             WeekdayModel.TUESDAY,
             WeekdayModel.SUNDAY
         ))
-        val viewModel = SettingsViewModel(repository)
+        val viewModel = SettingsViewModel(
+            repository,
+            CalendarRepositoryMock(),
+            ExerciseListRepositoryMock()
+        )
 
         val expected = WeekdayListState(
             listOf(
@@ -62,7 +76,11 @@ internal class SettingsViewModelTest {
     @Test
     fun `test when weekday state has been changed`() {
         val repository = CheckedWeekdaysRepository.Test()
-        val viewModel = SettingsViewModel(repository)
+        val viewModel = SettingsViewModel(
+            repository,
+            CalendarRepositoryMock(),
+            ExerciseListRepositoryMock()
+        )
 
         viewModel.changeWeekdayState(WeekdayState(WeekdayModel.TUESDAY, true))
         viewModel.changeWeekdayState(WeekdayState(WeekdayModel.THURSDAY, true))

@@ -10,8 +10,19 @@ class ExerciseSetDatabase(db: CoreSQLiteOpenHelper) : CoreDatabase<ExerciseSetTa
 
     override fun item(cursor: Cursor) = ExerciseSetTableDb().fromCursor(cursor)
 
-    fun itemsByExerciseId(id: Int) : List<ExerciseSetTableDb> {
-        val cursor = defaultItem.cursorByExerciseId(sqliteDb, id)
+    fun deleteByDate(date: String) = defaultItem.deleteByDate(sqliteDb, date)
+
+    fun itemsByDate(date: String) : List<ExerciseSetTableDb> {
+        val cursor = defaultItem.cursorByDate(sqliteDb, date)
+        val list = mutableListOf<ExerciseSetTableDb>()
+        while (cursor.moveToNext()) {
+            list.add(item(cursor))
+        }
+        return list
+    }
+
+    fun itemsByExerciseId(id: Int, date: String) : List<ExerciseSetTableDb> {
+        val cursor = defaultItem.cursorByExerciseId(sqliteDb, id, date)
         val list = mutableListOf<ExerciseSetTableDb>()
         while (cursor.moveToNext()) {
             list.add(item(cursor))

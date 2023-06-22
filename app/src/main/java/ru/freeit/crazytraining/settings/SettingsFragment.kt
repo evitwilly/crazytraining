@@ -6,7 +6,10 @@ import android.view.View
 import android.widget.LinearLayout
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
+import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialog
+import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialogResult
 import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
+import ru.freeit.crazytraining.core.repository.CalendarRepositoryImpl
 import ru.freeit.crazytraining.core.theming.extensions.dp
 import ru.freeit.crazytraining.core.theming.extensions.layoutParams
 import ru.freeit.crazytraining.core.theming.extensions.linearLayoutParams
@@ -14,6 +17,9 @@ import ru.freeit.crazytraining.core.theming.extensions.padding
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.core.theming.view.FlowLayout
+import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
+import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
+import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.settings.view.ThemeSwitchView
 
@@ -21,8 +27,17 @@ class SettingsFragment : BaseFragment<SettingsViewModel>() {
 
     override val viewModelKClass: Class<SettingsViewModel> = SettingsViewModel::class.java
     override fun viewModelConstructor(ctx: Context): SettingsViewModel {
-        val simpleDataStorage = (ctx.applicationContext as App).persistenceSimpleDataStorage
-        return SettingsViewModel(CheckedWeekdaysRepository.Base(simpleDataStorage))
+        val app = ctx.applicationContext as App
+        val simpleDataStorage = app.persistenceSimpleDataStorage
+        val coreSQLiteOpenHelper = app.coreSQLiteOpenHelper
+        return SettingsViewModel(
+            CheckedWeekdaysRepository.Base(simpleDataStorage),
+            CalendarRepositoryImpl(),
+            ExerciseListRepositoryImpl(
+                ExerciseDatabase(coreSQLiteOpenHelper),
+                ExerciseSetDatabase(coreSQLiteOpenHelper)
+            )
+        )
     }
 
     override fun createView(context: Context, bundle: Bundle?): View {
@@ -54,8 +69,21 @@ class SettingsFragment : BaseFragment<SettingsViewModel>() {
         weekdaysLayoutView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginTop(context.dp(8)))
         contentView.addView(weekdaysLayoutView)
 
+        val fragmentResult = ButtonsAlertDialogResult(parentFragmentManager)
+        fragmentResult.onOkClick(viewLifecycleOwner) {
+            viewModel.dialogOkClick()
+        }
+
         viewModel.state.observe(viewLifecycleOwner) { state ->
             state.bindView(weekdaysLayoutView, viewModel::changeWeekdayState)
+        }
+
+        viewModel.acceptDialogState.observe(viewLifecycleOwner) { _ ->
+            navigator.show(ButtonsAlertDialog(
+                title = "",
+                message = getString(R.string.training_cancel_title),
+                buttons = ButtonsAlertDialog.Buttons.OK_CANCEL
+            ))
         }
 
         return contentView

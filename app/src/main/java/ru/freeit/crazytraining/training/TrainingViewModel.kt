@@ -13,6 +13,11 @@ import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingListState
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingTextState
 
+sealed interface TrainingWeekendState {
+    object Training : TrainingWeekendState
+    object Weekend : TrainingWeekendState
+}
+
 class TrainingViewModel(
     private val exerciseListRepository: ExerciseListRepository,
     private val calendarRepository: CalendarRepository,
@@ -24,6 +29,9 @@ class TrainingViewModel(
 
     private val _trainingState = MutableLiveData<TrainingListState>()
     val trainingState: LiveData<TrainingListState> = _trainingState
+
+    private val _weekdayState = MutableLiveData<TrainingWeekendState>()
+    val weekdayState: LiveData<TrainingWeekendState> = _weekdayState
 
     private var exerciseModel: ExerciseModel? = null
 
@@ -67,8 +75,11 @@ class TrainingViewModel(
             if (isTodayTraining) R.string.training else R.string.weekend,
             calendarRepository.weekdayMonthYearDateString()
         )
+        _weekdayState.value = if (isTodayTraining) TrainingWeekendState.Training else TrainingWeekendState.Weekend
         uiScope.launch {
-            _trainingState.value = exerciseListRepository.exercisesWithSets()
+            if (isTodayTraining) {
+                _trainingState.value = exerciseListRepository.exercisesWithSetsByDate(calendarRepository.dateStringFrom())
+            }
         }
     }
 
