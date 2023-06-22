@@ -32,6 +32,10 @@ class ExerciseListRepositoryMock(params: List<ExerciseModel> = emptyList()) : Ex
 
     override suspend fun removeExerciseSet(model: ExerciseSetModel) {}
 
-    override suspend fun exercisesWithSets(): TrainingListState = TrainingListState(emptyList())
+    override suspend fun removeExerciseSetsByDate(date: String) {}
+
+    override suspend fun exerciseSetsByDate(date: String) = emptyList<ExerciseSetModel>()
+
+    override suspend fun exercisesWithSetsByDate(date: String) = TrainingListState(emptyList())
 
 }

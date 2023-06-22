@@ -10,5 +10,7 @@ interface ExerciseListRepository {
     suspend fun exercises() : List<ExerciseModel>
     suspend fun saveExerciseSet(model: ExerciseSetModel)
     suspend fun removeExerciseSet(model: ExerciseSetModel)
-    suspend fun exercisesWithSets() : TrainingListState
+    suspend fun exerciseSetsByDate(date: String): List<ExerciseSetModel>
+    suspend fun removeExerciseSetsByDate(date: String)
+    suspend fun exercisesWithSetsByDate(date: String) : TrainingListState
 }

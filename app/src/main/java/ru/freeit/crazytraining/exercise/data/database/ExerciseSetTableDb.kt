@@ -18,11 +18,11 @@ class ExerciseSetTableDb(
     id: Int = 0,
 ): TableDb(id) {
 
-    fun model(exerciseId: Int) = ExerciseSetModel(
+    fun model() = ExerciseSetModel(
         id = id,
         amount = amount,
         millis = millis,
-        exerciseId = exerciseId,
+        exerciseId = exercise_id,
         measuredValueModel = ExerciseMeasuredValueModel.values()[measuredValueModel],
         dateString = dateString,
         timeString = timeString
@@ -49,7 +49,10 @@ class ExerciseSetTableDb(
             put(column_time_string, timeString)
         }
 
-    fun cursorByExerciseId(db: SQLiteDatabase, exercise_id: Int) = cursor(db, "$column_exercise_id = ?", arrayOf(exercise_id.toString()))
+    fun cursorByExerciseId(db: SQLiteDatabase, exercise_id: Int, date: String) = cursor(db, "$column_exercise_id = ? and $column_date_string = ?", arrayOf(exercise_id.toString(), date))
+    fun cursorByDate(db: SQLiteDatabase, date: String) = cursor(db, "$column_date_string = ?", arrayOf(date))
+
+    fun deleteByDate(db: SQLiteDatabase, date: String) = db.delete(name, "$column_date_string = ?", arrayOf(date))
 
     fun fromCursor(cursor: Cursor) =
         ExerciseSetTableDb(
