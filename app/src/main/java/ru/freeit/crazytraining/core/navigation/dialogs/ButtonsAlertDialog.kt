@@ -7,10 +7,10 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.theming.colors.ColorType
-import ru.freeit.crazytraining.core.theming.extensions.dp
-import ru.freeit.crazytraining.core.theming.extensions.layoutParams
-import ru.freeit.crazytraining.core.theming.extensions.linearLayoutParams
-import ru.freeit.crazytraining.core.theming.extensions.padding
+import ru.freeit.crazytraining.core.extensions.dp
+import ru.freeit.crazytraining.core.extensions.layoutParams
+import ru.freeit.crazytraining.core.extensions.linearLayoutParams
+import ru.freeit.crazytraining.core.extensions.padding
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.text.TextType
 import ru.freeit.crazytraining.core.theming.view.CoreButton
@@ -39,20 +39,23 @@ class ButtonsAlertDialog() : CoreDialog() {
         contentView.orientation = LinearLayout.VERTICAL
 
         val titleView = CoreTextView(context, textStyle = TextType.Title2)
-        titleView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+        titleView.layoutParams(
+            linearLayoutParams().matchWidth().wrapHeight()
             .marginStart(context.dp(16))
             .marginEnd(context.dp(16)))
         contentView.addView(titleView)
 
         val descView = CoreTextView(context)
-        descView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+        descView.layoutParams(
+            linearLayoutParams().matchWidth().wrapHeight()
             .marginStart(context.dp(16))
             .marginEnd(context.dp(16))
             .marginTop(context.dp(4)))
         contentView.addView(descView)
 
         val buttonsView = CoreLinearLayout(context)
-        buttonsView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+        buttonsView.layoutParams(
+            linearLayoutParams().matchWidth().wrapHeight()
             .marginTop(context.dp(12)))
         buttonsView.orientation = LinearLayout.HORIZONTAL
         contentView.addView(buttonsView)

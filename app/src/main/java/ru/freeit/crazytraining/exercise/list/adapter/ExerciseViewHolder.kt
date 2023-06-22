@@ -10,11 +10,11 @@ import androidx.core.view.doOnAttach
 import androidx.core.view.doOnDetach
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import ru.freeit.crazytraining.core.extensions.*
 import ru.freeit.crazytraining.core.theming.colors.ColorType
 import ru.freeit.crazytraining.core.theming.colors.ColorType.secondaryBackgroundColor
 import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
 import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
-import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.text.TextType
 import ru.freeit.crazytraining.core.theming.view.CoreImageButtonView
@@ -70,13 +70,15 @@ class ExerciseViewHolder(
             contentLinearView.addView(headerFrameView)
 
             val iconView = ImageView(context)
-            iconView.layoutParams(frameLayoutParams().width(context.dp(32)).height(context.dp(32))
+            iconView.layoutParams(
+                frameLayoutParams().width(context.dp(32)).height(context.dp(32))
                 .marginStart(context.dp(12)).marginTop(context.dp(12)))
             iconView.padding(context.dp(4))
             headerFrameView.addView(iconView)
 
             val titleView = CoreTextView(context)
-            titleView.layoutParams(frameLayoutParams().matchWidth().wrapHeight()
+            titleView.layoutParams(
+                frameLayoutParams().matchWidth().wrapHeight()
                 .marginStart(context.dp(52))
                 .marginTop(context.dp(12))
                 .gravity(Gravity.TOP))
@@ -89,17 +91,20 @@ class ExerciseViewHolder(
             )
             editButtonView.padding(context.dp(8))
             editButtonView.setOnClickListener { editButtonView.showContextMenu() }
-            editButtonView.layoutParams(frameLayoutParams().width(context.dp(32))
+            editButtonView.layoutParams(
+                frameLayoutParams().width(context.dp(32))
                 .height(context.dp(32)).gravity(Gravity.END))
             headerFrameView.addView(editButtonView)
 
             val measuredView = CoreTextView(context, textStyle = TextType.Body2)
-            measuredView.layoutParams(linearLayoutParams().wrap().gravity(Gravity.END)
+            measuredView.layoutParams(
+                linearLayoutParams().wrap().gravity(Gravity.END)
                 .marginEnd(context.dp(12)))
             contentLinearView.addView(measuredView)
 
             val buttonsView = CoreLinearLayout(context, ColorType.transparent)
-            buttonsView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+            buttonsView.layoutParams(
+                linearLayoutParams().matchWidth().wrapHeight()
                 .marginStart(context.dp(12))
                 .marginEnd(context.dp(12)))
             buttonsView.orientation = LinearLayout.HORIZONTAL

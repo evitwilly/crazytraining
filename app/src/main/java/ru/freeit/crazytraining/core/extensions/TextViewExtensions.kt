@@ -1,4 +1,4 @@
-package ru.freeit.crazytraining.core.theming.extensions
+package ru.freeit.crazytraining.core.extensions
 
 import android.content.Context
 import android.util.TypedValue

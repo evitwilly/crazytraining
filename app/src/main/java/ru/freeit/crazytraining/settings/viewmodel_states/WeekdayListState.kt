@@ -1,10 +1,10 @@
 package ru.freeit.crazytraining.settings.viewmodel_states
 
 import android.view.ViewGroup
-import ru.freeit.crazytraining.core.theming.extensions.dp
-import ru.freeit.crazytraining.core.theming.extensions.layoutParams
-import ru.freeit.crazytraining.core.theming.extensions.padding
-import ru.freeit.crazytraining.core.theming.extensions.viewGroupLayoutParams
+import ru.freeit.crazytraining.core.extensions.dp
+import ru.freeit.crazytraining.core.extensions.layoutParams
+import ru.freeit.crazytraining.core.extensions.padding
+import ru.freeit.crazytraining.core.extensions.viewGroupLayoutParams
 import ru.freeit.crazytraining.core.theming.view.ChipView
 
 class WeekdayListState(private val states: List<WeekdayState>) {
@@ -46,5 +46,7 @@ class WeekdayListState(private val states: List<WeekdayState>) {
 
         return states == other.states
     }
+
+    override fun hashCode(): Int = states.hashCode()
 
 }

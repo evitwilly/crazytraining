@@ -16,9 +16,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.Navigator
-import ru.freeit.crazytraining.core.theming.extensions.dp
-import ru.freeit.crazytraining.core.theming.extensions.frameLayoutParams
-import ru.freeit.crazytraining.core.theming.extensions.layoutParams
+import ru.freeit.crazytraining.core.extensions.dp
+import ru.freeit.crazytraining.core.extensions.frameLayoutParams
+import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
 import ru.freeit.crazytraining.core.theming.text.TextType.Title2
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
@@ -68,7 +68,8 @@ abstract class BaseFragment<T : BaseViewModel>: Fragment() {
         navigator = Navigator(parentFragmentManager)
         val backButtonView = CoreImageButtonView(context)
         backButtonView.isVisible = navigator.is_not_top_fragment
-        backButtonView.layoutParams(frameLayoutParams().width(context.dp(menuButtonSize)).height(context.dp(menuButtonSize))
+        backButtonView.layoutParams(
+            frameLayoutParams().width(context.dp(menuButtonSize)).height(context.dp(menuButtonSize))
             .gravity(Gravity.START or Gravity.CENTER_VERTICAL).marginStart(context.dp(menuButtonMarginStart)))
         backButtonView.scaleType = ImageView.ScaleType.CENTER
         backButtonView.setImageResource(R.drawable.ic_back)
@@ -80,7 +81,8 @@ abstract class BaseFragment<T : BaseViewModel>: Fragment() {
         val menuButtonView = CoreImageButtonView(context)
         this.menuButtonView = menuButtonView
         menuButtonView.isVisible = false
-        menuButtonView.layoutParams(frameLayoutParams().width(context.dp(menuButtonSize)).height(context.dp(menuButtonSize))
+        menuButtonView.layoutParams(
+            frameLayoutParams().width(context.dp(menuButtonSize)).height(context.dp(menuButtonSize))
             .gravity(Gravity.END or Gravity.CENTER_VERTICAL).marginEnd(context.dp(menuButtonMarginStart)))
         menuButtonView.scaleType = ImageView.ScaleType.CENTER
         menuButtonView.isClickable = true
@@ -92,7 +94,8 @@ abstract class BaseFragment<T : BaseViewModel>: Fragment() {
         rootView.addView(contentView, 0)
 
         val bubbleMessageView = BubbleMessageView(context)
-        bubbleMessageView.layoutParams(frameLayoutParams().matchWidth().wrapHeight()
+        bubbleMessageView.layoutParams(
+            frameLayoutParams().matchWidth().wrapHeight()
             .marginStart(context.dp(16))
             .marginEnd(context.dp(16))
             .marginTop(context.dp(toolbarHeight + 8)))

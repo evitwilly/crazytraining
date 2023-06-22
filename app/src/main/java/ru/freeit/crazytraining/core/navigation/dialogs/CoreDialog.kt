@@ -7,7 +7,7 @@ import android.view.*
 import androidx.fragment.app.DialogFragment
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
-import ru.freeit.crazytraining.core.theming.extensions.dp
+import ru.freeit.crazytraining.core.extensions.dp
 
 abstract class CoreDialog : DialogFragment() {
 

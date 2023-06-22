@@ -10,18 +10,17 @@ import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialog
 import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialogResult
 import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
 import ru.freeit.crazytraining.core.repository.CalendarRepositoryImpl
-import ru.freeit.crazytraining.core.theming.extensions.dp
-import ru.freeit.crazytraining.core.theming.extensions.layoutParams
-import ru.freeit.crazytraining.core.theming.extensions.linearLayoutParams
-import ru.freeit.crazytraining.core.theming.extensions.padding
+import ru.freeit.crazytraining.core.extensions.dp
+import ru.freeit.crazytraining.core.extensions.layoutParams
+import ru.freeit.crazytraining.core.extensions.linearLayoutParams
+import ru.freeit.crazytraining.core.extensions.padding
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.core.theming.view.FlowLayout
-import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
-import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.settings.view.ThemeSwitchView
+import ru.freeit.crazytraining.training.repository.ExerciseSetsRepositoryImpl
 
 class SettingsFragment : BaseFragment<SettingsViewModel>() {
 
@@ -33,10 +32,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel>() {
         return SettingsViewModel(
             CheckedWeekdaysRepository.Base(simpleDataStorage),
             CalendarRepositoryImpl(),
-            ExerciseListRepositoryImpl(
-                ExerciseDatabase(coreSQLiteOpenHelper),
-                ExerciseSetDatabase(coreSQLiteOpenHelper)
-            )
+            ExerciseSetsRepositoryImpl(ExerciseSetDatabase(coreSQLiteOpenHelper))
         )
     }
 

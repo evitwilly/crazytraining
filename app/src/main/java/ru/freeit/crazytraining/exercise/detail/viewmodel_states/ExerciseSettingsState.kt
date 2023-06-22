@@ -2,7 +2,7 @@ package ru.freeit.crazytraining.exercise.detail.viewmodel_states
 
 import android.graphics.drawable.GradientDrawable
 import android.widget.ImageView
-import ru.freeit.crazytraining.core.theming.extensions.dp
+import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class ExerciseSettingsState(

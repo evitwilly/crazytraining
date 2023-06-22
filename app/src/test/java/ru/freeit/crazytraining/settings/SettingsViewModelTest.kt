@@ -6,7 +6,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import ru.freeit.crazytraining.core.mocks.CalendarRepositoryMock
-import ru.freeit.crazytraining.core.mocks.ExerciseListRepositoryMock
+import ru.freeit.crazytraining.core.mocks.ExerciseSetsRepositoryMock
 import ru.freeit.crazytraining.core.models.WeekdayModel
 import ru.freeit.crazytraining.core.rules.MainDispatcherRule
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
@@ -29,7 +29,7 @@ internal class SettingsViewModelTest {
         val viewModel = SettingsViewModel(
             CheckedWeekdaysRepository.Test(),
             CalendarRepositoryMock(),
-            ExerciseListRepositoryMock()
+            ExerciseSetsRepositoryMock()
         )
 
         val expected = WeekdayListState(
@@ -56,7 +56,7 @@ internal class SettingsViewModelTest {
         val viewModel = SettingsViewModel(
             repository,
             CalendarRepositoryMock(),
-            ExerciseListRepositoryMock()
+            ExerciseSetsRepositoryMock()
         )
 
         val expected = WeekdayListState(
@@ -79,7 +79,7 @@ internal class SettingsViewModelTest {
         val viewModel = SettingsViewModel(
             repository,
             CalendarRepositoryMock(),
-            ExerciseListRepositoryMock()
+            ExerciseSetsRepositoryMock()
         )
 
         viewModel.changeWeekdayState(WeekdayState(WeekdayModel.TUESDAY, true))

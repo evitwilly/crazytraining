@@ -25,6 +25,8 @@ class ExerciseSetModel(
             timeString = timeString
         )
 
+    fun isThisExercise(model: ExerciseModel) = model.id == exerciseId
+
     fun bindAmount(view: TextView, number: Int) {
         view.text = view.context.resources.getQuantityString(R.plurals.set_title, amount, number, amount)
     }

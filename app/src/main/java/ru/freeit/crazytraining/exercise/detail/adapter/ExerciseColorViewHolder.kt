@@ -4,11 +4,11 @@ import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import ru.freeit.crazytraining.core.App
-import ru.freeit.crazytraining.core.theming.extensions.layoutParams
-import ru.freeit.crazytraining.core.theming.extensions.recyclerLayoutParams
+import ru.freeit.crazytraining.core.extensions.layoutParams
+import ru.freeit.crazytraining.core.extensions.recyclerLayoutParams
 import ru.freeit.crazytraining.core.theming.adapter.CoreViewHolder
 import ru.freeit.crazytraining.core.theming.colors.ColorType
-import ru.freeit.crazytraining.core.theming.extensions.dp
+import ru.freeit.crazytraining.core.extensions.dp
 
 class ExerciseColorViewHolder(
     private val view: View,

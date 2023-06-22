@@ -7,16 +7,16 @@ import ru.freeit.crazytraining.core.models.WeekdayModel
 import ru.freeit.crazytraining.core.navigation.fragment.BaseViewModel
 import ru.freeit.crazytraining.core.repository.CalendarRepository
 import ru.freeit.crazytraining.core.viewmodel.SingleLiveEvent
-import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepository
 import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayListState
 import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayState
+import ru.freeit.crazytraining.training.repository.ExerciseSetsRepository
 
 class SettingsViewModel(
     private val weekdaysRepository: CheckedWeekdaysRepository,
     private val calendarRepository: CalendarRepository,
-    private val exerciseRepository: ExerciseListRepository
+    private val exerciseSetsRepository: ExerciseSetsRepository
 ) : BaseViewModel() {
 
     private val listState = MutableLiveData<WeekdayListState>()
@@ -35,7 +35,7 @@ class SettingsViewModel(
 
         uiScope.launch {
             exerciseSetsInToday.clear()
-            exerciseSetsInToday.addAll(exerciseRepository.exerciseSetsByDate(calendarRepository.dateStringFrom()))
+            exerciseSetsInToday.addAll(exerciseSetsRepository.exerciseSetsByDate(calendarRepository.dateStringFrom()))
         }
     }
 
@@ -43,7 +43,8 @@ class SettingsViewModel(
         val newState = cachedWeekdayState ?: return
 
         uiScope.launch {
-            exerciseRepository.removeExerciseSetsByDate(calendarRepository.dateStringFrom())
+
+            exerciseSetsRepository.removeExerciseSetsByDate(calendarRepository.dateStringFrom())
 
             exerciseSetsInToday.clear()
 

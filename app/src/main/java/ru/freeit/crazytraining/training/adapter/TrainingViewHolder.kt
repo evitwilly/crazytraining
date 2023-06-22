@@ -8,9 +8,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
+import ru.freeit.crazytraining.core.extensions.*
 import ru.freeit.crazytraining.core.theming.colors.ColorType
 import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
-import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
@@ -55,14 +55,16 @@ class TrainingViewHolder(
             contentLinearView.addView(headerFrameView)
 
             val iconView = ImageView(context)
-            iconView.layoutParams(frameLayoutParams().width(context.dp(32)).height(context.dp(32))
+            iconView.layoutParams(
+                frameLayoutParams().width(context.dp(32)).height(context.dp(32))
                 .marginStart(context.dp(12))
                 .marginTop(context.dp(12)))
             iconView.padding(context.dp(4))
             headerFrameView.addView(iconView)
 
             val titleView = CoreTextView(context)
-            titleView.layoutParams(frameLayoutParams().matchWidth().wrapHeight()
+            titleView.layoutParams(
+                frameLayoutParams().matchWidth().wrapHeight()
                 .marginStart(context.dp(52))
                 .marginTop(context.dp(12))
                 .gravity(Gravity.TOP))
@@ -70,7 +72,8 @@ class TrainingViewHolder(
 
             val exerciseSetsLayoutView = CoreLinearLayout(context, backgroundColor = ColorType.transparent)
             exerciseSetsLayoutView.orientation = LinearLayout.VERTICAL
-            exerciseSetsLayoutView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+            exerciseSetsLayoutView.layoutParams(
+                linearLayoutParams().matchWidth().wrapHeight()
                 .marginStart(context.dp(12)).marginEnd(context.dp(12)).marginTop(context.dp(8)))
             contentLinearView.addView(exerciseSetsLayoutView)
 
@@ -78,7 +81,8 @@ class TrainingViewHolder(
             buttonView.padding(horizontal = context.dp(8), vertical = context.dp(2))
             buttonView.changeStartIcon(R.drawable.ic_add, 16)
             buttonView.setText(R.string.set)
-            buttonView.layoutParams(linearLayoutParams().wrap().gravity(Gravity.END)
+            buttonView.layoutParams(
+                linearLayoutParams().wrap().gravity(Gravity.END)
                 .marginTop(context.dp(8))
                 .marginEnd(context.dp(12)))
             contentLinearView.addView(buttonView)
