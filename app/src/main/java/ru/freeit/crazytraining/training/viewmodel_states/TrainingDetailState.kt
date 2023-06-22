@@ -3,8 +3,8 @@ package ru.freeit.crazytraining.training.viewmodel_states
 import android.view.Gravity
 import androidx.core.view.isVisible
 import ru.freeit.crazytraining.R
+import ru.freeit.crazytraining.core.extensions.*
 import ru.freeit.crazytraining.core.theming.colors.ColorType
-import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.text.TextType
@@ -42,7 +42,8 @@ class TrainingDetailState(
             val removeButton = CoreImageButtonView(context)
             removeButton.setImageResource(R.drawable.ic_close)
             removeButton.padding(context.dp(4))
-            removeButton.layoutParams(frameLayoutParams().width(context.dp(24)).height(context.dp(24))
+            removeButton.layoutParams(
+                frameLayoutParams().width(context.dp(24)).height(context.dp(24))
                 .gravity(Gravity.END or Gravity.CENTER_VERTICAL))
             removeButton.setOnClickListener { removeListener.invoke(model) }
             layoutView.addView(removeButton)

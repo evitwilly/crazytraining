@@ -1,15 +1,11 @@
-package ru.freeit.crazytraining.core.theming.extensions
+package ru.freeit.crazytraining.core.extensions
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.RippleDrawable
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import ru.freeit.crazytraining.core.theming.CoreColors
 import ru.freeit.crazytraining.core.theming.layout.params.AbstractLP
 import kotlin.math.roundToInt
 
@@ -36,16 +32,6 @@ fun Int.withAlpha(alpha: Float): Int {
 
 fun View.layoutParams(params: AbstractLP<*, *>) {
     layoutParams = params.build()
-}
-
-fun View.roundRipple(color: Int) {
-    background = RippleDrawable(
-        ColorStateList.valueOf(color),
-        null, GradientDrawable().apply {
-            cornerRadius = 100f
-            setColor(CoreColors.white)
-        }
-    )
 }
 
 fun Context.bitmapByResource(@DrawableRes resource: Int, size: Int): Bitmap {

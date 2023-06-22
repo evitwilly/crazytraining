@@ -9,8 +9,8 @@ import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
 import ru.freeit.crazytraining.core.theming.colors.ColorType.colorOnPrimary
 import ru.freeit.crazytraining.core.theming.colors.ColorType.primaryColor
-import ru.freeit.crazytraining.core.theming.extensions.dp
-import ru.freeit.crazytraining.core.theming.extensions.padding
+import ru.freeit.crazytraining.core.extensions.dp
+import ru.freeit.crazytraining.core.extensions.padding
 import ru.freeit.crazytraining.core.theming.text.TextType
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 

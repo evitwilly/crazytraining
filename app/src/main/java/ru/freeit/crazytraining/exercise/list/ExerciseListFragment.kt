@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
+import ru.freeit.crazytraining.core.extensions.*
 import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialog
 import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialogResult
 import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
-import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.exercise.detail.ExerciseDetailFragment
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
@@ -69,7 +69,8 @@ class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
         trainingAddButton.changeStartIcon(R.drawable.ic_add, 24)
         trainingAddButton.setOnClickListener { navigator.push(ExerciseDetailFragment()) }
         trainingAddButton.padding(context.dp(8))
-        trainingAddButton.layoutParams(frameLayoutParams().wrap()
+        trainingAddButton.layoutParams(
+            frameLayoutParams().wrap()
             .gravity(Gravity.BOTTOM or Gravity.END)
             .marginEnd(context.dp(16))
             .marginBottom(context.dp(16)))

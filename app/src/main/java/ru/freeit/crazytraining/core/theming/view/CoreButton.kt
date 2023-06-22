@@ -11,8 +11,8 @@ import ru.freeit.crazytraining.core.theming.CoreTheme
 import ru.freeit.crazytraining.core.theming.colors.ColorType.*
 import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
 import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
-import ru.freeit.crazytraining.core.theming.extensions.dp
-import ru.freeit.crazytraining.core.theming.extensions.padding
+import ru.freeit.crazytraining.core.extensions.dp
+import ru.freeit.crazytraining.core.extensions.padding
 import ru.freeit.crazytraining.core.theming.text.TextType.Caption1
 
 class CoreButton @JvmOverloads constructor(

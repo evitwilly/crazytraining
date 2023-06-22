@@ -6,11 +6,14 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.view.Gravity
 import androidx.core.view.isVisible
+import ru.freeit.crazytraining.core.extensions.dp
+import ru.freeit.crazytraining.core.extensions.layoutParams
+import ru.freeit.crazytraining.core.extensions.linearLayoutParams
+import ru.freeit.crazytraining.core.extensions.padding
 import ru.freeit.crazytraining.core.theming.CoreColors
 import ru.freeit.crazytraining.core.theming.CoreTheme
 import ru.freeit.crazytraining.core.theming.colors.ColorType
 import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
-import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.text.TextType
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
@@ -37,11 +40,13 @@ class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
         titleView.layoutParams(linearLayoutParams().matchWidth().wrapHeight())
         addView(titleView)
 
-        contentView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+        contentView.layoutParams(
+            linearLayoutParams().matchWidth().wrapHeight()
             .marginTop(context.dp(4)))
         addView(contentView)
 
-        measuredView.layoutParams(linearLayoutParams().wrap().gravity(Gravity.END)
+        measuredView.layoutParams(
+            linearLayoutParams().wrap().gravity(Gravity.END)
             .marginTop(context.dp(4)))
         addView(measuredView)
     }

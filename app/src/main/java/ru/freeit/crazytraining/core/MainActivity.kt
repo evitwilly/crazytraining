@@ -5,10 +5,10 @@ import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.Navigator
-import ru.freeit.crazytraining.core.theming.extensions.dp
-import ru.freeit.crazytraining.core.theming.extensions.frameLayoutParams
-import ru.freeit.crazytraining.core.theming.extensions.layoutParams
-import ru.freeit.crazytraining.core.theming.extensions.linearLayoutParams
+import ru.freeit.crazytraining.core.extensions.dp
+import ru.freeit.crazytraining.core.extensions.frameLayoutParams
+import ru.freeit.crazytraining.core.extensions.layoutParams
+import ru.freeit.crazytraining.core.extensions.linearLayoutParams
 import ru.freeit.crazytraining.core.theming.layout.components.BottomNavigationView
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
 import ru.freeit.crazytraining.history.HistoryFragment

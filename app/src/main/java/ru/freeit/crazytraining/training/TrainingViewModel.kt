@@ -10,16 +10,14 @@ import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepository
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
+import ru.freeit.crazytraining.training.repository.ExerciseSetsRepository
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingListState
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingTextState
-
-sealed interface TrainingWeekendState {
-    object Training : TrainingWeekendState
-    object Weekend : TrainingWeekendState
-}
+import ru.freeit.crazytraining.training.viewmodel_states.TrainingWeekendState
 
 class TrainingViewModel(
     private val exerciseListRepository: ExerciseListRepository,
+    private val exerciseSetsRepository: ExerciseSetsRepository,
     private val calendarRepository: CalendarRepository,
     private val checkedWeekdaysRepository: CheckedWeekdaysRepository
 ) : BaseViewModel() {
@@ -49,7 +47,7 @@ class TrainingViewModel(
         val model = exerciseModel ?: return
         uiScope.launch {
             val millis = calendarRepository.dateTimeMillis()
-            exerciseListRepository.saveExerciseSet(ExerciseSetModel(
+            exerciseSetsRepository.saveExerciseSet(ExerciseSetModel(
                 amount = amount,
                 millis = millis,
                 exerciseId = model.id,
@@ -64,7 +62,7 @@ class TrainingViewModel(
     fun removeSet() {
         val model = exerciseSetModel ?: return
         uiScope.launch {
-            exerciseListRepository.removeExerciseSet(model)
+            exerciseSetsRepository.removeExerciseSet(model)
             updateState()
         }
     }

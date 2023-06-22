@@ -11,10 +11,10 @@ import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.dialogs.CoreDialog
 import ru.freeit.crazytraining.core.theming.colors.ColorType
 import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
-import ru.freeit.crazytraining.core.theming.extensions.dp
-import ru.freeit.crazytraining.core.theming.extensions.layoutParams
-import ru.freeit.crazytraining.core.theming.extensions.linearLayoutParams
-import ru.freeit.crazytraining.core.theming.extensions.padding
+import ru.freeit.crazytraining.core.extensions.dp
+import ru.freeit.crazytraining.core.extensions.layoutParams
+import ru.freeit.crazytraining.core.extensions.linearLayoutParams
+import ru.freeit.crazytraining.core.extensions.padding
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.text.TextType
 import ru.freeit.crazytraining.core.theming.view.CoreButton

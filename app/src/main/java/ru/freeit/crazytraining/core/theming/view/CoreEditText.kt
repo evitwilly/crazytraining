@@ -11,9 +11,9 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
+import ru.freeit.crazytraining.core.extensions.*
 import ru.freeit.crazytraining.core.theming.CoreTheme
 import ru.freeit.crazytraining.core.theming.colors.ColorType.*
-import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.text.TextType
 

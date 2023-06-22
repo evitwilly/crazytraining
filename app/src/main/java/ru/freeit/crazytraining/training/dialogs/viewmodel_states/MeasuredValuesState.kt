@@ -3,9 +3,9 @@ package ru.freeit.crazytraining.training.dialogs.viewmodel_states
 import android.widget.LinearLayout
 import android.widget.TextView
 import ru.freeit.crazytraining.R
-import ru.freeit.crazytraining.core.theming.extensions.dp
-import ru.freeit.crazytraining.core.theming.extensions.layoutParams
-import ru.freeit.crazytraining.core.theming.extensions.linearLayoutParams
+import ru.freeit.crazytraining.core.extensions.dp
+import ru.freeit.crazytraining.core.extensions.layoutParams
+import ru.freeit.crazytraining.core.extensions.linearLayoutParams
 import ru.freeit.crazytraining.core.theming.text.TextType
 import ru.freeit.crazytraining.core.theming.view.CoreEditText
 import ru.freeit.crazytraining.core.theming.view.CoreTextView

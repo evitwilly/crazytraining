@@ -8,8 +8,8 @@ import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreColors
 import ru.freeit.crazytraining.core.theming.CoreTheme
-import ru.freeit.crazytraining.core.theming.extensions.bitmapByResource
-import ru.freeit.crazytraining.core.theming.extensions.dp
+import ru.freeit.crazytraining.core.extensions.bitmapByResource
+import ru.freeit.crazytraining.core.extensions.dp
 
 class ThemeSwitchView(ctx: Context): View(ctx) {
 

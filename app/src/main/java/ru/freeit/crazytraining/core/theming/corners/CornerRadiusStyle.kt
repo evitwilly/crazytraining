@@ -1,7 +1,7 @@
 package ru.freeit.crazytraining.core.theming.corners
 
 import android.content.Context
-import ru.freeit.crazytraining.core.theming.extensions.dp
+import ru.freeit.crazytraining.core.extensions.dp
 
 class CornerRadiusStyle(
     private val small: Float,

@@ -9,8 +9,8 @@ import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreColors
 import ru.freeit.crazytraining.core.theming.CoreTheme
 import ru.freeit.crazytraining.core.theming.colors.ColorType.*
-import ru.freeit.crazytraining.core.theming.extensions.dp
-import ru.freeit.crazytraining.core.theming.extensions.fontSizeInPixels
+import ru.freeit.crazytraining.core.extensions.dp
+import ru.freeit.crazytraining.core.extensions.fontSizeInPixels
 import ru.freeit.crazytraining.core.theming.text.TextType
 import ru.freeit.crazytraining.core.theming.text.TypefaceStyle
 

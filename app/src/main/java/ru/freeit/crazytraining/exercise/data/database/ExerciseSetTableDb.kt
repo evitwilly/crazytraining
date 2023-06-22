@@ -18,15 +18,16 @@ class ExerciseSetTableDb(
     id: Int = 0,
 ): TableDb(id) {
 
-    fun model() = ExerciseSetModel(
-        id = id,
-        amount = amount,
-        millis = millis,
-        exerciseId = exercise_id,
-        measuredValueModel = ExerciseMeasuredValueModel.values()[measuredValueModel],
-        dateString = dateString,
-        timeString = timeString
-    )
+    val model: ExerciseSetModel
+        get() = ExerciseSetModel(
+            id = id,
+            amount = amount,
+            millis = millis,
+            exerciseId = exercise_id,
+            measuredValueModel = ExerciseMeasuredValueModel.values()[measuredValueModel],
+            dateString = dateString,
+            timeString = timeString
+        )
 
     override val name: String = "exercise_sets_table"
 

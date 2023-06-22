@@ -11,9 +11,9 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
+import ru.freeit.crazytraining.core.extensions.*
 import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
 import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
-import ru.freeit.crazytraining.core.theming.extensions.*
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.text.TextType
@@ -82,7 +82,8 @@ class ExerciseDetailFragment() : BaseFragment<ExerciseDetailViewModel>() {
         titleEditView.singleLine()
         titleEditView.changeHint(R.string.exercise_name)
         titleEditView.changeText(argument?.title ?: "")
-        titleEditView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+        titleEditView.layoutParams(
+            linearLayoutParams().matchWidth().wrapHeight()
             .marginStart(context.dp(16))
             .marginEnd(context.dp(16))
             .marginTop(context.dp(8)))
@@ -92,7 +93,8 @@ class ExerciseDetailFragment() : BaseFragment<ExerciseDetailViewModel>() {
 
         val measuredValuesCaptionView = CoreTextView(context)
         measuredValuesCaptionView.text = getString(R.string.choose_measured_value_for_exercise)
-        measuredValuesCaptionView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+        measuredValuesCaptionView.layoutParams(
+            linearLayoutParams().matchWidth().wrapHeight()
             .marginStart(context.dp(16))
             .marginEnd(context.dp(16))
             .marginTop(context.dp(32)))
@@ -100,7 +102,8 @@ class ExerciseDetailFragment() : BaseFragment<ExerciseDetailViewModel>() {
 
         val measuredValuesListView = CoreLinearLayout(context)
         measuredValuesListView.orientation = LinearLayout.VERTICAL
-        measuredValuesListView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+        measuredValuesListView.layoutParams(
+            linearLayoutParams().matchWidth().wrapHeight()
             .marginStart(context.dp(16))
             .marginEnd(context.dp(16))
             .marginTop(context.dp(8)))

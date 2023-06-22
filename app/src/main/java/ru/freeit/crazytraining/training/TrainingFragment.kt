@@ -2,7 +2,6 @@ package ru.freeit.crazytraining.training
 
 import android.content.Context
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
@@ -14,15 +13,11 @@ import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialog
 import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialogResult
 import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
 import ru.freeit.crazytraining.core.repository.CalendarRepositoryImpl
-import ru.freeit.crazytraining.core.theming.colors.ColorType
-import ru.freeit.crazytraining.core.theming.extensions.dp
-import ru.freeit.crazytraining.core.theming.extensions.layoutParams
-import ru.freeit.crazytraining.core.theming.extensions.linearLayoutParams
-import ru.freeit.crazytraining.core.theming.extensions.padding
+import ru.freeit.crazytraining.core.extensions.dp
+import ru.freeit.crazytraining.core.extensions.layoutParams
+import ru.freeit.crazytraining.core.extensions.linearLayoutParams
+import ru.freeit.crazytraining.core.extensions.padding
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
-import ru.freeit.crazytraining.core.theming.text.TextType
-import ru.freeit.crazytraining.core.theming.view.CoreImageView
-import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
@@ -31,28 +26,10 @@ import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.training.adapter.TrainingListAdapter
 import ru.freeit.crazytraining.training.dialogs.MeasuredValuesDialog
 import ru.freeit.crazytraining.training.dialogs.MeasuredValuesDialogResult
-import ru.freeit.crazytraining.training.view.TrainingDateTextView
-
-class TrainingWeekendView(ctx: Context) : CoreLinearLayout(ctx) {
-
-    init {
-        orientation = VERTICAL
-
-        padding(context.dp(16))
-
-        val titleView = CoreTextView(context, textStyle = TextType.Body3)
-        titleView.setText(R.string.weekend_title)
-        titleView.layoutParams(linearLayoutParams().matchWidth().wrapHeight())
-        addView(titleView)
-
-        val imageView = CoreImageView(context, tintColor = ColorType.primaryColor)
-        imageView.setImageResource(R.drawable.ic_weekend)
-        imageView.adjustViewBounds = true
-        imageView.layoutParams(linearLayoutParams().width(context.dp(210)).wrapHeight().gravity(Gravity.CENTER_HORIZONTAL))
-        addView(imageView)
-    }
-
-}
+import ru.freeit.crazytraining.training.repository.ExerciseSetsRepositoryImpl
+import ru.freeit.crazytraining.training.view.TrainingDateView
+import ru.freeit.crazytraining.training.view.TrainingWeekendView
+import ru.freeit.crazytraining.training.viewmodel_states.TrainingWeekendState
 
 class TrainingFragment : BaseFragment<TrainingViewModel>() {
 
@@ -60,11 +37,10 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
     override fun viewModelConstructor(ctx: Context): TrainingViewModel {
         val app = ctx.applicationContext as App
         val sqliteOpenHelper = app.coreSQLiteOpenHelper
+        val exerciseSetDatabase = ExerciseSetDatabase(sqliteOpenHelper)
         return TrainingViewModel(
-            exerciseListRepository = ExerciseListRepositoryImpl(
-                ExerciseDatabase(sqliteOpenHelper),
-                ExerciseSetDatabase(sqliteOpenHelper)
-            ),
+            exerciseListRepository = ExerciseListRepositoryImpl(ExerciseDatabase(sqliteOpenHelper), exerciseSetDatabase),
+            exerciseSetsRepository = ExerciseSetsRepositoryImpl(exerciseSetDatabase),
             calendarRepository = CalendarRepositoryImpl(),
             checkedWeekdaysRepository = CheckedWeekdaysRepository.Base(app.persistenceSimpleDataStorage)
         )
@@ -93,8 +69,9 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
         changeMenuButtonDrawableResource(R.drawable.ic_settings)
         changeMenuButtonClickListener { navigator.push(SettingsFragment()) }
 
-        val dateView = TrainingDateTextView(context)
-        dateView.layoutParams(linearLayoutParams().wrap().marginTop(context.dp(8))
+        val dateView = TrainingDateView(context)
+        dateView.layoutParams(
+            linearLayoutParams().wrap().marginTop(context.dp(8))
             .marginStart(context.dp(16))
             .marginEnd(context.dp(16)))
         contentView.addView(dateView)

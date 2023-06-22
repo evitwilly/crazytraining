@@ -2,14 +2,14 @@ package ru.freeit.crazytraining.exercise.detail.adapter
 
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
-import ru.freeit.crazytraining.core.theming.extensions.layoutParams
-import ru.freeit.crazytraining.core.theming.extensions.recyclerLayoutParams
+import ru.freeit.crazytraining.core.extensions.layoutParams
+import ru.freeit.crazytraining.core.extensions.recyclerLayoutParams
 import ru.freeit.crazytraining.core.theming.view.CoreImageView
 import ru.freeit.crazytraining.core.theming.adapter.CoreViewHolder
 import ru.freeit.crazytraining.core.theming.colors.ColorType
 import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
-import ru.freeit.crazytraining.core.theming.extensions.dp
-import ru.freeit.crazytraining.core.theming.extensions.padding
+import ru.freeit.crazytraining.core.extensions.dp
+import ru.freeit.crazytraining.core.extensions.padding
 
 class ExerciseIconViewHolder(
     private val imageView: CoreImageView,
