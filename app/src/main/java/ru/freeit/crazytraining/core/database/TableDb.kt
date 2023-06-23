@@ -18,8 +18,8 @@ abstract class TableDb(val id: Int = 0) {
         db?.execSQL("drop table $name if exists")
     }
 
-    fun cursor(db: SQLiteDatabase, selection: String? = null, selectionArgs: Array<String>? = null): Cursor {
-        return db.query(name, arrayOf(column_id) + columns.map { it.name }.toTypedArray(), selection, selectionArgs, null, null, column_id)
+    fun cursor(db: SQLiteDatabase, selection: SQLiteSelection? = null): Cursor {
+        return db.query(name, arrayOf(column_id) + columns.map { it.name }.toTypedArray(), selection?.sqliteSelectionString, selection?.sqliteSelectionArgs, null, null, column_id)
     }
 
     protected fun id(cursor: Cursor): Int {

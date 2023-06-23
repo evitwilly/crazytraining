@@ -2,7 +2,6 @@ package ru.freeit.crazytraining.exercise.data.database
 
 import android.content.ContentValues
 import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import ru.freeit.crazytraining.core.database.TableColumnDb
 import ru.freeit.crazytraining.core.database.TableDb
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
@@ -50,11 +49,6 @@ class ExerciseSetTableDb(
             put(column_time_string, timeString)
         }
 
-    fun cursorByExerciseId(db: SQLiteDatabase, exercise_id: Int, date: String) = cursor(db, "$column_exercise_id = ? and $column_date_string = ?", arrayOf(exercise_id.toString(), date))
-    fun cursorByDate(db: SQLiteDatabase, date: String) = cursor(db, "$column_date_string = ?", arrayOf(date))
-
-    fun deleteByDate(db: SQLiteDatabase, date: String) = db.delete(name, "$column_date_string = ?", arrayOf(date))
-
     fun fromCursor(cursor: Cursor) =
         ExerciseSetTableDb(
             amountColumn.value(cursor).toInt(),
@@ -66,7 +60,7 @@ class ExerciseSetTableDb(
             id(cursor),
         )
 
-    private companion object {
+    companion object {
         const val column_amount = "amount"
         const val column_millis = "millis"
         const val column_exercise_id = "exercise_id"

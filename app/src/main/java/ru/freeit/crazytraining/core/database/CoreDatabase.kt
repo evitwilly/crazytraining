@@ -5,13 +5,13 @@ import android.database.sqlite.SQLiteDatabase
 
 abstract class CoreDatabase<T : TableDb>(database: CoreSQLiteOpenHelper) {
 
-    protected val sqliteDb: SQLiteDatabase = database.writableDatabase
+    private val sqliteDb: SQLiteDatabase = database.writableDatabase
 
     abstract val defaultItem: T
     abstract fun item(cursor: Cursor) : T
 
-    fun items() : List<T> {
-        val cursor = defaultItem.cursor(sqliteDb)
+    fun items(selection: SQLiteSelection? = null) : List<T> {
+        val cursor = defaultItem.cursor(sqliteDb, selection)
         val list = mutableListOf<T>()
         while (cursor.moveToNext()) {
             list.add(item(cursor))
@@ -23,12 +23,12 @@ abstract class CoreDatabase<T : TableDb>(database: CoreSQLiteOpenHelper) {
         sqliteDb.insert(item.name, null, item.contentValues)
     }
 
-    fun update(item: T) {
-        sqliteDb.update(item.name, item.contentValues, "${TableDb.column_id} = ?", arrayOf(item.id.toString()))
+    fun update(item: T, selection: SQLiteSelection = SQLiteSelection(arrayOf(TableDb.column_id to item.id.toString()))) {
+        sqliteDb.update(item.name, item.contentValues, selection.sqliteSelectionString, selection.sqliteSelectionArgs)
     }
 
-    fun delete(item: T) {
-        sqliteDb.delete(item.name, "${TableDb.column_id} = ?", arrayOf(item.id.toString()))
+    fun delete(item: T, selection: SQLiteSelection = SQLiteSelection(arrayOf(TableDb.column_id to item.id.toString()))) {
+        sqliteDb.delete(item.name, selection.sqliteSelectionString, selection.sqliteSelectionArgs)
     }
 
 }
