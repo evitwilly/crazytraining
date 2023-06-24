@@ -36,7 +36,7 @@ class CalendarRepositoryImpl : CalendarRepository {
     }
 
     private companion object {
-        const val weekdayMonthYearFormat = "EEEE\ndd MMM, yyyy"
+        const val weekdayMonthYearFormat = "EEEE\ndd MMMM, yyyy"
         const val dateFormat = "dd.MM.yyyy"
         const val hourMinutesFormat = "HH:mm"
 

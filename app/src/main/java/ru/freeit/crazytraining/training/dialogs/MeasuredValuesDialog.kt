@@ -21,7 +21,6 @@ import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.core.viewmodel.viewModelFactory
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
-import ru.freeit.crazytraining.training.dialogs.viewmodel_states.MeasuredValuesState
 
 class MeasuredValuesDialog() : CoreDialog() {
 
@@ -71,7 +70,7 @@ class MeasuredValuesDialog() : CoreDialog() {
                 titleView = titleView,
                 editLayoutView = editLayoutView,
                 amountListener = { amount ->
-                    errorView.isVisible = amount <= 0 && (state is MeasuredValuesState.Distance || state is MeasuredValuesState.Time)
+                    errorView.isVisible = state.isVisibleExternalError && amount <= 0
                     viewModel.cacheAmount(amount)
                 }
             )

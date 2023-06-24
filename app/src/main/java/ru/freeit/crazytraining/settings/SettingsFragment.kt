@@ -17,6 +17,7 @@ import ru.freeit.crazytraining.core.extensions.padding
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.core.theming.view.FlowLayout
+import ru.freeit.crazytraining.core.viewmodel.SavedInstanceStateImpl
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.settings.view.ThemeSwitchView
@@ -25,14 +26,15 @@ import ru.freeit.crazytraining.training.repository.ExerciseSetsRepositoryImpl
 class SettingsFragment : BaseFragment<SettingsViewModel>() {
 
     override val viewModelKClass: Class<SettingsViewModel> = SettingsViewModel::class.java
-    override fun viewModelConstructor(ctx: Context): SettingsViewModel {
+    override fun viewModelConstructor(ctx: Context, bundle: Bundle?): SettingsViewModel {
         val app = ctx.applicationContext as App
         val simpleDataStorage = app.persistenceSimpleDataStorage
         val coreSQLiteOpenHelper = app.coreSQLiteOpenHelper
         return SettingsViewModel(
-            CheckedWeekdaysRepository.Base(simpleDataStorage),
-            CalendarRepositoryImpl(),
-            ExerciseSetsRepositoryImpl(ExerciseSetDatabase(coreSQLiteOpenHelper))
+            savedState = SavedInstanceStateImpl(bundle),
+            weekdaysRepository = CheckedWeekdaysRepository.Base(simpleDataStorage),
+            calendarRepository = CalendarRepositoryImpl(),
+            exerciseSetsRepository = ExerciseSetsRepositoryImpl(ExerciseSetDatabase(coreSQLiteOpenHelper))
         )
     }
 

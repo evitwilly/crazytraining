@@ -22,6 +22,7 @@ class BottomNavigationView(ctx: Context) : CoreLinearLayout(ctx, backgroundColor
     private var selectedTabIndex = -1
 
     private val tabViews = mutableListOf<TabView>()
+    private val tabModels = mutableListOf<BottomNavigationTab>()
 
     init {
         id = R.id.bottom_navigation_view
@@ -38,7 +39,8 @@ class BottomNavigationView(ctx: Context) : CoreLinearLayout(ctx, backgroundColor
 
     override fun onRestoreInstanceState(state: Parcelable?) {
         if (state is Bundle) {
-            changeSelectedTab(state.getInt(selected_tab_key))
+            selectedTabIndex = state.getInt(selected_tab_key)
+            drawState()
             super.onRestoreInstanceState(state.getParcelable(super_state_key))
         } else {
             super.onRestoreInstanceState(state)
@@ -47,19 +49,20 @@ class BottomNavigationView(ctx: Context) : CoreLinearLayout(ctx, backgroundColor
 
     fun changeSelectedTab(newIndex: Int) {
         if (selectedTabIndex == newIndex) return
-        if (newIndex in 0..tabViews.lastIndex) {
-            selectedTabIndex = newIndex
-            tabViews.forEachIndexed { index, tabView ->
-                val selected = newIndex == index
-                tabView.wasSelected = selected
-                if (selected) tabView.performClick()
-            }
-        }
+
+        selectedTabIndex = newIndex
+
+        tabModels.getOrNull(newIndex)?.click()
+
+        drawState()
     }
 
     fun changeTabs(tabs: List<BottomNavigationTab>) {
         removeAllViews()
         tabViews.clear()
+
+        tabModels.clear()
+        tabModels.addAll(tabs)
 
         tabs.forEachIndexed { index, tab ->
 
@@ -75,12 +78,22 @@ class BottomNavigationView(ctx: Context) : CoreLinearLayout(ctx, backgroundColor
             tabContentView.changeTitle(tab.stringResource)
             tabContentView.wasSelected = selectedTabIndex == index
             tabContentView.setOnClickListener {
-                tab.click()
-                changeSelectedTab(index)
+                if (selectedTabIndex != index) {
+                    selectedTabIndex = index
+                    drawState()
+                    tab.click()
+                }
             }
             tabContentView.layoutParams(linearLayoutParams().width(0).matchHeight().weight(1f))
             addView(tabContentView)
             tabViews.add(tabContentView)
+        }
+    }
+
+    private fun drawState() {
+        tabViews.forEachIndexed { index, tabView ->
+            val selected = selectedTabIndex == index
+            tabView.wasSelected = selected
         }
     }
 

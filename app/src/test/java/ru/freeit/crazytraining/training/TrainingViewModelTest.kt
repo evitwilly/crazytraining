@@ -9,6 +9,7 @@ import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.mocks.CalendarRepositoryMock
 import ru.freeit.crazytraining.core.mocks.ExerciseListRepositoryMock
 import ru.freeit.crazytraining.core.mocks.ExerciseSetsRepositoryMock
+import ru.freeit.crazytraining.core.mocks.SavedInstanceStateMock
 import ru.freeit.crazytraining.core.models.WeekdayModel
 import ru.freeit.crazytraining.core.rules.MainDispatcherRule
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
@@ -33,6 +34,7 @@ internal class TrainingViewModelTest {
         ))
 
         val viewModel = TrainingViewModel(
+            SavedInstanceStateMock(),
             ExerciseListRepositoryMock(),
             ExerciseSetsRepositoryMock(),
             calendar,
@@ -53,6 +55,7 @@ internal class TrainingViewModelTest {
         ))
 
         val viewModel = TrainingViewModel(
+            SavedInstanceStateMock(),
             ExerciseListRepositoryMock(),
             ExerciseSetsRepositoryMock(),
             calendar,

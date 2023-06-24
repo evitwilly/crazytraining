@@ -3,11 +3,18 @@ package ru.freeit.crazytraining.core.extensions
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import ru.freeit.crazytraining.core.theming.layout.params.AbstractLP
 import kotlin.math.roundToInt
+
+inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
+    android.os.Build.VERSION.SDK_INT >= 33 -> getParcelable(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getParcelable(key) as? T
+}
 
 fun Context.dp(dimen: Int) = (resources.displayMetrics.density * dimen).roundToInt()
 

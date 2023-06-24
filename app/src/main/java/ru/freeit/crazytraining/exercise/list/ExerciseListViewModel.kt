@@ -1,9 +1,11 @@
 package ru.freeit.crazytraining.exercise.list
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.launch
 import ru.freeit.crazytraining.core.navigation.fragment.BaseViewModel
+import ru.freeit.crazytraining.core.viewmodel.SavedInstanceState
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepository
 import ru.freeit.crazytraining.exercise.list.adapter.ExerciseEditButtonState
 import ru.freeit.crazytraining.exercise.list.adapter.ExerciseEditButtonViewModel
@@ -12,6 +14,7 @@ import ru.freeit.crazytraining.exercise.list.viewmodel_states.ExerciseListState
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class ExerciseListViewModel(
+    savedState: SavedInstanceState,
     private val repository: ExerciseListRepository,
     private val itemButtons: List<ExerciseEditButtonState.Button>
 ) : BaseViewModel() {
@@ -19,7 +22,11 @@ class ExerciseListViewModel(
     private val _exerciseListState = MutableLiveData<ExerciseListState>()
     val exerciseListState: LiveData<ExerciseListState> = _exerciseListState
 
-    private var cachedModel: ExerciseModel? = null
+    override fun onSaveInstanceState(bundle: Bundle) {
+        bundle.putParcelable(cached_model_key, cachedModel)
+    }
+
+    private var cachedModel: ExerciseModel? = savedState.parcelable(cached_model_key, ExerciseModel::class.java)
     fun cache(model: ExerciseModel) {
         cachedModel = model
     }
@@ -46,7 +53,10 @@ class ExerciseListViewModel(
                 }
             )
         }
+    }
 
+    private companion object {
+        const val cached_model_key = "cached_model_key"
     }
 
 }

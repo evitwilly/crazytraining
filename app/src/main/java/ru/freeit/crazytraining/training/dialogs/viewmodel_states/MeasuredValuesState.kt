@@ -11,11 +11,13 @@ import ru.freeit.crazytraining.core.theming.view.CoreEditText
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.training.dialogs.text_watchers.MaxTextWatcher
 
-sealed interface MeasuredValuesState {
+sealed class MeasuredValuesState {
 
-    fun bindViews(titleView: TextView, editLayoutView: LinearLayout, amountListener: (Int) -> Unit)
+    open val isVisibleExternalError: Boolean = false
 
-    object Quantity : MeasuredValuesState {
+    abstract fun bindViews(titleView: TextView, editLayoutView: LinearLayout, amountListener: (Int) -> Unit)
+
+    object Quantity : MeasuredValuesState() {
 
         override fun bindViews(
             titleView: TextView,
@@ -46,7 +48,9 @@ sealed interface MeasuredValuesState {
 
     }
 
-    object Distance : MeasuredValuesState {
+    object Distance : MeasuredValuesState() {
+
+        override val isVisibleExternalError: Boolean = true
 
         override fun bindViews(
             titleView: TextView,
@@ -111,7 +115,9 @@ sealed interface MeasuredValuesState {
 
     }
 
-    object Time : MeasuredValuesState {
+    object Time : MeasuredValuesState() {
+
+        override val isVisibleExternalError: Boolean = true
 
         override fun bindViews(
             titleView: TextView,

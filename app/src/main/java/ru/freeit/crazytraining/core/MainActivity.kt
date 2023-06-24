@@ -38,7 +38,9 @@ class MainActivity : AppCompatActivity() {
             BottomNavigationView.BottomNavigationTab(
                 drawableResource = R.drawable.ic_training,
                 stringResource = R.string.training,
-                clickListener = { navigator.replace(TrainingFragment()) }
+                clickListener = {
+                    navigator.replace(TrainingFragment())
+                }
             ),
             BottomNavigationView.BottomNavigationTab(
                 drawableResource = R.drawable.ic_exercises,
@@ -53,7 +55,9 @@ class MainActivity : AppCompatActivity() {
         ))
         coreFrameView.addView(bottomNavigationView)
 
-        if (savedInstanceState == null) bottomNavigationView.changeSelectedTab(0)
+        if (savedInstanceState == null) {
+            bottomNavigationView.changeSelectedTab(0)
+        }
 
     }
 
