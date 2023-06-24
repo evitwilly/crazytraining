@@ -11,11 +11,9 @@ class Navigator(private val fragmentManager: FragmentManager) {
         get() = fragmentManager.backStackEntryCount > 0
 
     fun replace(fragment: BaseFragment<*>) {
-        if (fragmentManager.fragments.lastOrNull()?.javaClass != fragment.javaClass) {
-            fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit()
-        }
+        fragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment, fragment::class.simpleName)
+            .commit()
     }
 
     fun push(fragment: BaseFragment<*>) {

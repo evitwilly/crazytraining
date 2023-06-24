@@ -13,6 +13,7 @@ import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialog
 import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialogResult
 import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
 import ru.freeit.crazytraining.core.theming.view.CoreButton
+import ru.freeit.crazytraining.core.viewmodel.SavedInstanceStateImpl
 import ru.freeit.crazytraining.exercise.detail.ExerciseDetailFragment
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
@@ -23,9 +24,10 @@ import ru.freeit.crazytraining.exercise.list.adapter.ExerciseListAdapter
 class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
 
     override val viewModelKClass = ExerciseListViewModel::class.java
-    override fun viewModelConstructor(ctx: Context): ExerciseListViewModel {
+    override fun viewModelConstructor(ctx: Context, bundle: Bundle?): ExerciseListViewModel {
         val coreSQLiteOpenHelper = (ctx.applicationContext as App).coreSQLiteOpenHelper
         return ExerciseListViewModel(
+            savedState = SavedInstanceStateImpl(bundle),
             repository = ExerciseListRepositoryImpl(
                 ExerciseDatabase(coreSQLiteOpenHelper),
                 ExerciseSetDatabase(coreSQLiteOpenHelper)

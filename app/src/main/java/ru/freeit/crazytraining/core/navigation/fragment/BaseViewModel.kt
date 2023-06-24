@@ -1,5 +1,6 @@
 package ru.freeit.crazytraining.core.navigation.fragment
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -30,5 +31,7 @@ open class BaseViewModel : ViewModel() {
         super.onCleared()
         job.cancel()
     }
+
+    open fun onSaveInstanceState(bundle: Bundle) {}
 
 }

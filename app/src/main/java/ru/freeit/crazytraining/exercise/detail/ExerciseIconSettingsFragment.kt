@@ -22,12 +22,12 @@ import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseIconSett
 class ExerciseIconSettingsFragment() : BaseFragment<ExerciseIconSettingsViewModel>() {
 
     override val viewModelKClass = ExerciseIconSettingsViewModel::class.java
-    override fun viewModelConstructor(ctx: Context): ExerciseIconSettingsViewModel {
-        val bundle = requireArguments()
+    override fun viewModelConstructor(ctx: Context, bundle: Bundle?): ExerciseIconSettingsViewModel {
+        val arguments = requireArguments()
         return ExerciseIconSettingsViewModel(
             ExerciseResourcesRepositoryImpl(),
-            bundle.getInt(checked_icon_arg),
-            bundle.getInt(checked_color_arg)
+            arguments.getInt(checked_icon_arg),
+            arguments.getInt(checked_color_arg)
         )
     }
 

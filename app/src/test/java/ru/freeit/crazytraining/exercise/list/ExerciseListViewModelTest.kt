@@ -8,6 +8,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import ru.freeit.crazytraining.core.mocks.ExerciseListRepositoryMock
+import ru.freeit.crazytraining.core.mocks.SavedInstanceStateMock
 import ru.freeit.crazytraining.core.rules.MainDispatcherRule
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
 import ru.freeit.crazytraining.exercise.list.adapter.ExerciseEditButtonState
@@ -30,7 +31,7 @@ internal class ExerciseListViewModelTest {
         val exercises = listOf(ExerciseModel(1, 1, "title 1", ExerciseMeasuredValueModel.QUANTITY))
         val repository = ExerciseListRepositoryMock(exercises)
         val buttons = listOf(ExerciseEditButtonState.Button(1) {})
-        val viewModel = ExerciseListViewModel(repository, buttons)
+        val viewModel = ExerciseListViewModel(SavedInstanceStateMock(), repository, buttons)
 
         viewModel.updateState()
 
@@ -63,7 +64,7 @@ internal class ExerciseListViewModelTest {
         )
         val repository = ExerciseListRepositoryMock(exercises)
         val buttons = listOf(ExerciseEditButtonState.Button(1) {})
-        val viewModel = ExerciseListViewModel(repository, buttons)
+        val viewModel = ExerciseListViewModel(SavedInstanceStateMock(), repository, buttons)
 
         viewModel.updateState()
         viewModel.cache(ExerciseModel(1, 1, "title 1", ExerciseMeasuredValueModel.QUANTITY))

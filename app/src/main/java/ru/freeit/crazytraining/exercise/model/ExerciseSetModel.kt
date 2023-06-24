@@ -1,5 +1,7 @@
 package ru.freeit.crazytraining.exercise.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import android.widget.TextView
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetTableDb
@@ -13,7 +15,8 @@ class ExerciseSetModel(
     private val measuredValueModel: ExerciseMeasuredValueModel,
     private val dateString: String = "",
     private val timeString: String = ""
-) {
+): Parcelable {
+
     val database: ExerciseSetTableDb
         get() = ExerciseSetTableDb(
             id = id,
@@ -25,6 +28,16 @@ class ExerciseSetModel(
             timeString = timeString
         )
 
+    constructor(parcel: Parcel) : this(
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readLong(),
+        parcel.readInt(),
+        ExerciseMeasuredValueModel.values()[parcel.readInt()],
+        parcel.readString().orEmpty(),
+        parcel.readString().orEmpty()
+    )
+
     fun isThisExercise(model: ExerciseModel) = model.id == exerciseId
 
     fun bindAmount(view: TextView, number: Int) {
@@ -33,6 +46,23 @@ class ExerciseSetModel(
 
     fun bindTime(view: TextView) {
         view.text = timeString
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) = with(parcel) {
+        writeInt(id)
+        writeInt(amount)
+        writeLong(millis)
+        writeInt(exerciseId)
+        writeInt(measuredValueModel.ordinal)
+        writeString(dateString)
+        writeString(timeString)
+    }
+
+    override fun describeContents() = 0
+
+    companion object CREATOR : Parcelable.Creator<ExerciseSetModel> {
+        override fun createFromParcel(parcel: Parcel) = ExerciseSetModel(parcel)
+        override fun newArray(size: Int): Array<ExerciseSetModel?> =arrayOfNulls(size)
     }
 
 }

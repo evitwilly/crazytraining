@@ -2,7 +2,6 @@ package ru.freeit.crazytraining.core.navigation.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Parcelable
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -40,14 +39,14 @@ abstract class BaseFragment<T : BaseViewModel>: Fragment() {
 
     protected open val viewModelKClass: Class<T>
         get() = BaseViewModel::class.java as Class<T>
-    protected open fun viewModelConstructor(ctx: Context): T = BaseViewModel() as T
+    protected open fun viewModelConstructor(ctx: Context, bundle: Bundle?): T = BaseViewModel() as T
 
     protected abstract fun createView(context: Context, bundle: Bundle?): View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val context = inflater.context
 
-        val factory = viewModelFactory { viewModelConstructor(context) }
+        val factory = viewModelFactory { viewModelConstructor(requireContext(), savedInstanceState) }
         viewModel = ViewModelProvider(this, factory)[viewModelKClass]
 
         val rootView = CoreFrameLayout(context)
@@ -81,8 +80,7 @@ abstract class BaseFragment<T : BaseViewModel>: Fragment() {
         val menuButtonView = CoreImageButtonView(context)
         this.menuButtonView = menuButtonView
         menuButtonView.isVisible = false
-        menuButtonView.layoutParams(
-            frameLayoutParams().width(context.dp(menuButtonSize)).height(context.dp(menuButtonSize))
+        menuButtonView.layoutParams(frameLayoutParams().width(context.dp(menuButtonSize)).height(context.dp(menuButtonSize))
             .gravity(Gravity.END or Gravity.CENTER_VERTICAL).marginEnd(context.dp(menuButtonMarginStart)))
         menuButtonView.scaleType = ImageView.ScaleType.CENTER
         menuButtonView.isClickable = true
@@ -94,8 +92,7 @@ abstract class BaseFragment<T : BaseViewModel>: Fragment() {
         rootView.addView(contentView, 0)
 
         val bubbleMessageView = BubbleMessageView(context)
-        bubbleMessageView.layoutParams(
-            frameLayoutParams().matchWidth().wrapHeight()
+        bubbleMessageView.layoutParams(frameLayoutParams().matchWidth().wrapHeight()
             .marginStart(context.dp(16))
             .marginEnd(context.dp(16))
             .marginTop(context.dp(toolbarHeight + 8)))
@@ -110,6 +107,11 @@ abstract class BaseFragment<T : BaseViewModel>: Fragment() {
         }
 
         return rootView
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.onSaveInstanceState(outState)
     }
 
     protected fun changeTitle(text: String) {
@@ -130,11 +132,6 @@ abstract class BaseFragment<T : BaseViewModel>: Fragment() {
 
     protected fun addFloatingView(view: View) {
         rootView?.addView(view)
-    }
-
-    protected inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
-        android.os.Build.VERSION.SDK_INT >= 33 -> getParcelable(key, T::class.java)
-        else -> @Suppress("DEPRECATION") getParcelable(key) as? T
     }
 
     override fun onDestroyView() {

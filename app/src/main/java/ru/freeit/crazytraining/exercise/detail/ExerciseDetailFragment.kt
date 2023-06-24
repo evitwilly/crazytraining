@@ -30,7 +30,7 @@ import ru.freeit.crazytraining.exercise.model.ExerciseModel
 class ExerciseDetailFragment() : BaseFragment<ExerciseDetailViewModel>() {
 
     override val viewModelKClass: Class<ExerciseDetailViewModel> = ExerciseDetailViewModel::class.java
-    override fun viewModelConstructor(ctx: Context): ExerciseDetailViewModel {
+    override fun viewModelConstructor(ctx: Context, bundle: Bundle?): ExerciseDetailViewModel {
         val exerciseModel = arguments?.parcelable<ExerciseModel>(exercise_model_arg)
         val coreSQLiteOpenHelper = (ctx.applicationContext as App).coreSQLiteOpenHelper
         return ExerciseDetailViewModel(

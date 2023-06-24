@@ -18,6 +18,7 @@ import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.extensions.linearLayoutParams
 import ru.freeit.crazytraining.core.extensions.padding
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
+import ru.freeit.crazytraining.core.viewmodel.SavedInstanceStateImpl
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
@@ -34,11 +35,12 @@ import ru.freeit.crazytraining.training.viewmodel_states.TrainingWeekendState
 class TrainingFragment : BaseFragment<TrainingViewModel>() {
 
     override val viewModelKClass: Class<TrainingViewModel> = TrainingViewModel::class.java
-    override fun viewModelConstructor(ctx: Context): TrainingViewModel {
+    override fun viewModelConstructor(ctx: Context, bundle: Bundle?): TrainingViewModel {
         val app = ctx.applicationContext as App
         val sqliteOpenHelper = app.coreSQLiteOpenHelper
         val exerciseSetDatabase = ExerciseSetDatabase(sqliteOpenHelper)
         return TrainingViewModel(
+            savedState = SavedInstanceStateImpl(bundle),
             exerciseListRepository = ExerciseListRepositoryImpl(ExerciseDatabase(sqliteOpenHelper), exerciseSetDatabase),
             exerciseSetsRepository = ExerciseSetsRepositoryImpl(exerciseSetDatabase),
             calendarRepository = CalendarRepositoryImpl(),

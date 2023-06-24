@@ -7,6 +7,7 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import ru.freeit.crazytraining.core.mocks.CalendarRepositoryMock
 import ru.freeit.crazytraining.core.mocks.ExerciseSetsRepositoryMock
+import ru.freeit.crazytraining.core.mocks.SavedInstanceStateMock
 import ru.freeit.crazytraining.core.models.WeekdayModel
 import ru.freeit.crazytraining.core.rules.MainDispatcherRule
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
@@ -27,6 +28,7 @@ internal class SettingsViewModelTest {
     @Test
     fun `test when cache is empty`() {
         val viewModel = SettingsViewModel(
+            SavedInstanceStateMock(),
             CheckedWeekdaysRepository.Test(),
             CalendarRepositoryMock(),
             ExerciseSetsRepositoryMock()
@@ -54,6 +56,7 @@ internal class SettingsViewModelTest {
             WeekdayModel.SUNDAY
         ))
         val viewModel = SettingsViewModel(
+            SavedInstanceStateMock(),
             repository,
             CalendarRepositoryMock(),
             ExerciseSetsRepositoryMock()
@@ -77,6 +80,7 @@ internal class SettingsViewModelTest {
     fun `test when weekday state has been changed`() {
         val repository = CheckedWeekdaysRepository.Test()
         val viewModel = SettingsViewModel(
+            SavedInstanceStateMock(),
             repository,
             CalendarRepositoryMock(),
             ExerciseSetsRepositoryMock()

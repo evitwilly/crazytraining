@@ -1,11 +1,13 @@
 package ru.freeit.crazytraining.training
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.launch
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.fragment.BaseViewModel
 import ru.freeit.crazytraining.core.repository.CalendarRepository
+import ru.freeit.crazytraining.core.viewmodel.SavedInstanceState
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepository
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
@@ -16,6 +18,7 @@ import ru.freeit.crazytraining.training.viewmodel_states.TrainingTextState
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingWeekendState
 
 class TrainingViewModel(
+    savedState: SavedInstanceState,
     private val exerciseListRepository: ExerciseListRepository,
     private val exerciseSetsRepository: ExerciseSetsRepository,
     private val calendarRepository: CalendarRepository,
@@ -31,16 +34,19 @@ class TrainingViewModel(
     private val _weekdayState = MutableLiveData<TrainingWeekendState>()
     val weekdayState: LiveData<TrainingWeekendState> = _weekdayState
 
-    private var exerciseModel: ExerciseModel? = null
-
+    private var exerciseModel: ExerciseModel? = savedState.parcelable(exercise_key, ExerciseModel::class.java)
     fun cacheExercise(model: ExerciseModel) {
         exerciseModel = model
     }
 
-    private var exerciseSetModel: ExerciseSetModel? = null
-
+    private var exerciseSetModel: ExerciseSetModel? = savedState.parcelable(exercise_set_key, ExerciseSetModel::class.java)
     fun cacheExerciseSet(model: ExerciseSetModel) {
         exerciseSetModel = model
+    }
+
+    override fun onSaveInstanceState(bundle: Bundle) {
+        bundle.putParcelable(exercise_key, exerciseModel)
+        bundle.putParcelable(exercise_set_key, exerciseSetModel)
     }
 
     fun addSet(amount: Int) {
@@ -79,6 +85,11 @@ class TrainingViewModel(
                 _trainingState.value = exerciseListRepository.exercisesWithSetsByDate(calendarRepository.dateStringFrom())
             }
         }
+    }
+
+    private companion object {
+        const val exercise_key = "exercise_key"
+        const val exercise_set_key = "exercise_set_key"
     }
 
 }
