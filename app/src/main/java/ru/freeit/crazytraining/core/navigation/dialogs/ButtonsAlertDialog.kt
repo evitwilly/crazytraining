@@ -35,7 +35,6 @@ class ButtonsAlertDialog() : CoreDialog() {
             backgroundColor = ColorType.secondaryBackgroundColor
         )
         contentView.clipChildren = true
-        contentView.padding(top = context.dp(12))
         contentView.orientation = LinearLayout.VERTICAL
 
         val titleView = CoreTextView(context, textStyle = TextType.Title2)
@@ -56,7 +55,7 @@ class ButtonsAlertDialog() : CoreDialog() {
         val buttonsView = CoreLinearLayout(context)
         buttonsView.layoutParams(
             linearLayoutParams().matchWidth().wrapHeight()
-            .marginTop(context.dp(12)))
+            .marginTop(context.dp(16)))
         buttonsView.orientation = LinearLayout.HORIZONTAL
         contentView.addView(buttonsView)
 
@@ -65,7 +64,7 @@ class ButtonsAlertDialog() : CoreDialog() {
         fun createButton(stringResource: Int): CoreButton {
             val buttonView = CoreButton(context)
             buttonView.setText(stringResource)
-            buttonView.padding(context.dp(12))
+            buttonView.padding(context.dp(8))
             buttonView.layoutParams(linearLayoutParams().wrap().weight(1f))
             return buttonView
         }

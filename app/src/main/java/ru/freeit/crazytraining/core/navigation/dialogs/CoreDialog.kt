@@ -5,9 +5,17 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
+import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
 import ru.freeit.crazytraining.core.extensions.dp
+import ru.freeit.crazytraining.core.extensions.frameLayoutParams
+import ru.freeit.crazytraining.core.extensions.layoutParams
+import ru.freeit.crazytraining.core.extensions.padding
+import ru.freeit.crazytraining.core.theming.colors.ColorType
+import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
+import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
+import ru.freeit.crazytraining.core.theming.view.CoreImageButtonView
 
 abstract class CoreDialog : DialogFragment() {
 
@@ -17,7 +25,22 @@ abstract class CoreDialog : DialogFragment() {
     protected abstract fun createView(context: Context): View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return createView(inflater.context)
+        val context = inflater.context
+        val contentView = CoreFrameLayout(context, ColorType.secondaryBackgroundColor)
+
+        val buttonSize = context.dp(24)
+
+        val closeButtonView = CoreImageButtonView(context, cornerRadiusType = CornerRadiusType.small, cornerTreatmentStrategy = CornerTreatmentStrategy.StartBottomTopEndRounded())
+        closeButtonView.setImageResource(R.drawable.ic_close)
+        closeButtonView.padding(context.dp(4))
+        closeButtonView.layoutParams(frameLayoutParams().width(buttonSize).height(buttonSize).gravity(Gravity.END))
+        closeButtonView.setOnClickListener { dismiss() }
+        contentView.addView(closeButtonView)
+
+        val view = createView(context)
+        view.layoutParams(frameLayoutParams().match().marginTop(buttonSize))
+        contentView.addView(view)
+        return contentView
     }
 
     override fun onResume() {
