@@ -36,7 +36,7 @@ class MeasuredValuesDialog() : CoreDialog() {
             cornerRadiusStyle = radius,
             backgroundColor = ColorType.secondaryBackgroundColor
         )
-        contentView.padding(horizontal = context.dp(16), vertical = context.dp(12))
+        contentView.padding(start = context.dp(16), end = context.dp(16), bottom = context.dp(12))
         contentView.orientation = LinearLayout.VERTICAL
 
         val titleView = CoreTextView(context, textStyle = TextType.Body1)
