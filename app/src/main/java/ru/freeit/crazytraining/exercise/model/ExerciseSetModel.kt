@@ -10,7 +10,7 @@ import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
 class ExerciseSetModel(
     private val id: Int = 0,
     private val amount: Int,
-    private val millis: Long,
+    val millis: Long,
     private val exerciseId: Int = 0,
     private val measuredValueModel: ExerciseMeasuredValueModel,
     private val dateString: String = "",
@@ -38,14 +38,25 @@ class ExerciseSetModel(
         parcel.readString().orEmpty()
     )
 
+    fun copyWithSimilar(millis: Long, dateString: String, timeString: String): ExerciseSetModel {
+        return ExerciseSetModel(
+            amount = amount,
+            millis = millis,
+            exerciseId = exerciseId,
+            measuredValueModel = measuredValueModel,
+            dateString = dateString,
+            timeString = timeString
+        )
+    }
+
     fun isThisExercise(model: ExerciseModel) = model.id == exerciseId
 
     fun bindAmount(view: TextView, number: Int) {
-        view.text = view.context.resources.getQuantityString(R.plurals.set_title, amount, number, amount)
-    }
-
-    fun bindTime(view: TextView) {
-        view.text = timeString
+        val resources = view.context.resources
+        view.text = resources.getString(R.string.set_title,
+            resources.getQuantityString(R.plurals.set, number, number),
+            resources.getQuantityString(R.plurals.times, amount, amount)
+        )
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) = with(parcel) {
@@ -59,6 +70,15 @@ class ExerciseSetModel(
     }
 
     override fun describeContents() = 0
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null) return false
+        if (other !is ExerciseSetModel) return false
+
+        return amount == other.amount && exerciseId == other.exerciseId && measuredValueModel == other.measuredValueModel
+    }
+
+    override fun hashCode(): Int = amount
 
     companion object CREATOR : Parcelable.Creator<ExerciseSetModel> {
         override fun createFromParcel(parcel: Parcel) = ExerciseSetModel(parcel)
