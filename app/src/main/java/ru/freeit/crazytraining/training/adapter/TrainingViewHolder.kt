@@ -14,9 +14,8 @@ import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
-import ru.freeit.crazytraining.exercise.model.ExerciseModel
-import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailState
+import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailStateListeners
 
 class TrainingViewHolder(
     view: View,
@@ -26,15 +25,15 @@ class TrainingViewHolder(
     private val buttonView: CoreButton
 ) : RecyclerView.ViewHolder(view) {
 
-    fun bind(state: TrainingDetailState, addListener: (ExerciseModel) -> Unit, removeListener: (ExerciseSetModel) -> Unit) {
+    fun bind(state: TrainingDetailState, listeners: TrainingDetailStateListeners) {
         with(state.model) {
             bindImage(iconView)
             bindTitle(titleView)
         }
 
-        state.bindSetsViews(exerciseSetsLayoutView, removeListener)
+        state.bindSetsViews(exerciseSetsLayoutView, listeners)
 
-        buttonView.setOnClickListener { addListener.invoke(state.model) }
+        buttonView.setOnClickListener { listeners.addListener.invoke(state.model) }
     }
 
     companion object {

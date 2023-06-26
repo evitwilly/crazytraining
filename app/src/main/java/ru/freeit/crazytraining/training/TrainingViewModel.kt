@@ -73,6 +73,21 @@ class TrainingViewModel(
         }
     }
 
+    fun plusSimilarSet(model: ExerciseSetModel) = uiScope.launch {
+        val millis = calendarRepository.dateTimeMillis()
+        exerciseSetsRepository.saveExerciseSet(model.copyWithSimilar(
+            millis = millis,
+            dateString = calendarRepository.dateStringFrom(millis),
+            timeString = calendarRepository.timeStringFrom(millis)
+        ))
+        updateState()
+    }
+
+    fun minusSimilarSet(model: ExerciseSetModel) = uiScope.launch {
+        exerciseSetsRepository.removeExerciseSet(model)
+        updateState()
+    }
+
     fun updateState() {
         val isTodayTraining = checkedWeekdaysRepository.readCheckedWeekdays().map { it.calendarVariable }.contains(calendarRepository.weekday())
         _textState.value = TrainingTextState(

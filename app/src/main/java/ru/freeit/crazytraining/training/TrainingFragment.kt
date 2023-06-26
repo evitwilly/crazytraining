@@ -30,6 +30,7 @@ import ru.freeit.crazytraining.training.dialogs.MeasuredValuesDialogResult
 import ru.freeit.crazytraining.training.repository.ExerciseSetsRepositoryImpl
 import ru.freeit.crazytraining.training.view.TrainingDateView
 import ru.freeit.crazytraining.training.view.TrainingWeekendView
+import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailStateListeners
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingWeekendState
 
 class TrainingFragment : BaseFragment<TrainingViewModel>() {
@@ -49,18 +50,22 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
     }
 
     private val adapter = TrainingListAdapter(
-        addSetListener = { model ->
-            viewModel.cacheExercise(model)
-            navigator.show(MeasuredValuesDialog(model.measuredValueModel))
-        },
-        removeSetListener = { model ->
-            viewModel.cacheExerciseSet(model)
-            navigator.show(ButtonsAlertDialog(
-                title = "",
-                message = getString(R.string.do_you_really_want_to_remove_item),
-                buttons = ButtonsAlertDialog.Buttons.OK_CANCEL
-            ))
-        }
+        TrainingDetailStateListeners(
+            addListener = { model ->
+                viewModel.cacheExercise(model)
+                navigator.show(MeasuredValuesDialog(model.measuredValueModel))
+            },
+            removeListener = { model ->
+                viewModel.cacheExerciseSet(model)
+                navigator.show(ButtonsAlertDialog(
+                    title = "",
+                    message = getString(R.string.do_you_really_want_to_remove_item),
+                    buttons = ButtonsAlertDialog.Buttons.OK_CANCEL
+                ))
+            },
+            plusListener = { viewModel.plusSimilarSet(it) },
+            minusListener = { viewModel.minusSimilarSet(it) }
+        )
     )
 
     override fun createView(context: Context, bundle: Bundle?): View {
@@ -79,6 +84,7 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
         contentView.addView(dateView)
 
         val listView = RecyclerView(context)
+        listView.itemAnimator = null
         listView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         listView.clipToPadding = false
         listView.padding(top = context.dp(8), start = context.dp(16), end = context.dp(16), bottom = context.dp(64))
