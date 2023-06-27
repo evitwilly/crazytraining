@@ -26,7 +26,7 @@ enum class ExerciseMeasuredValueModel(
     TIME(
         R.string.time,
         R.string.time_description,
-        R.string.hours_minutes,
+        R.string.minutes_seconds,
         MeasuredValuesState.Time
     );
 
@@ -36,4 +36,5 @@ enum class ExerciseMeasuredValueModel(
                 ExerciseMeasuredValueState(model, index == 0)
             }
     }
+
 }

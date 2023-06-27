@@ -1,8 +1,8 @@
 package ru.freeit.crazytraining.exercise.model
 
+import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
-import android.widget.TextView
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetTableDb
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
@@ -51,12 +51,36 @@ class ExerciseSetModel(
 
     fun isThisExercise(model: ExerciseModel) = model.id == exerciseId
 
-    fun bindAmount(view: TextView, number: Int) {
-        val resources = view.context.resources
-        view.text = resources.getString(R.string.set_title,
-            resources.getQuantityString(R.plurals.set, number, number),
-            resources.getQuantityString(R.plurals.times, amount, amount)
-        )
+    fun amountString(resources: Resources): String {
+        return when (measuredValueModel) {
+            ExerciseMeasuredValueModel.QUANTITY -> resources.getQuantityString(R.plurals.times, amount, amount)
+            ExerciseMeasuredValueModel.DISTANCE -> {
+                if (amount < 1000) {
+                    resources.getQuantityString(R.plurals.meters, amount, amount)
+                } else {
+                    val kilometers = amount / 1000f
+                    val str = if (amount % 1000 == 0) "${kilometers.toInt()}" else "$kilometers"
+                    resources.getQuantityString(R.plurals.kilometers, kilometers.toInt(), str)
+                }
+            }
+            ExerciseMeasuredValueModel.TIME -> {
+                if (amount < 60) {
+                    resources.getQuantityString(R.plurals.seconds, amount, amount)
+                } else {
+                    val minutes = amount / 60
+                    val seconds = amount % 60
+
+                    val minutesStr = resources.getQuantityString(R.plurals.minutes, minutes, minutes)
+
+                    if (seconds > 0) {
+                        val secondsStr = resources.getQuantityString(R.plurals.seconds, seconds, seconds)
+                        "$minutesStr $secondsStr"
+                    } else {
+                        minutesStr
+                    }
+                }
+            }
+        }
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) = with(parcel) {

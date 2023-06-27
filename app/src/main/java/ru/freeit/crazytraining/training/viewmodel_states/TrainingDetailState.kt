@@ -51,14 +51,21 @@ class TrainingDetailState(
             val buttonSize = context.dp(24)
             val buttonMargin = context.dp(8)
 
-            val model = entry.key
-            val number = entry.value
-
             val titleView = CoreTextView(context, textStyle = TextType.Body2)
             titleView.layoutParams(frameLayoutParams().matchWidth().wrapHeight()
                 .gravity(Gravity.CENTER_VERTICAL)
                 .marginEnd(buttonSize * 2 + buttonMargin * 2))
             layoutView.addView(titleView)
+
+            val model = entry.key
+            val number = entry.value
+
+            val resources = context.resources
+            titleView.text = resources.getString(
+                R.string.set_title,
+                resources.getQuantityString(R.plurals.set, number, number),
+                model.amountString(resources)
+            )
 
             val plusButton = CoreImageButtonView(context)
             plusButton.setImageResource(R.drawable.ic_add)
@@ -82,8 +89,6 @@ class TrainingDetailState(
                 }
             }
             layoutView.addView(removeButton)
-
-            model.bindAmount(titleView, number)
 
         }
 
