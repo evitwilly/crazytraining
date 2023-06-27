@@ -130,53 +130,53 @@ sealed class MeasuredValuesState {
 
             val ctx = titleView.context
 
-            val timeHoursEditView = CoreEditText(ctx, TextType.Title2, verticalPadding = 2)
-            timeHoursEditView.numbered()
-            timeHoursEditView.layoutParams(linearLayoutParams().width(ctx.dp(56)).wrapHeight())
-            editLayoutView.addView(timeHoursEditView)
-
-            val hoursTextView = CoreTextView(ctx)
-            hoursTextView.layoutParams(linearLayoutParams().wrap().marginStart(ctx.dp(8)).marginEnd(ctx.dp(8)))
-            hoursTextView.setText(R.string.hours)
-            editLayoutView.addView(hoursTextView)
-
             val timeMinutesEditView = CoreEditText(ctx, TextType.Title2, verticalPadding = 2)
             timeMinutesEditView.numbered()
-            timeMinutesEditView.requestFocus()
             timeMinutesEditView.layoutParams(linearLayoutParams().width(ctx.dp(56)).wrapHeight())
             editLayoutView.addView(timeMinutesEditView)
 
+            val hoursTextView = CoreTextView(ctx)
+            hoursTextView.layoutParams(linearLayoutParams().wrap().marginStart(ctx.dp(8)).marginEnd(ctx.dp(8)))
+            hoursTextView.setText(R.string.minutes)
+            editLayoutView.addView(hoursTextView)
+
+            val timeSecondsEditView = CoreEditText(ctx, TextType.Title2, verticalPadding = 2)
+            timeSecondsEditView.numbered()
+            timeSecondsEditView.requestFocus()
+            timeSecondsEditView.layoutParams(linearLayoutParams().width(ctx.dp(56)).wrapHeight())
+            editLayoutView.addView(timeSecondsEditView)
+
             val minutesTextView = CoreTextView(ctx)
-            minutesTextView.setText(R.string.minutes)
+            minutesTextView.setText(R.string.seconds)
             minutesTextView.layoutParams(linearLayoutParams().wrap().marginStart(ctx.dp(8)).marginEnd(ctx.dp(8)))
             editLayoutView.addView(minutesTextView)
 
             fun changeAmount() {
-                val hours = timeHoursEditView.text.toIntOrNull() ?: 0
                 val minutes = timeMinutesEditView.text.toIntOrNull() ?: 0
-                val amount = hours * 60 + minutes
+                val seconds = timeSecondsEditView.text.toIntOrNull() ?: 0
+                val amount = minutes * 60 + seconds
                 if (amount <= 0) {
-                    timeHoursEditView.error = CoreEditText.Error.Field
                     timeMinutesEditView.error = CoreEditText.Error.Field
+                    timeSecondsEditView.error = CoreEditText.Error.Field
                 } else {
-                    timeHoursEditView.error = CoreEditText.Error.Empty
                     timeMinutesEditView.error = CoreEditText.Error.Empty
+                    timeSecondsEditView.error = CoreEditText.Error.Empty
                 }
                 amountListener.invoke(amount)
             }
 
-            timeHoursEditView.addTextWatcher(MaxTextWatcher(
-                editView = timeHoursEditView,
-                max = 24,
-                amountListener = { changeAmount() }
-            ))
             timeMinutesEditView.addTextWatcher(MaxTextWatcher(
                 editView = timeMinutesEditView,
                 max = 60,
                 amountListener = { changeAmount() }
             ))
+            timeSecondsEditView.addTextWatcher(MaxTextWatcher(
+                editView = timeSecondsEditView,
+                max = 60,
+                amountListener = { changeAmount() }
+            ))
 
-            timeMinutesEditView.changeText("1")
+            timeSecondsEditView.changeText("10")
 
         }
 
