@@ -1,6 +1,6 @@
 package ru.freeit.crazytraining.core.theming.colors
 
-enum class ColorType {
+enum class ColorAttributes {
     primaryColor,
     primaryDarkColor,
     colorOnPrimary,

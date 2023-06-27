@@ -6,13 +6,13 @@ import android.widget.LinearLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import ru.freeit.crazytraining.R
-import ru.freeit.crazytraining.core.theming.colors.ColorType
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
 import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.extensions.linearLayoutParams
 import ru.freeit.crazytraining.core.extensions.padding
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
-import ru.freeit.crazytraining.core.theming.text.TextType
+import ru.freeit.crazytraining.core.theming.text.TextAttribute
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 
@@ -31,13 +31,13 @@ class ButtonsAlertDialog() : CoreDialog() {
     override fun createView(context: Context): View {
         val contentView = CoreLinearLayout(
             ctx = context,
-            cornerRadiusStyle = radius,
-            backgroundColor = ColorType.secondaryBackgroundColor
+            shape = radius,
+            backgroundColor = ColorAttributes.secondaryBackgroundColor
         )
         contentView.clipChildren = true
         contentView.orientation = LinearLayout.VERTICAL
 
-        val titleView = CoreTextView(context, textStyle = TextType.Title2)
+        val titleView = CoreTextView(context, textStyle = TextAttribute.Title2)
         titleView.layoutParams(
             linearLayoutParams().matchWidth().wrapHeight()
             .marginStart(context.dp(16))

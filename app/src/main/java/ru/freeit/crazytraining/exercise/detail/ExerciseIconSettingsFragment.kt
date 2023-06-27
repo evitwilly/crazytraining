@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.extensions.*
 import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
-import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
+import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreButton
@@ -55,7 +55,7 @@ class ExerciseIconSettingsFragment() : BaseFragment<ExerciseIconSettingsViewMode
         iconImageView.layoutParams(frameLayoutParams().width(context.dp(72)).height(context.dp(72)))
         iconFrameView.addView(iconImageView)
 
-        val toggleButtonView = CoreButton(context, cornerTreatmentStrategy = CornerTreatmentStrategy.AllRounded())
+        val toggleButtonView = CoreButton(context, shapeTreatmentStrategy = ShapeTreatmentStrategy.AllRounded())
         toggleButtonView.layoutParams(frameLayoutParams().wrap().marginStart(context.dp(88)))
         toggleButtonView.padding(horizontal = context.dp(24), vertical = context.dp(2))
         toggleButtonView.setOnClickListener { viewModel.toggle() }

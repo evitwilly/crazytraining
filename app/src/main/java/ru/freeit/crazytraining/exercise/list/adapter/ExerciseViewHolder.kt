@@ -11,12 +11,12 @@ import androidx.core.view.doOnDetach
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.core.extensions.*
-import ru.freeit.crazytraining.core.theming.colors.ColorType
-import ru.freeit.crazytraining.core.theming.colors.ColorType.secondaryBackgroundColor
-import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
-import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes.secondaryBackgroundColor
+import ru.freeit.crazytraining.core.theming.corners.ShapeAttribute
+import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
-import ru.freeit.crazytraining.core.theming.text.TextType
+import ru.freeit.crazytraining.core.theming.text.TextAttribute
 import ru.freeit.crazytraining.core.theming.view.CoreImageButtonView
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.exercise.list.viewmodel_states.ExerciseDetailState
@@ -58,7 +58,7 @@ class ExerciseViewHolder(
 
             val contentLinearView = CoreLinearLayout(context,
                 backgroundColor = secondaryBackgroundColor,
-                cornerTreatmentStrategy = CornerTreatmentStrategy.AllRounded()
+                shapeTreatmentStrategy = ShapeTreatmentStrategy.AllRounded()
             )
             contentLinearView.elevation = context.dp(2f)
             contentLinearView.padding(bottom = context.dp(12))
@@ -86,8 +86,8 @@ class ExerciseViewHolder(
 
             val editButtonView = CoreImageButtonView(
                 ctx = context,
-                cornerRadiusType = CornerRadiusType.medium,
-                cornerTreatmentStrategy = CornerTreatmentStrategy.StartBottomTopEndRounded()
+                shape = ShapeAttribute.medium,
+                shapeTreatmentStrategy = ShapeTreatmentStrategy.StartBottomTopEndRounded()
             )
             editButtonView.padding(context.dp(8))
             editButtonView.setOnClickListener { editButtonView.showContextMenu() }
@@ -96,13 +96,13 @@ class ExerciseViewHolder(
                 .height(context.dp(32)).gravity(Gravity.END))
             headerFrameView.addView(editButtonView)
 
-            val measuredView = CoreTextView(context, textStyle = TextType.Body2)
+            val measuredView = CoreTextView(context, textStyle = TextAttribute.Body2)
             measuredView.layoutParams(
                 linearLayoutParams().wrap().gravity(Gravity.END)
                 .marginEnd(context.dp(12)))
             contentLinearView.addView(measuredView)
 
-            val buttonsView = CoreLinearLayout(context, ColorType.transparent)
+            val buttonsView = CoreLinearLayout(context, ColorAttributes.transparent)
             buttonsView.layoutParams(
                 linearLayoutParams().matchWidth().wrapHeight()
                 .marginStart(context.dp(12))

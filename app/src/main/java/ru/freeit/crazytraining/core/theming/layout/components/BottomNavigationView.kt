@@ -7,17 +7,17 @@ import android.view.Gravity
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import ru.freeit.crazytraining.R
-import ru.freeit.crazytraining.core.theming.colors.ColorType
-import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
-import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
+import ru.freeit.crazytraining.core.theming.corners.ShapeAttribute
+import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.extensions.linearLayoutParams
-import ru.freeit.crazytraining.core.theming.text.TextType
+import ru.freeit.crazytraining.core.theming.text.TextAttribute
 import ru.freeit.crazytraining.core.theming.view.CoreImageView
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 
-class BottomNavigationView(ctx: Context) : CoreLinearLayout(ctx, backgroundColor = ColorType.secondaryBackgroundColor) {
+class BottomNavigationView(ctx: Context) : CoreLinearLayout(ctx, backgroundColor = ColorAttributes.secondaryBackgroundColor) {
 
     private var selectedTabIndex = -1
 
@@ -66,14 +66,14 @@ class BottomNavigationView(ctx: Context) : CoreLinearLayout(ctx, backgroundColor
 
         tabs.forEachIndexed { index, tab ->
 
-            val cornerTreatmentStrategy = when {
-                tabs.size == 1 -> CornerTreatmentStrategy.None()
-                index == 0 -> CornerTreatmentStrategy.EndElliptical()
-                index == tabs.size - 1 -> CornerTreatmentStrategy.StartElliptical()
-                else -> CornerTreatmentStrategy.AllElliptical()
+            val shapeTreatmentStrategy = when {
+                tabs.size == 1 -> ShapeTreatmentStrategy.None()
+                index == 0 -> ShapeTreatmentStrategy.EndElliptical()
+                index == tabs.size - 1 -> ShapeTreatmentStrategy.StartElliptical()
+                else -> ShapeTreatmentStrategy.AllElliptical()
             }
 
-            val tabContentView = TabView(context, cornerTreatmentStrategy)
+            val tabContentView = TabView(context, shapeTreatmentStrategy)
             tabContentView.changeImage(tab.drawableResource)
             tabContentView.changeTitle(tab.stringResource)
             tabContentView.wasSelected = selectedTabIndex == index
@@ -107,16 +107,16 @@ class BottomNavigationView(ctx: Context) : CoreLinearLayout(ctx, backgroundColor
         }
     }
 
-    private class TabView(ctx: Context, cornerTreatmentStrategy: CornerTreatmentStrategy) : CoreLinearLayout(
+    private class TabView(ctx: Context, shapeTreatmentStrategy: ShapeTreatmentStrategy) : CoreLinearLayout(
         ctx,
-        backgroundColor = ColorType.transparent,
-        cornerRadiusStyle = CornerRadiusType.maximum,
-        cornerTreatmentStrategy = cornerTreatmentStrategy,
-        rippleColor = ColorType.primaryColor
+        backgroundColor = ColorAttributes.transparent,
+        shape = ShapeAttribute.maximum,
+        shapeTreatmentStrategy = shapeTreatmentStrategy,
+        rippleColor = ColorAttributes.primaryColor
     ) {
 
         private val imageView = CoreImageView(context)
-        private val titleView = CoreTextView(context, textStyle = TextType.Caption2)
+        private val titleView = CoreTextView(context, textStyle = TextAttribute.Caption2)
 
         var wasSelected: Boolean = false
             set(value) {
@@ -140,11 +140,11 @@ class BottomNavigationView(ctx: Context) : CoreLinearLayout(ctx, backgroundColor
 
         private fun drawState() {
             if (wasSelected) {
-                imageView.changeTint(ColorType.primaryColor)
-                titleView.changeTextColor(ColorType.primaryColor)
+                imageView.changeTint(ColorAttributes.primaryColor)
+                titleView.changeTextColor(ColorAttributes.primaryColor)
             } else {
-                imageView.changeTint(ColorType.primaryTextColor)
-                titleView.changeTextColor(ColorType.primaryTextColor)
+                imageView.changeTint(ColorAttributes.primaryTextColor)
+                titleView.changeTextColor(ColorAttributes.primaryTextColor)
             }
         }
 

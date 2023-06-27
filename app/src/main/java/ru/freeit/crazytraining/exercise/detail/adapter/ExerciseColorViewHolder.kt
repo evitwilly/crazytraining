@@ -7,7 +7,7 @@ import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.extensions.recyclerLayoutParams
 import ru.freeit.crazytraining.core.theming.adapter.CoreViewHolder
-import ru.freeit.crazytraining.core.theming.colors.ColorType
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
 import ru.freeit.crazytraining.core.extensions.dp
 
 class ExerciseColorViewHolder(
@@ -22,7 +22,7 @@ class ExerciseColorViewHolder(
             if (item == checkedColor) {
                 setStroke(
                     view.context.dp(2),
-                    theme.colorsStyle.color(ColorType.primaryColor)
+                    theme.colors[ColorAttributes.primaryColor]
                 )
             }
             setColor(item)

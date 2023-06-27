@@ -4,10 +4,10 @@ import android.view.Gravity
 import androidx.core.view.isVisible
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.extensions.*
-import ru.freeit.crazytraining.core.theming.colors.ColorType
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
-import ru.freeit.crazytraining.core.theming.text.TextType
+import ru.freeit.crazytraining.core.theming.text.TextAttribute
 import ru.freeit.crazytraining.core.theming.view.CoreImageButtonView
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
@@ -43,7 +43,7 @@ class TrainingDetailState(
 
         formattedSets.entries.forEach { entry ->
 
-            val layoutView = CoreFrameLayout(context, backgroundColor = ColorType.transparent)
+            val layoutView = CoreFrameLayout(context, backgroundColor = ColorAttributes.transparent)
             layoutView.padding(context.dp(4))
             layoutView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginBottom(context.dp(4)))
             parent.addView(layoutView)
@@ -51,7 +51,7 @@ class TrainingDetailState(
             val buttonSize = context.dp(24)
             val buttonMargin = context.dp(8)
 
-            val titleView = CoreTextView(context, textStyle = TextType.Body2)
+            val titleView = CoreTextView(context, textStyle = TextAttribute.Body2)
             titleView.layoutParams(frameLayoutParams().matchWidth().wrapHeight()
                 .gravity(Gravity.CENTER_VERTICAL)
                 .marginEnd(buttonSize * 2 + buttonMargin * 2))

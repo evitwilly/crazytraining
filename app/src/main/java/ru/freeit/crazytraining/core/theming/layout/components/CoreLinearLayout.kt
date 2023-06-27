@@ -6,29 +6,29 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.widget.LinearLayout
 import ru.freeit.crazytraining.core.App
+import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.theming.CoreColors
 import ru.freeit.crazytraining.core.theming.CoreTheme
-import ru.freeit.crazytraining.core.theming.colors.ColorType
-import ru.freeit.crazytraining.core.theming.colors.ColorType.*
-import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
-import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
+import ru.freeit.crazytraining.core.theming.corners.ShapeAttribute
+import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 
 open class CoreLinearLayout @JvmOverloads constructor(
     ctx: Context,
-    private val backgroundColor: ColorType = primaryBackgroundColor,
-    private val cornerRadiusStyle: CornerRadiusType = CornerRadiusType.medium,
-    private val cornerTreatmentStrategy: CornerTreatmentStrategy = CornerTreatmentStrategy.None(),
-    private val rippleColor: ColorType? = null,
+    private val backgroundColor: ColorAttributes = ColorAttributes.primaryBackgroundColor,
+    private val shape: ShapeAttribute = ShapeAttribute.medium,
+    private val shapeTreatmentStrategy: ShapeTreatmentStrategy = ShapeTreatmentStrategy.None(),
+    private val rippleColor: ColorAttributes? = null,
 ): LinearLayout(ctx) {
 
     protected open fun onThemeChanged(theme: CoreTheme) {
         val gradientDrawable = GradientDrawable()
-        val radius = cornerTreatmentStrategy.floatArrayOf(theme.cornerRadiusStyle.style(context, cornerRadiusStyle))
+        val radius = shapeTreatmentStrategy.floatArrayOf(context.dp(theme.shapeStyle[shape]))
         gradientDrawable.cornerRadii = radius
-        gradientDrawable.setColor(theme.colorsStyle.color(backgroundColor))
+        gradientDrawable.setColor(theme.colors[backgroundColor])
 
         background = if (rippleColor != null) {
-            val maskDrawable = if (backgroundColor == transparent) {
+            val maskDrawable = if (backgroundColor == ColorAttributes.transparent) {
                 GradientDrawable().apply {
                     cornerRadii = radius
                     setColor(CoreColors.white)
@@ -37,7 +37,7 @@ open class CoreLinearLayout @JvmOverloads constructor(
                 null
             }
             RippleDrawable(
-                ColorStateList.valueOf(theme.colorsStyle.color(rippleColor)),
+                ColorStateList.valueOf(theme.colors[rippleColor]),
                 gradientDrawable,
                 maskDrawable
             )

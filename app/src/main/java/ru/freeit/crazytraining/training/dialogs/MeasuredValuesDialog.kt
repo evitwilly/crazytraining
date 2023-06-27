@@ -9,14 +9,14 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.dialogs.CoreDialog
-import ru.freeit.crazytraining.core.theming.colors.ColorType
-import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
+import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.extensions.linearLayoutParams
 import ru.freeit.crazytraining.core.extensions.padding
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
-import ru.freeit.crazytraining.core.theming.text.TextType
+import ru.freeit.crazytraining.core.theming.text.TextAttribute
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.core.viewmodel.viewModelFactory
@@ -33,29 +33,29 @@ class MeasuredValuesDialog() : CoreDialog() {
     override fun createView(context: Context): View {
         val contentView = CoreLinearLayout(
             ctx = context,
-            cornerRadiusStyle = radius,
-            backgroundColor = ColorType.secondaryBackgroundColor
+            shape = radius,
+            backgroundColor = ColorAttributes.secondaryBackgroundColor
         )
         contentView.padding(start = context.dp(16), end = context.dp(16), bottom = context.dp(12))
         contentView.orientation = LinearLayout.VERTICAL
 
-        val titleView = CoreTextView(context, textStyle = TextType.Body1)
+        val titleView = CoreTextView(context, textStyle = TextAttribute.Body1)
         titleView.layoutParams(linearLayoutParams().matchWidth().wrapHeight())
         contentView.addView(titleView)
 
-        val editLayoutView = CoreLinearLayout(context, backgroundColor = ColorType.transparent)
+        val editLayoutView = CoreLinearLayout(context, backgroundColor = ColorAttributes.transparent)
         editLayoutView.gravity = Gravity.BOTTOM
         editLayoutView.orientation = LinearLayout.HORIZONTAL
         editLayoutView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginTop(context.dp(4)))
         contentView.addView(editLayoutView)
 
-        val errorView = CoreTextView(context, textColor = ColorType.colorError, textStyle = TextType.Caption2)
+        val errorView = CoreTextView(context, textColor = ColorAttributes.colorError, textStyle = TextAttribute.Caption2)
         errorView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginTop(context.dp(8)))
         errorView.setText(R.string.both_fields_are_empty)
         errorView.isVisible = false
         contentView.addView(errorView)
 
-        val button = CoreButton(context, cornerTreatmentStrategy = CornerTreatmentStrategy.AllRounded())
+        val button = CoreButton(context, shapeTreatmentStrategy = ShapeTreatmentStrategy.AllRounded())
         button.setText(R.string.add)
         button.padding(horizontal = context.dp(24), vertical = context.dp(4))
         button.layoutParams(linearLayoutParams().wrap().gravity(Gravity.END).marginTop(context.dp(4)))

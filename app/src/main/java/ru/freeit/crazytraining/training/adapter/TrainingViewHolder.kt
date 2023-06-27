@@ -9,8 +9,8 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.extensions.*
-import ru.freeit.crazytraining.core.theming.colors.ColorType
-import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
+import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
@@ -41,8 +41,8 @@ class TrainingViewHolder(
             val context = parent.context
             val contentLinearView = CoreLinearLayout(
                 context,
-                backgroundColor = ColorType.secondaryBackgroundColor,
-                cornerTreatmentStrategy = CornerTreatmentStrategy.AllRounded()
+                backgroundColor = ColorAttributes.secondaryBackgroundColor,
+                shapeTreatmentStrategy = ShapeTreatmentStrategy.AllRounded()
             )
             contentLinearView.elevation = context.dp(2f)
             contentLinearView.orientation = LinearLayout.VERTICAL
@@ -69,7 +69,7 @@ class TrainingViewHolder(
                 .gravity(Gravity.TOP))
             headerFrameView.addView(titleView)
 
-            val exerciseSetsLayoutView = CoreLinearLayout(context, backgroundColor = ColorType.transparent)
+            val exerciseSetsLayoutView = CoreLinearLayout(context, backgroundColor = ColorAttributes.transparent)
             exerciseSetsLayoutView.orientation = LinearLayout.VERTICAL
             exerciseSetsLayoutView.layoutParams(
                 linearLayoutParams().matchWidth().wrapHeight()

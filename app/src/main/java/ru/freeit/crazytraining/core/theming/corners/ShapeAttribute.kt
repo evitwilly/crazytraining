@@ -1,5 +1,5 @@
 package ru.freeit.crazytraining.core.theming.corners
 
-enum class CornerRadiusType {
+enum class ShapeAttribute {
     small, medium, big, maximum
 }

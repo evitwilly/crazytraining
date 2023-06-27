@@ -8,10 +8,10 @@ import android.view.View
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreColors
 import ru.freeit.crazytraining.core.theming.CoreTheme
-import ru.freeit.crazytraining.core.theming.colors.ColorType.*
 import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.extensions.fontSizeInPixels
-import ru.freeit.crazytraining.core.theming.text.TextType
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
+import ru.freeit.crazytraining.core.theming.text.TextAttribute
 import ru.freeit.crazytraining.core.theming.text.TypefaceStyle
 
 class ChipView(ctx: Context): View(ctx) {
@@ -20,17 +20,17 @@ class ChipView(ctx: Context): View(ctx) {
     private val typefaceManager = (context.applicationContext as App).typefaceManager
 
     private val onThemeChanged: (CoreTheme) -> Unit = { theme ->
-        val (fontFamily, fontSize) = theme.textStyle.style(TextType.Body2)
+        val (fontFamily, fontSize) = theme.textStyle[TextAttribute.Body2]
 
         val chipTextSize = context.fontSizeInPixels(fontSize)
         val chipTextStyle = typefaceManager.typeface(fontFamily)
 
-        selectedPaint.color = theme.colorsStyle.color(primaryColor)
-        selectedTextPaint.color = theme.colorsStyle.color(colorOnPrimary)
+        selectedPaint.color = theme.colors[ColorAttributes.primaryColor]
+        selectedTextPaint.color = theme.colors[ColorAttributes.colorOnPrimary]
         selectedTextPaint.textSize = chipTextSize
         selectedTextPaint.typeface = chipTextStyle
-        unselectedPaint.color = theme.colorsStyle.color(unselectedColor)
-        unselectedTextPaint.color = theme.colorsStyle.color(unselectedColor)
+        unselectedPaint.color = theme.colors[ColorAttributes.unselectedColor]
+        unselectedTextPaint.color = theme.colors[ColorAttributes.unselectedColor]
         unselectedTextPaint.textSize = chipTextSize
         unselectedTextPaint.typeface = chipTextStyle
         invalidate()

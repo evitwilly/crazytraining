@@ -2,8 +2,8 @@ package ru.freeit.crazytraining.exercise.list.adapter
 
 import android.widget.ImageView
 import android.widget.LinearLayout
-import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
-import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
+import ru.freeit.crazytraining.core.theming.corners.ShapeAttribute
+import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.extensions.linearLayoutParams
@@ -26,8 +26,8 @@ class ExerciseEditButtonState(
         buttons.forEachIndexed { index, buttonModel ->
             val buttonView = CoreButton(
                 ctx = context,
-                cornerRadiusType = CornerRadiusType.small,
-                cornerTreatmentStrategy = CornerTreatmentStrategy.AllRounded()
+                shape = ShapeAttribute.small,
+                shapeTreatmentStrategy = ShapeTreatmentStrategy.AllRounded()
             )
             buttonView.setText(buttonModel.stringResource)
             buttonView.setOnClickListener { buttonModel.clickListener.invoke(model) }

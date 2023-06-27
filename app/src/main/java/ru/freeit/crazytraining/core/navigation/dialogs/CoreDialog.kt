@@ -7,30 +7,30 @@ import android.view.*
 import androidx.fragment.app.DialogFragment
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
-import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
+import ru.freeit.crazytraining.core.theming.corners.ShapeAttribute
 import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.extensions.frameLayoutParams
 import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.extensions.padding
-import ru.freeit.crazytraining.core.theming.colors.ColorType
-import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
+import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
 import ru.freeit.crazytraining.core.theming.view.CoreImageButtonView
 
 abstract class CoreDialog : DialogFragment() {
 
-    protected open val radius: CornerRadiusType = CornerRadiusType.small
+    protected open val radius: ShapeAttribute = ShapeAttribute.small
     abstract val name: String
 
     protected abstract fun createView(context: Context): View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val context = inflater.context
-        val contentView = CoreFrameLayout(context, ColorType.secondaryBackgroundColor)
+        val contentView = CoreFrameLayout(context, ColorAttributes.secondaryBackgroundColor)
 
         val buttonSize = context.dp(24)
 
-        val closeButtonView = CoreImageButtonView(context, cornerRadiusType = CornerRadiusType.small, cornerTreatmentStrategy = CornerTreatmentStrategy.StartBottomTopEndRounded())
+        val closeButtonView = CoreImageButtonView(context, shape = ShapeAttribute.small, shapeTreatmentStrategy = ShapeTreatmentStrategy.StartBottomTopEndRounded())
         closeButtonView.setImageResource(R.drawable.ic_close)
         closeButtonView.padding(context.dp(4))
         closeButtonView.layoutParams(frameLayoutParams().width(buttonSize).height(buttonSize).gravity(Gravity.END))
@@ -48,7 +48,7 @@ abstract class CoreDialog : DialogFragment() {
         val ctx = requireContext()
         val themeManager = (ctx.applicationContext as App).themeManager
         dialog?.window?.setBackgroundDrawable(GradientDrawable().apply {
-            cornerRadius = themeManager.selected_theme.cornerRadiusStyle.style(ctx, radius)
+            cornerRadius = ctx.dp(themeManager.selected_theme.shapeStyle[radius])
         })
         val attributes = dialog?.window?.attributes
         attributes?.width = requireContext().resources.displayMetrics.widthPixels - ctx.dp(32)

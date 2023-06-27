@@ -19,7 +19,7 @@ import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.extensions.frameLayoutParams
 import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
-import ru.freeit.crazytraining.core.theming.text.TextType.Title2
+import ru.freeit.crazytraining.core.theming.text.TextAttribute.Title2
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.core.theming.view.CoreImageButtonView
 import ru.freeit.crazytraining.core.viewmodel.viewModelFactory
