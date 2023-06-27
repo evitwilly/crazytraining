@@ -10,16 +10,18 @@ class TextStyle(
     private val caption1: Pair<TypefaceStyle, Float>,
     private val caption2: Pair<TypefaceStyle, Float>
 ) {
-    fun style(type: TextType): Pair<TypefaceStyle, Float> {
-        return when (type) {
-            TextType.Title1 -> title1
-            TextType.Title2 -> title2
-            TextType.Title3 -> title3
-            TextType.Body1 -> body1
-            TextType.Body2 -> body2
-            TextType.Body3 -> body3
-            TextType.Caption1 -> caption1
-            TextType.Caption2 -> caption2
+
+    operator fun get(attr: TextAttribute): Pair<TypefaceStyle, Float> {
+        return when (attr) {
+            TextAttribute.Title1 -> title1
+            TextAttribute.Title2 -> title2
+            TextAttribute.Title3 -> title3
+            TextAttribute.Body1 -> body1
+            TextAttribute.Body2 -> body2
+            TextAttribute.Body3 -> body3
+            TextAttribute.Caption1 -> caption1
+            TextAttribute.Caption2 -> caption2
         }
     }
+
 }

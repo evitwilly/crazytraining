@@ -8,18 +8,18 @@ import android.view.Gravity
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import ru.freeit.crazytraining.core.theming.CoreTheme
-import ru.freeit.crazytraining.core.theming.colors.ColorType.*
-import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
-import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
+import ru.freeit.crazytraining.core.theming.corners.ShapeAttribute
+import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.extensions.padding
-import ru.freeit.crazytraining.core.theming.text.TextType.Caption1
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
+import ru.freeit.crazytraining.core.theming.text.TextAttribute.Caption1
 
 class CoreButton @JvmOverloads constructor(
     ctx: Context,
-    private val cornerRadiusType: CornerRadiusType = CornerRadiusType.medium,
-    private val cornerTreatmentStrategy: CornerTreatmentStrategy = CornerTreatmentStrategy.None()
-) : CoreTextView(ctx, textColor = colorOnPrimary, textStyle = Caption1) {
+    private val shape: ShapeAttribute = ShapeAttribute.medium,
+    private val shapeTreatmentStrategy: ShapeTreatmentStrategy = ShapeTreatmentStrategy.None()
+) : CoreTextView(ctx, textColor = ColorAttributes.colorOnPrimary, textStyle = Caption1) {
 
     init {
         isClickable = true
@@ -42,10 +42,10 @@ class CoreButton @JvmOverloads constructor(
         super.onThemeChanged(theme)
 
         val gradientBackground = GradientDrawable()
-        gradientBackground.setColor(theme.colorsStyle.color(primaryColor))
-        gradientBackground.cornerRadii = cornerTreatmentStrategy.floatArrayOf(theme.cornerRadiusStyle.style(context, cornerRadiusType))
+        gradientBackground.setColor(theme.colors[ColorAttributes.primaryColor])
+        gradientBackground.cornerRadii = shapeTreatmentStrategy.floatArrayOf(context.dp(theme.shapeStyle[shape]))
 
-        val rippleColor = ColorStateList.valueOf(theme.colorsStyle.color(primaryDarkColor))
+        val rippleColor = ColorStateList.valueOf(theme.colors[ColorAttributes.primaryDarkColor])
 
         background = RippleDrawable(rippleColor, gradientBackground, null)
     }
@@ -53,7 +53,7 @@ class CoreButton @JvmOverloads constructor(
     fun changeStartIcon(@DrawableRes drawableRes: Int, size: Int = 16) {
         val drawable = AppCompatResources.getDrawable(context, drawableRes) ?: return
         drawable.setBounds(0, 0, context.dp(size), context.dp(size))
-        drawable.setTint(themeManager.selected_theme.colorsStyle.color(colorOnPrimary))
+        drawable.setTint(themeManager.selected_theme.colors[ColorAttributes.colorOnPrimary])
         setCompoundDrawables(drawable, null, null, null)
         compoundDrawablePadding = context.dp(4)
     }

@@ -1,29 +1,29 @@
 package ru.freeit.crazytraining.core.theming.corners
 
-interface CornerTreatmentStrategy {
+interface ShapeTreatmentStrategy {
     fun floatArrayOf(radius: Float): FloatArray
 
-    class None : CornerTreatmentStrategy {
+    class None : ShapeTreatmentStrategy {
         override fun floatArrayOf(radius: Float) = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
     }
 
-    class AllRounded : CornerTreatmentStrategy {
+    class AllRounded : ShapeTreatmentStrategy {
         override fun floatArrayOf(radius: Float) = floatArrayOf(radius, radius, radius, radius, radius, radius, radius, radius)
     }
 
-    class AllElliptical : CornerTreatmentStrategy {
+    class AllElliptical : ShapeTreatmentStrategy {
         override fun floatArrayOf(radius: Float) = floatArrayOf(radius / 2f, radius, radius / 2f, radius, radius / 2f, radius, radius / 2f, radius)
     }
 
-    class EndElliptical : CornerTreatmentStrategy {
+    class EndElliptical : ShapeTreatmentStrategy {
         override fun floatArrayOf(radius: Float) = floatArrayOf(0f, 0f, radius / 2f, radius, radius / 2f, radius, 0f, 0f)
     }
 
-    class StartElliptical : CornerTreatmentStrategy {
+    class StartElliptical : ShapeTreatmentStrategy {
         override fun floatArrayOf(radius: Float) = floatArrayOf(radius / 2f, radius, 0f, 0f, 0f, 0f, radius / 2f, radius)
     }
 
-    class StartBottomTopEndRounded : CornerTreatmentStrategy {
+    class StartBottomTopEndRounded : ShapeTreatmentStrategy {
         override fun floatArrayOf(radius: Float) = floatArrayOf(0f, 0f, radius, radius, 0f, 0f, radius, radius)
     }
 

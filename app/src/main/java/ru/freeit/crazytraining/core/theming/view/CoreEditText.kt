@@ -13,13 +13,13 @@ import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.extensions.*
 import ru.freeit.crazytraining.core.theming.CoreTheme
-import ru.freeit.crazytraining.core.theming.colors.ColorType.*
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
-import ru.freeit.crazytraining.core.theming.text.TextType
+import ru.freeit.crazytraining.core.theming.text.TextAttribute
 
 class CoreEditText @JvmOverloads constructor(
     ctx: Context,
-    private val textStyle: TextType = TextType.Body1,
+    private val textStyle: TextAttribute = TextAttribute.Body1,
     private val horizontalPadding: Int = 2,
     private val verticalPadding: Int = 8
 ) : CoreLinearLayout(ctx) {
@@ -27,7 +27,7 @@ class CoreEditText @JvmOverloads constructor(
     private val typefaceManager = (context.applicationContext as App).typefaceManager
 
     private val editView = AppCompatEditText(context)
-    private val errorView = CoreTextView(context, textColor = colorError, textStyle = TextType.Caption2)
+    private val errorView = CoreTextView(context, textColor = ColorAttributes.colorError, textStyle = TextAttribute.Caption2)
 
     val text: String
         get() = editView.text.toString()
@@ -36,18 +36,18 @@ class CoreEditText @JvmOverloads constructor(
         set(value) {
             when (value) {
                 is Error.Field -> {
-                    editBackgroundByColor(themeManager.selected_theme.colorsStyle.color(colorError))
+                    editBackgroundByColor(themeManager.selected_theme.colors[ColorAttributes.colorError])
                     errorView.isVisible = false
                 }
                 is Error.Text -> {
                     errorView.isVisible = true
                     errorView.text = value.error
-                    editBackgroundByColor(themeManager.selected_theme.colorsStyle.color(colorError))
+                    editBackgroundByColor(themeManager.selected_theme.colors[ColorAttributes.colorError])
                 }
                 is Error.Empty -> {
                     errorView.text = ""
                     errorView.isVisible = false
-                    editBackgroundByColor(themeManager.selected_theme.colorsStyle.color(primaryColor))
+                    editBackgroundByColor(themeManager.selected_theme.colors[ColorAttributes.primaryColor])
                 }
             }
 
@@ -79,15 +79,15 @@ class CoreEditText @JvmOverloads constructor(
     }
 
     override fun onThemeChanged(theme: CoreTheme) {
-        val textColor = theme.colorsStyle.color(primaryTextColor)
+        val textColor = theme.colors[ColorAttributes.primaryTextColor]
         editView.setHintTextColor(textColor.withAlpha(0.31f))
         editView.setTextColor(textColor)
 
-        val (fontFamily, textSize) = theme.textStyle.style(textStyle)
+        val (fontFamily, textSize) = theme.textStyle[textStyle]
         editView.typeface = typefaceManager.typeface(fontFamily)
         editView.fontSize(textSize)
 
-        editBackgroundByColor(theme.colorsStyle.color(primaryColor))
+        editBackgroundByColor(theme.colors[ColorAttributes.primaryColor])
     }
 
     fun singleLine() {

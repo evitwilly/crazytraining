@@ -4,10 +4,10 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import ru.freeit.crazytraining.core.theming.CoreTheme
-import ru.freeit.crazytraining.core.theming.colors.ColorType.*
 import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.extensions.padding
-import ru.freeit.crazytraining.core.theming.text.TextType.Title1
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
+import ru.freeit.crazytraining.core.theming.text.TextAttribute.Title1
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 
 class TrainingDateView(ctx: Context) : CoreTextView(ctx, textStyle = Title1) {
@@ -31,7 +31,7 @@ class TrainingDateView(ctx: Context) : CoreTextView(ctx, textStyle = Title1) {
 
     override fun onThemeChanged(theme: CoreTheme) {
         super.onThemeChanged(theme)
-        greenPaint.color = theme.colorsStyle.color(primaryColor)
+        greenPaint.color = theme.colors[ColorAttributes.primaryColor]
     }
 
 }

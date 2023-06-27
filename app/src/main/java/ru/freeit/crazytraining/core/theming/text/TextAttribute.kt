@@ -1,6 +1,6 @@
 package ru.freeit.crazytraining.core.theming.text
 
-enum class TextType {
+enum class TextAttribute {
     Title1,
     Title2,
     Title3,

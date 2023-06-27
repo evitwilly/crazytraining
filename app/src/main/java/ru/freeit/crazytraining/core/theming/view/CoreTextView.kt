@@ -4,16 +4,14 @@ import android.content.Context
 import androidx.appcompat.widget.AppCompatTextView
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.theming.CoreTheme
-import ru.freeit.crazytraining.core.theming.colors.ColorType
-import ru.freeit.crazytraining.core.theming.colors.ColorType.*
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
 import ru.freeit.crazytraining.core.extensions.fontSize
-import ru.freeit.crazytraining.core.theming.text.TextType
-import ru.freeit.crazytraining.core.theming.text.TextType.*
+import ru.freeit.crazytraining.core.theming.text.TextAttribute
 
 open class CoreTextView @JvmOverloads constructor(
     ctx: Context,
-    private var textColor: ColorType = primaryTextColor,
-    private val textStyle: TextType = Body1
+    private var textColor: ColorAttributes = ColorAttributes.primaryTextColor,
+    private val textStyle: TextAttribute = TextAttribute.Body1
 ): AppCompatTextView(ctx) {
 
     protected val themeManager = (context.applicationContext as App).themeManager
@@ -34,15 +32,15 @@ open class CoreTextView @JvmOverloads constructor(
     }
 
     protected open fun onThemeChanged(theme: CoreTheme) {
-        val (fontFamily, textSize) = theme.textStyle.style(textStyle)
+        val (fontFamily, textSize) = theme.textStyle[textStyle]
         typeface = typefaceManager.typeface(fontFamily)
         fontSize(textSize)
-        setTextColor(theme.colorsStyle.color(textColor))
+        setTextColor(theme.colors[textColor])
     }
 
-    fun changeTextColor(color: ColorType) {
+    fun changeTextColor(color: ColorAttributes) {
         textColor = color
-        setTextColor(themeManager.selected_theme.colorsStyle.color(color))
+        setTextColor(themeManager.selected_theme.colors[color])
     }
 
 }

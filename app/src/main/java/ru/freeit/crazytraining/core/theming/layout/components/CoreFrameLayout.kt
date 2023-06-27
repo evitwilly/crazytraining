@@ -4,23 +4,23 @@ import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.widget.FrameLayout
 import ru.freeit.crazytraining.core.App
+import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.theming.CoreTheme
-import ru.freeit.crazytraining.core.theming.colors.ColorType
-import ru.freeit.crazytraining.core.theming.colors.ColorType.*
-import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
-import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
+import ru.freeit.crazytraining.core.theming.corners.ShapeAttribute
+import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 
 class CoreFrameLayout @JvmOverloads constructor(
     ctx: Context,
-    private val backgroundColor: ColorType = primaryBackgroundColor,
-    private val cornerRadiusStyle: CornerRadiusType = CornerRadiusType.medium,
-    private val cornerTreatmentStrategy: CornerTreatmentStrategy = CornerTreatmentStrategy.None()
+    private val backgroundColor: ColorAttributes = ColorAttributes.primaryBackgroundColor,
+    private val shape: ShapeAttribute = ShapeAttribute.medium,
+    private val shapeTreatmentStrategy: ShapeTreatmentStrategy = ShapeTreatmentStrategy.None()
 ): FrameLayout(ctx) {
 
     private val onThemeChanged: (CoreTheme) -> Unit = { theme ->
         val gradientDrawable = GradientDrawable()
-        gradientDrawable.cornerRadii = cornerTreatmentStrategy.floatArrayOf(theme.cornerRadiusStyle.style(context, cornerRadiusStyle))
-        gradientDrawable.setColor(theme.colorsStyle.color(backgroundColor))
+        gradientDrawable.cornerRadii = shapeTreatmentStrategy.floatArrayOf(ctx.dp(theme.shapeStyle[shape]))
+        gradientDrawable.setColor(theme.colors[backgroundColor])
         background = gradientDrawable
     }
 

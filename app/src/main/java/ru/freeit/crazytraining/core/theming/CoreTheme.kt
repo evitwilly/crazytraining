@@ -1,7 +1,7 @@
 package ru.freeit.crazytraining.core.theming
 
-import ru.freeit.crazytraining.core.theming.colors.ColorsStyle
-import ru.freeit.crazytraining.core.theming.corners.CornerRadiusStyle
+import ru.freeit.crazytraining.core.theming.colors.Colors
+import ru.freeit.crazytraining.core.theming.corners.ShapeStyle
 import ru.freeit.crazytraining.core.theming.text.TextStyle
 import ru.freeit.crazytraining.core.theming.text.TypefaceStyle
 
@@ -16,16 +16,16 @@ enum class CoreTheme(
         caption1 = TypefaceStyle.SEMI_BOLD to 17f,
         caption2 = TypefaceStyle.REGULAR to 13f
     ),
-    val cornerRadiusStyle: CornerRadiusStyle = CornerRadiusStyle(
+    val shapeStyle: ShapeStyle = ShapeStyle(
         small = 8f,
         medium = 16f,
         big = 32f
     ),
-    val colorsStyle: ColorsStyle
+    val colors: Colors
 ) {
 
     LIGHT(
-        colorsStyle = ColorsStyle(
+        colors = Colors(
             primaryBackgroundColor = CoreColors.white,
             secondaryBackgroundColor = CoreColors.white,
             primaryTextColor = CoreColors.black,
@@ -35,7 +35,7 @@ enum class CoreTheme(
     ),
 
     DARK(
-        colorsStyle = ColorsStyle(
+        colors = Colors(
             primaryBackgroundColor = CoreColors.black,
             secondaryBackgroundColor = CoreColors.grayMedium,
             primaryTextColor = CoreColors.white,

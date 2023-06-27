@@ -7,14 +7,13 @@ import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
-import ru.freeit.crazytraining.core.theming.colors.ColorType.colorOnPrimary
-import ru.freeit.crazytraining.core.theming.colors.ColorType.primaryColor
 import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.extensions.padding
-import ru.freeit.crazytraining.core.theming.text.TextType
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
+import ru.freeit.crazytraining.core.theming.text.TextAttribute
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 
-class BubbleMessageView(ctx: Context) : CoreTextView(ctx, textColor = colorOnPrimary, textStyle = TextType.Body2) {
+class BubbleMessageView(ctx: Context) : CoreTextView(ctx, textColor = ColorAttributes.colorOnPrimary, textStyle = TextAttribute.Body2) {
 
     private var animator: Animator? = null
     private val hideRunnable = Runnable { isVisible = false }
@@ -23,7 +22,7 @@ class BubbleMessageView(ctx: Context) : CoreTextView(ctx, textColor = colorOnPri
         isVisible = false
         includeFontPadding = false
         background = GradientDrawable().apply {
-            setColor(themeManager.selected_theme.colorsStyle.color(primaryColor))
+            setColor(themeManager.selected_theme.colors[ColorAttributes.primaryColor])
             cornerRadius = context.dp(24f)
         }
         padding(context.dp(12))

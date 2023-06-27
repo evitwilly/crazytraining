@@ -6,7 +6,7 @@ import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.extensions.linearLayoutParams
-import ru.freeit.crazytraining.core.theming.text.TextType
+import ru.freeit.crazytraining.core.theming.text.TextAttribute
 import ru.freeit.crazytraining.core.theming.view.CoreEditText
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.training.dialogs.text_watchers.MaxTextWatcher
@@ -30,7 +30,7 @@ sealed class MeasuredValuesState {
 
             val ctx = titleView.context
 
-            val quantityEditView = CoreEditText(titleView.context, TextType.Title2, verticalPadding = 2)
+            val quantityEditView = CoreEditText(titleView.context, TextAttribute.Title2, verticalPadding = 2)
             quantityEditView.numbered()
             quantityEditView.changeHint("10")
             quantityEditView.requestFocus()
@@ -63,7 +63,7 @@ sealed class MeasuredValuesState {
 
             val ctx = titleView.context
 
-            val distanceKilometersEditView = CoreEditText(ctx, TextType.Title2, verticalPadding = 2)
+            val distanceKilometersEditView = CoreEditText(ctx, TextAttribute.Title2, verticalPadding = 2)
             distanceKilometersEditView.numbered()
             distanceKilometersEditView.layoutParams(linearLayoutParams().width(ctx.dp(56)).wrapHeight())
             editLayoutView.addView(distanceKilometersEditView)
@@ -73,7 +73,7 @@ sealed class MeasuredValuesState {
             kilometerTextView.setText(R.string.kilometers)
             editLayoutView.addView(kilometerTextView)
 
-            val distanceMetersEditView = CoreEditText(ctx, TextType.Title2, verticalPadding = 2)
+            val distanceMetersEditView = CoreEditText(ctx, TextAttribute.Title2, verticalPadding = 2)
             distanceMetersEditView.numbered()
             distanceMetersEditView.requestFocus()
             distanceMetersEditView.layoutParams(linearLayoutParams().width(ctx.dp(56)).wrapHeight())
@@ -130,7 +130,7 @@ sealed class MeasuredValuesState {
 
             val ctx = titleView.context
 
-            val timeMinutesEditView = CoreEditText(ctx, TextType.Title2, verticalPadding = 2)
+            val timeMinutesEditView = CoreEditText(ctx, TextAttribute.Title2, verticalPadding = 2)
             timeMinutesEditView.numbered()
             timeMinutesEditView.layoutParams(linearLayoutParams().width(ctx.dp(56)).wrapHeight())
             editLayoutView.addView(timeMinutesEditView)
@@ -140,7 +140,7 @@ sealed class MeasuredValuesState {
             hoursTextView.setText(R.string.minutes)
             editLayoutView.addView(hoursTextView)
 
-            val timeSecondsEditView = CoreEditText(ctx, TextType.Title2, verticalPadding = 2)
+            val timeSecondsEditView = CoreEditText(ctx, TextAttribute.Title2, verticalPadding = 2)
             timeSecondsEditView.numbered()
             timeSecondsEditView.requestFocus()
             timeSecondsEditView.layoutParams(linearLayoutParams().width(ctx.dp(56)).wrapHeight())

@@ -6,8 +6,8 @@ import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.extensions.recyclerLayoutParams
 import ru.freeit.crazytraining.core.theming.view.CoreImageView
 import ru.freeit.crazytraining.core.theming.adapter.CoreViewHolder
-import ru.freeit.crazytraining.core.theming.colors.ColorType
-import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
+import ru.freeit.crazytraining.core.theming.corners.ShapeAttribute
 import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.extensions.padding
 
@@ -22,10 +22,10 @@ class ExerciseIconViewHolder(
         imageView.background = if (item == checkedIcon) {
             val theme = imageView.themeManager.selected_theme
             GradientDrawable().apply {
-                cornerRadius = theme.cornerRadiusStyle.style(imageView.context, CornerRadiusType.medium)
+                cornerRadius = imageView.context.dp(theme.shapeStyle[ShapeAttribute.medium])
                 setStroke(
                     imageView.context.dp(2),
-                    theme.colorsStyle.color(ColorType.primaryColor)
+                    theme.colors[ColorAttributes.primaryColor]
                 )
             }
         } else {

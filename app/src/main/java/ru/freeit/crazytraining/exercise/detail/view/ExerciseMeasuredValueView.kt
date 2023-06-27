@@ -12,10 +12,10 @@ import ru.freeit.crazytraining.core.extensions.linearLayoutParams
 import ru.freeit.crazytraining.core.extensions.padding
 import ru.freeit.crazytraining.core.theming.CoreColors
 import ru.freeit.crazytraining.core.theming.CoreTheme
-import ru.freeit.crazytraining.core.theming.colors.ColorType
-import ru.freeit.crazytraining.core.theming.corners.CornerRadiusType
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
+import ru.freeit.crazytraining.core.theming.corners.ShapeAttribute
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
-import ru.freeit.crazytraining.core.theming.text.TextType
+import ru.freeit.crazytraining.core.theming.text.TextAttribute
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
 
@@ -27,9 +27,9 @@ class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
             drawState(themeManager.selected_theme)
         }
 
-    private val titleView = CoreTextView(context, textStyle = TextType.Title3)
+    private val titleView = CoreTextView(context, textStyle = TextAttribute.Title3)
     private val contentView = CoreTextView(context)
-    private val measuredView = CoreTextView(context, textStyle = TextType.Body2)
+    private val measuredView = CoreTextView(context, textStyle = TextAttribute.Body2)
 
     init {
         isClickable = true
@@ -65,13 +65,13 @@ class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
     }
 
     private fun drawState(theme: CoreTheme) {
-        val radius = theme.cornerRadiusStyle.style(context, CornerRadiusType.medium)
-        val primaryColor = theme.colorsStyle.color(ColorType.primaryColor)
+        val radius = context.dp(theme.shapeStyle[ShapeAttribute.medium])
+        val primaryColor = theme.colors[ColorAttributes.primaryColor]
 
         val color = if (checked) {
-            ColorType.colorOnPrimary
+            ColorAttributes.colorOnPrimary
         } else {
-            ColorType.primaryTextColor
+            ColorAttributes.primaryTextColor
         }
 
         titleView.changeTextColor(color)

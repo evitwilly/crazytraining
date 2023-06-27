@@ -13,10 +13,10 @@ import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
 import ru.freeit.crazytraining.core.extensions.*
 import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
-import ru.freeit.crazytraining.core.theming.corners.CornerTreatmentStrategy
+import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
-import ru.freeit.crazytraining.core.theming.text.TextType
+import ru.freeit.crazytraining.core.theming.text.TextAttribute
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreEditText
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
@@ -68,7 +68,7 @@ class ExerciseDetailFragment() : BaseFragment<ExerciseDetailViewModel>() {
         iconImageView.layoutParams(frameLayoutParams().width(context.dp(64)).height(context.dp(64)))
         iconFrameView.addView(iconImageView)
 
-        val settingsIconButtonView = CoreButton(context, cornerTreatmentStrategy = CornerTreatmentStrategy.AllRounded())
+        val settingsIconButtonView = CoreButton(context, shapeTreatmentStrategy = ShapeTreatmentStrategy.AllRounded())
         settingsIconButtonView.layoutParams(frameLayoutParams().wrap().marginStart(context.dp(72)))
         settingsIconButtonView.padding(horizontal = context.dp(24), vertical = context.dp(2))
         settingsIconButtonView.setText(R.string.edit_icon)
@@ -78,7 +78,7 @@ class ExerciseDetailFragment() : BaseFragment<ExerciseDetailViewModel>() {
         )) }
         iconFrameView.addView(settingsIconButtonView)
 
-        val titleEditView = CoreEditText(context, TextType.Title2)
+        val titleEditView = CoreEditText(context, TextAttribute.Title2)
         titleEditView.singleLine()
         titleEditView.changeHint(R.string.exercise_name)
         titleEditView.changeText(argument?.title ?: "")
