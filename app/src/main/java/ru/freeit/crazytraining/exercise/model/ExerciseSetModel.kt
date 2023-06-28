@@ -9,10 +9,10 @@ import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
 
 class ExerciseSetModel(
     private val id: Int = 0,
-    private val amount: Int,
-    val millis: Long,
+    val amount: Int = 0,
+    val millis: Long = 0L,
     private val exerciseId: Int = 0,
-    private val measuredValueModel: ExerciseMeasuredValueModel,
+    private val measuredValueModel: ExerciseMeasuredValueModel = ExerciseMeasuredValueModel.QUANTITY,
     private val dateString: String = "",
     private val timeString: String = ""
 ): Parcelable {
@@ -27,6 +27,9 @@ class ExerciseSetModel(
             dateString = dateString,
             timeString = timeString
         )
+
+    val isNotEmpty: Boolean
+        get() = amount > 0
 
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -99,7 +102,9 @@ class ExerciseSetModel(
         if (other == null) return false
         if (other !is ExerciseSetModel) return false
 
-        return amount == other.amount && exerciseId == other.exerciseId && measuredValueModel == other.measuredValueModel
+        return id == other.id && amount == other.amount && millis == other.millis &&
+                exerciseId == other.exerciseId && measuredValueModel == other.measuredValueModel &&
+                dateString == other.dateString && timeString == other.timeString
     }
 
     override fun hashCode(): Int = amount

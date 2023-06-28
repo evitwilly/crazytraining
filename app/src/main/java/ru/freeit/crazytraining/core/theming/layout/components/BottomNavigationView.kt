@@ -13,6 +13,7 @@ import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.extensions.linearLayoutParams
+import ru.freeit.crazytraining.core.extensions.parcelable
 import ru.freeit.crazytraining.core.theming.text.TextAttribute
 import ru.freeit.crazytraining.core.theming.view.CoreImageView
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
@@ -41,7 +42,7 @@ class BottomNavigationView(ctx: Context) : CoreLinearLayout(ctx, backgroundColor
         if (state is Bundle) {
             selectedTabIndex = state.getInt(selected_tab_key)
             drawState()
-            super.onRestoreInstanceState(state.getParcelable(super_state_key))
+            super.onRestoreInstanceState(state.parcelable(super_state_key))
         } else {
             super.onRestoreInstanceState(state)
         }
