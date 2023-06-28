@@ -16,9 +16,9 @@ import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasured
 
 class ExerciseModel(
     @DrawableRes
-    private val icon: Int,
+    private val icon: Int = -1,
     @ColorInt
-    private val color: Int,
+    private val color: Int = -1,
     val title: String = "",
     val measuredValueModel: ExerciseMeasuredValueModel = ExerciseMeasuredValueModel.QUANTITY,
     val id: Int = 0,

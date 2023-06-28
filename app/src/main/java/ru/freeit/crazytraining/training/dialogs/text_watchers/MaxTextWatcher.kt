@@ -14,32 +14,27 @@ class MaxTextWatcher(
 
     override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
         val string = text.toString()
+        var rangedNumber = 0
         val newText = if (string.isBlank()) {
             if (isErrorHandling) {
                 editView.error = CoreEditText.Error.Text(editView.context.getString(R.string.the_field_is_empty))
             }
-
-            amountListener.invoke(0)
-
             ""
         } else {
             if (isErrorHandling) {
                 editView.error = CoreEditText.Error.Empty
             }
 
-            val integer = string.toIntOrNull() ?: 0
-            val rangedNumber = if (integer > max) {
-                max
-            } else {
-                integer
-            }
-            amountListener.invoke(rangedNumber)
+            rangedNumber = (string.toIntOrNull() ?: 0).coerceAtMost(max)
+
             rangedNumber.toString()
         }
         editView.removeTextWatcher(this)
         editView.changeText(newText)
         editView.moveCursorToEnd()
         editView.addTextWatcher(this)
+
+        amountListener.invoke(rangedNumber)
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
