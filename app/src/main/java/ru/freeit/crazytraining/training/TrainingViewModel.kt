@@ -31,8 +31,8 @@ class TrainingViewModel(
     private val _trainingState = MutableLiveData<TrainingListState>()
     val trainingState: LiveData<TrainingListState> = _trainingState
 
-    private val _weekdayState = MutableLiveData<TrainingWeekendState>()
-    val weekdayState: LiveData<TrainingWeekendState> = _weekdayState
+    private val _weekendState = MutableLiveData<TrainingWeekendState>()
+    val weekendState: LiveData<TrainingWeekendState> = _weekendState
 
     private var exerciseModel: ExerciseModel? = savedState.parcelable(exercise_key, ExerciseModel::class.java)
     fun cacheExercise(model: ExerciseModel) {
@@ -94,7 +94,7 @@ class TrainingViewModel(
             if (isTodayTraining) R.string.training else R.string.weekend,
             calendarRepository.weekdayMonthYearDateString()
         )
-        _weekdayState.value = if (isTodayTraining) TrainingWeekendState.Training else TrainingWeekendState.Weekend
+        _weekendState.value = if (isTodayTraining) TrainingWeekendState.Training else TrainingWeekendState.Weekend
         uiScope.launch {
             if (isTodayTraining) {
                 _trainingState.value = exerciseListRepository.exercisesWithSetsByDate(calendarRepository.dateStringFrom())

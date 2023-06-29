@@ -19,7 +19,7 @@ import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.core.theming.view.FlowLayout
 import ru.freeit.crazytraining.core.viewmodel.SavedInstanceStateImpl
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
-import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
+import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepositoryImpl
 import ru.freeit.crazytraining.settings.view.ThemeSwitchView
 import ru.freeit.crazytraining.training.repository.ExerciseSetsRepositoryImpl
 
@@ -32,7 +32,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel>() {
         val coreSQLiteOpenHelper = app.coreSQLiteOpenHelper
         return SettingsViewModel(
             savedState = SavedInstanceStateImpl(bundle),
-            weekdaysRepository = CheckedWeekdaysRepository.Base(simpleDataStorage),
+            weekdaysRepository = CheckedWeekdaysRepositoryImpl(simpleDataStorage),
             calendarRepository = CalendarRepositoryImpl(),
             exerciseSetsRepository = ExerciseSetsRepositoryImpl(ExerciseSetDatabase(coreSQLiteOpenHelper))
         )

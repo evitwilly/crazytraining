@@ -6,11 +6,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import ru.freeit.crazytraining.core.mocks.CalendarRepositoryMock
+import ru.freeit.crazytraining.core.mocks.CheckedWeekdaysRepositoryMock
 import ru.freeit.crazytraining.core.mocks.ExerciseSetsRepositoryMock
 import ru.freeit.crazytraining.core.mocks.SavedInstanceStateMock
 import ru.freeit.crazytraining.core.models.WeekdayModel
 import ru.freeit.crazytraining.core.rules.MainDispatcherRule
-import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
+import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayListState
 import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayState
 
@@ -29,7 +30,7 @@ internal class SettingsViewModelTest {
     fun `test when cache is empty`() {
         val viewModel = SettingsViewModel(
             SavedInstanceStateMock(),
-            CheckedWeekdaysRepository.Test(),
+            CheckedWeekdaysRepositoryMock(),
             CalendarRepositoryMock(),
             ExerciseSetsRepositoryMock()
         )
@@ -50,7 +51,7 @@ internal class SettingsViewModelTest {
 
     @Test
     fun `test when weekdays has been saved in cache`() {
-        val repository = CheckedWeekdaysRepository.Test(mutableListOf(
+        val repository = CheckedWeekdaysRepositoryMock(mutableListOf(
             WeekdayModel.MONDAY,
             WeekdayModel.TUESDAY,
             WeekdayModel.SUNDAY
@@ -78,7 +79,7 @@ internal class SettingsViewModelTest {
 
     @Test
     fun `test when weekday state has been changed`() {
-        val repository = CheckedWeekdaysRepository.Test()
+        val repository = CheckedWeekdaysRepositoryMock()
         val viewModel = SettingsViewModel(
             SavedInstanceStateMock(),
             repository,
@@ -118,6 +119,57 @@ internal class SettingsViewModelTest {
             )
         )
         assertEquals(expected2, viewModel.state.value)
+    }
+
+    @Test
+    fun `test when today is training and has some sets`() {
+        val repository = ExerciseSetsRepositoryMock()
+        repository.data.add(ExerciseSetModel(
+            id = 1,
+            amount = 100,
+            millis = 100
+        ))
+
+        val viewModel = SettingsViewModel(
+            SavedInstanceStateMock(),
+            CheckedWeekdaysRepositoryMock(mutableListOf(
+                WeekdayModel.MONDAY,
+                WeekdayModel.TUESDAY,
+                WeekdayModel.SUNDAY
+            )),
+            CalendarRepositoryMock(calendarVariable = 2),
+            repository
+        )
+
+        viewModel.changeWeekdayState(WeekdayState(WeekdayModel.MONDAY, false))
+
+        assertEquals(true, viewModel.acceptDialogState.value)
+        assertEquals(WeekdayListState(
+            listOf(
+                WeekdayState(WeekdayModel.MONDAY, true),
+                WeekdayState(WeekdayModel.TUESDAY, true),
+                WeekdayState(WeekdayModel.WEDNESDAY, false),
+                WeekdayState(WeekdayModel.THURSDAY, false),
+                WeekdayState(WeekdayModel.FRIDAY, false),
+                WeekdayState(WeekdayModel.SATURDAY, false),
+                WeekdayState(WeekdayModel.SUNDAY, true)
+            )
+        ), viewModel.state.value)
+
+        viewModel.dialogOkClick()
+
+        assertEquals(emptyList<ExerciseSetModel>(), repository.data)
+        assertEquals(WeekdayListState(
+            listOf(
+                WeekdayState(WeekdayModel.MONDAY, false),
+                WeekdayState(WeekdayModel.TUESDAY, true),
+                WeekdayState(WeekdayModel.WEDNESDAY, false),
+                WeekdayState(WeekdayModel.THURSDAY, false),
+                WeekdayState(WeekdayModel.FRIDAY, false),
+                WeekdayState(WeekdayModel.SATURDAY, false),
+                WeekdayState(WeekdayModel.SUNDAY, true)
+            )
+        ), viewModel.state.value)
     }
 
 }

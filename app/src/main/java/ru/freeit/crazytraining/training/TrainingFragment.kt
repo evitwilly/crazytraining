@@ -23,7 +23,7 @@ import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
 import ru.freeit.crazytraining.settings.SettingsFragment
-import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
+import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepositoryImpl
 import ru.freeit.crazytraining.training.adapter.TrainingListAdapter
 import ru.freeit.crazytraining.training.dialogs.MeasuredValuesDialog
 import ru.freeit.crazytraining.training.dialogs.MeasuredValuesDialogResult
@@ -45,7 +45,7 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
             exerciseListRepository = ExerciseListRepositoryImpl(ExerciseDatabase(sqliteOpenHelper), exerciseSetDatabase),
             exerciseSetsRepository = ExerciseSetsRepositoryImpl(exerciseSetDatabase),
             calendarRepository = CalendarRepositoryImpl(),
-            checkedWeekdaysRepository = CheckedWeekdaysRepository.Base(app.persistenceSimpleDataStorage)
+            checkedWeekdaysRepository = CheckedWeekdaysRepositoryImpl(app.persistenceSimpleDataStorage)
         )
     }
 
@@ -103,7 +103,7 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
 
         viewModel.trainingState.observe(viewLifecycleOwner) { state -> adapter.submitList(state.items) }
 
-        viewModel.weekdayState.observe(viewLifecycleOwner) { state ->
+        viewModel.weekendState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 TrainingWeekendState.Training -> {
                     listView.isVisible = true
