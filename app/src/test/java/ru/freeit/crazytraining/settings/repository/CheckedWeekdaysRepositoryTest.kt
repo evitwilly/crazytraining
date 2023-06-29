@@ -24,7 +24,7 @@ internal class CheckedWeekdaysRepositoryTest {
 
     @Test
     fun `test when storage has not string data`() {
-        val repository = CheckedWeekdaysRepository.Base(StringStorage())
+        val repository = CheckedWeekdaysRepositoryImpl(StringStorage())
 
         assertEquals(emptyList<WeekdayModel>(), repository.readCheckedWeekdays())
     }
@@ -32,14 +32,14 @@ internal class CheckedWeekdaysRepositoryTest {
     @Test
     fun `test when storage has some string data`() {
         val storage = StringStorage("${WeekdayModel.MONDAY.ordinal},${WeekdayModel.SUNDAY.ordinal}")
-        val repository = CheckedWeekdaysRepository.Base(storage)
+        val repository = CheckedWeekdaysRepositoryImpl(storage)
 
         assertEquals(listOf(WeekdayModel.MONDAY, WeekdayModel.SUNDAY), repository.readCheckedWeekdays())
     }
 
     @Test
     fun `test when checked weekdays has been changed`() {
-        val repository = CheckedWeekdaysRepository.Base(StringStorage())
+        val repository = CheckedWeekdaysRepositoryImpl(StringStorage())
 
         repository.saveCheckedWeekday(WeekdayModel.WEDNESDAY)
         repository.saveCheckedWeekday(WeekdayModel.SUNDAY)

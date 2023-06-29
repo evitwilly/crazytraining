@@ -5,12 +5,20 @@ import ru.freeit.crazytraining.training.repository.ExerciseSetsRepository
 
 class ExerciseSetsRepositoryMock : ExerciseSetsRepository {
 
-    override suspend fun exerciseSetsByDate(date: String): List<ExerciseSetModel> = emptyList()
+    val data = mutableListOf<ExerciseSetModel>()
 
-    override suspend fun saveExerciseSet(model: ExerciseSetModel) {}
+    override suspend fun exerciseSetsByDate(date: String): List<ExerciseSetModel> = data
 
-    override suspend fun removeExerciseSet(model: ExerciseSetModel) {}
+    override suspend fun saveExerciseSet(model: ExerciseSetModel) {
+        data.add(model)
+    }
 
-    override suspend fun removeExerciseSetsByDate(date: String) {}
+    override suspend fun removeExerciseSet(model: ExerciseSetModel) {
+        data.remove(model)
+    }
+
+    override suspend fun removeExerciseSetsByDate(date: String) {
+        data.clear()
+    }
 
 }
