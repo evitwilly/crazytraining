@@ -57,7 +57,7 @@ class TrainingViewModel(
                 amount = amount,
                 millis = millis,
                 exerciseId = model.id,
-                measuredValueModel = model.measuredValueModel,
+                unit = model.unit,
                 dateString = calendarRepository.dateStringFrom(millis),
                 timeString = calendarRepository.timeStringFrom(millis)
             ))

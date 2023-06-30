@@ -25,8 +25,8 @@ import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryIm
 import ru.freeit.crazytraining.settings.SettingsFragment
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepositoryImpl
 import ru.freeit.crazytraining.training.adapter.TrainingListAdapter
-import ru.freeit.crazytraining.training.dialogs.MeasuredValuesDialog
-import ru.freeit.crazytraining.training.dialogs.MeasuredValuesDialogResult
+import ru.freeit.crazytraining.training.dialogs.ExerciseAddSetDialog
+import ru.freeit.crazytraining.training.dialogs.ExerciseAddSetDialogResult
 import ru.freeit.crazytraining.training.repository.ExerciseSetsRepositoryImpl
 import ru.freeit.crazytraining.training.view.TrainingDateView
 import ru.freeit.crazytraining.training.view.TrainingWeekendView
@@ -53,7 +53,7 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
         TrainingDetailStateListeners(
             addListener = { model ->
                 viewModel.cacheExercise(model)
-                navigator.show(MeasuredValuesDialog(model.measuredValueModel))
+                navigator.show(ExerciseAddSetDialog(model.unit))
             },
             removeListener = { model ->
                 viewModel.cacheExerciseSet(model)
@@ -116,7 +116,7 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
             }
         }
 
-        val fragmentAddSetResult = MeasuredValuesDialogResult(parentFragmentManager)
+        val fragmentAddSetResult = ExerciseAddSetDialogResult(parentFragmentManager)
         fragmentAddSetResult.onResult(viewLifecycleOwner) { amount ->
             viewModel.addSet(amount)
         }

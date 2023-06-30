@@ -3,8 +3,7 @@ package ru.freeit.crazytraining.settings.repository
 import ru.freeit.crazytraining.core.cache.PersistentStringStorage
 import ru.freeit.crazytraining.core.models.WeekdayModel
 
-class CheckedWeekdaysRepositoryImpl(private val stringStorage: PersistentStringStorage) :
-    CheckedWeekdaysRepository {
+class CheckedWeekdaysRepositoryImpl(private val stringStorage: PersistentStringStorage) : CheckedWeekdaysRepository {
 
     override fun saveCheckedWeekday(model: WeekdayModel) {
         val savedWeekdays = readCheckedWeekdays()

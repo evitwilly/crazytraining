@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.freeit.crazytraining.core.viewmodel.SingleLiveEvent
-import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
-import ru.freeit.crazytraining.training.dialogs.viewmodel_states.MeasuredValuesState
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
+import ru.freeit.crazytraining.training.dialogs.viewmodel_states.ExerciseUnitDialogState
 
-class MeasuredValuesViewModel(argument: ExerciseMeasuredValueModel) : ViewModel() {
+class ExerciseAddSetViewModel(argument: ExerciseUnitModel) : ViewModel() {
 
-    private val _measuredValuesState = MutableLiveData<MeasuredValuesState>()
-    val measuredValuesState: LiveData<MeasuredValuesState> = _measuredValuesState
+    private val _exerciseUnitState = MutableLiveData<ExerciseUnitDialogState>()
+    val exerciseUnitState: LiveData<ExerciseUnitDialogState> = _exerciseUnitState
     
     private val _amountState = SingleLiveEvent<Int>()
     val amountState: LiveData<Int> = _amountState
@@ -18,7 +18,7 @@ class MeasuredValuesViewModel(argument: ExerciseMeasuredValueModel) : ViewModel(
     private var cachedAmount: Int = 0
 
     init {
-        _measuredValuesState.value = argument.measuredValuesState
+        _exerciseUnitState.value = argument.state
     }
 
     fun cacheAmount(amount: Int) {

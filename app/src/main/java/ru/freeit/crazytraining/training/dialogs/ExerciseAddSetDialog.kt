@@ -20,13 +20,13 @@ import ru.freeit.crazytraining.core.theming.text.TextAttribute
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.core.viewmodel.viewModelFactory
-import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
 
-class MeasuredValuesDialog() : CoreDialog() {
+class ExerciseAddSetDialog() : CoreDialog() {
 
-    override val name: String = "MeasuredValuesDialog"
+    override val name: String = "ExerciseAddSetDialog"
 
-    constructor(model: ExerciseMeasuredValueModel) : this() {
+    constructor(model: ExerciseUnitModel) : this() {
         arguments = bundleOf(argument_key to model.ordinal)
     }
 
@@ -61,11 +61,11 @@ class MeasuredValuesDialog() : CoreDialog() {
         button.layoutParams(linearLayoutParams().wrap().gravity(Gravity.END).marginTop(context.dp(4)))
         contentView.addView(button)
 
-        val argument = ExerciseMeasuredValueModel.values()[requireArguments().getInt(argument_key)]
-        val factory = viewModelFactory { MeasuredValuesViewModel(argument) }
-        val viewModel = ViewModelProvider(this, factory)[MeasuredValuesViewModel::class.java]
+        val argument = ExerciseUnitModel.values()[requireArguments().getInt(argument_key)]
+        val factory = viewModelFactory { ExerciseAddSetViewModel(argument) }
+        val viewModel = ViewModelProvider(this, factory)[ExerciseAddSetViewModel::class.java]
 
-        viewModel.measuredValuesState.observe(viewLifecycleOwner) { state ->
+        viewModel.exerciseUnitState.observe(viewLifecycleOwner) { state ->
             state.bindViews(
                 titleView = titleView,
                 editLayoutView = editLayoutView,
@@ -78,7 +78,7 @@ class MeasuredValuesDialog() : CoreDialog() {
 
         button.setOnClickListener { viewModel.apply() }
 
-        val fragmentResult = MeasuredValuesDialogResult(parentFragmentManager)
+        val fragmentResult = ExerciseAddSetDialogResult(parentFragmentManager)
         viewModel.amountState.observe(viewLifecycleOwner) { amount ->
             fragmentResult.result(amount)
             dismiss()
@@ -88,7 +88,7 @@ class MeasuredValuesDialog() : CoreDialog() {
     }
 
     companion object {
-        private const val argument_key = "ExerciseMeasuredValueModel_key"
+        private const val argument_key = "ExerciseUnitModel_key"
     }
 
 }

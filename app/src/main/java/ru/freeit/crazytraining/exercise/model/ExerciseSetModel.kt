@@ -5,14 +5,14 @@ import android.os.Parcel
 import android.os.Parcelable
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetTableDb
-import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
 
 class ExerciseSetModel(
     private val id: Int = 0,
     val amount: Int = 0,
     val millis: Long = 0L,
     private val exerciseId: Int = 0,
-    private val measuredValueModel: ExerciseMeasuredValueModel = ExerciseMeasuredValueModel.QUANTITY,
+    private val unit: ExerciseUnitModel = ExerciseUnitModel.QUANTITY,
     private val dateString: String = "",
     private val timeString: String = ""
 ): Parcelable {
@@ -23,7 +23,7 @@ class ExerciseSetModel(
             amount = amount,
             millis = millis,
             exercise_id = exerciseId,
-            measuredValueModel = measuredValueModel.ordinal,
+            measuredValueModel = unit.ordinal,
             dateString = dateString,
             timeString = timeString
         )
@@ -36,7 +36,7 @@ class ExerciseSetModel(
         parcel.readInt(),
         parcel.readLong(),
         parcel.readInt(),
-        ExerciseMeasuredValueModel.values()[parcel.readInt()],
+        ExerciseUnitModel.values()[parcel.readInt()],
         parcel.readString().orEmpty(),
         parcel.readString().orEmpty()
     )
@@ -46,7 +46,7 @@ class ExerciseSetModel(
             amount = amount,
             millis = millis,
             exerciseId = exerciseId,
-            measuredValueModel = measuredValueModel,
+            unit = unit,
             dateString = dateString,
             timeString = timeString
         )
@@ -55,9 +55,9 @@ class ExerciseSetModel(
     fun isThisExercise(model: ExerciseModel) = model.id == exerciseId
 
     fun amountString(resources: Resources): String {
-        return when (measuredValueModel) {
-            ExerciseMeasuredValueModel.QUANTITY -> resources.getQuantityString(R.plurals.times, amount, amount)
-            ExerciseMeasuredValueModel.DISTANCE -> {
+        return when (unit) {
+            ExerciseUnitModel.QUANTITY -> resources.getQuantityString(R.plurals.times, amount, amount)
+            ExerciseUnitModel.DISTANCE -> {
                 if (amount < 1000) {
                     resources.getQuantityString(R.plurals.meters, amount, amount)
                 } else {
@@ -66,7 +66,7 @@ class ExerciseSetModel(
                     resources.getQuantityString(R.plurals.kilometers, kilometers.toInt(), str)
                 }
             }
-            ExerciseMeasuredValueModel.TIME -> {
+            ExerciseUnitModel.TIME -> {
                 if (amount < 60) {
                     resources.getQuantityString(R.plurals.seconds, amount, amount)
                 } else {
@@ -91,7 +91,7 @@ class ExerciseSetModel(
         writeInt(amount)
         writeLong(millis)
         writeInt(exerciseId)
-        writeInt(measuredValueModel.ordinal)
+        writeInt(unit.ordinal)
         writeString(dateString)
         writeString(timeString)
     }
@@ -103,7 +103,7 @@ class ExerciseSetModel(
         if (other !is ExerciseSetModel) return false
 
         return id == other.id && amount == other.amount && millis == other.millis &&
-                exerciseId == other.exerciseId && measuredValueModel == other.measuredValueModel &&
+                exerciseId == other.exerciseId && unit == other.unit &&
                 dateString == other.dateString && timeString == other.timeString
     }
 

@@ -10,12 +10,12 @@ import org.junit.rules.TestRule
 import ru.freeit.crazytraining.core.mocks.ExerciseListRepositoryMock
 import ru.freeit.crazytraining.core.mocks.ExerciseResourcesRepositoryMock
 import ru.freeit.crazytraining.core.rules.MainDispatcherRule
-import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
 import ru.freeit.crazytraining.exercise.detail.ExerciseDetailViewModel
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseSettingsState
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueListState
-import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueState
+import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseUnitListItemState
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class ExerciseViewModelDetailTest {
@@ -31,7 +31,7 @@ internal class ExerciseViewModelDetailTest {
     @Test
     fun `test argument`() {
         val viewModel = ExerciseDetailViewModel(
-            argument = ExerciseModel(1, 2, "exercise 1", ExerciseMeasuredValueModel.QUANTITY, 1),
+            argument = ExerciseModel(1, 2, "exercise 1", ExerciseUnitModel.QUANTITY, 1),
             listRepository = ExerciseListRepositoryMock(),
             resourcesRepository = ExerciseResourcesRepositoryMock(mockData, mockData)
         )
@@ -40,7 +40,7 @@ internal class ExerciseViewModelDetailTest {
             1,
             2,
             "exercise 1",
-            ExerciseMeasuredValueListState(listOf(ExerciseMeasuredValueState(ExerciseMeasuredValueModel.QUANTITY, true)))
+            ExerciseMeasuredValueListState(listOf(ExerciseUnitListItemState(ExerciseUnitModel.QUANTITY, true)))
         ), viewModel.exerciseSettingsState.value)
     }
 
@@ -52,7 +52,7 @@ internal class ExerciseViewModelDetailTest {
             resourcesRepository = ExerciseResourcesRepositoryMock(mockData, mockData)
         )
 
-        val measuredState = ExerciseMeasuredValueListState(ExerciseMeasuredValueModel.measuredStates)
+        val measuredState = ExerciseMeasuredValueListState(ExerciseUnitModel.measuredStates)
         assertEquals(ExerciseSettingsState(icon = mockData[0], color = mockData[0], measuredState = measuredState), viewModel.exerciseSettingsState.value)
 
         viewModel.changeTitle("exercise 1")
@@ -64,7 +64,7 @@ internal class ExerciseViewModelDetailTest {
         viewModel.checkIcon(3)
         assertEquals(ExerciseSettingsState(icon = 3, color = 2, title = "exercise 1", measuredState = measuredState), viewModel.exerciseSettingsState.value)
 
-        val newMeasuredState = ExerciseMeasuredValueState(ExerciseMeasuredValueModel.DISTANCE, true)
+        val newMeasuredState = ExerciseUnitListItemState(ExerciseUnitModel.DISTANCE, true)
         viewModel.checkMeasuredState(newMeasuredState)
         assertEquals(ExerciseSettingsState(icon = 3, color = 2, title = "exercise 1", measuredState = measuredState.withCheckedState(newMeasuredState)), viewModel.exerciseSettingsState.value)
     }
@@ -79,7 +79,7 @@ internal class ExerciseViewModelDetailTest {
         )
         viewModel.checkColor(1)
         viewModel.checkIcon(1)
-        viewModel.checkMeasuredState(ExerciseMeasuredValueState(ExerciseMeasuredValueModel.DISTANCE, true))
+        viewModel.checkMeasuredState(ExerciseUnitListItemState(ExerciseUnitModel.DISTANCE, true))
 
         viewModel.apply()
 
@@ -89,14 +89,14 @@ internal class ExerciseViewModelDetailTest {
 
         viewModel.apply()
 
-        assertEquals(listOf(ExerciseModel(1, 1, "exercise 1", ExerciseMeasuredValueModel.DISTANCE)), repository.exercises())
+        assertEquals(listOf(ExerciseModel(1, 1, "exercise 1", ExerciseUnitModel.DISTANCE)), repository.exercises())
     }
 
     @Test
     fun `test apply button when editing existing exercise`() = runTest {
         val repository = ExerciseListRepositoryMock()
         val viewModel = ExerciseDetailViewModel(
-            argument = ExerciseModel(1, 2, "exercise", ExerciseMeasuredValueModel.DISTANCE, 1),
+            argument = ExerciseModel(1, 2, "exercise", ExerciseUnitModel.DISTANCE, 1),
             listRepository = repository,
             resourcesRepository = ExerciseResourcesRepositoryMock(mockData, mockData)
         )
@@ -104,7 +104,7 @@ internal class ExerciseViewModelDetailTest {
 
         viewModel.apply()
 
-        assertEquals(listOf(ExerciseModel(2, 2, "exercise", ExerciseMeasuredValueModel.DISTANCE, 1)), repository.exercises())
+        assertEquals(listOf(ExerciseModel(2, 2, "exercise", ExerciseUnitModel.DISTANCE, 1)), repository.exercises())
     }
 
 }
