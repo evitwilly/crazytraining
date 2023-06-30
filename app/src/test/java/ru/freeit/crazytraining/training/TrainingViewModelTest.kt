@@ -9,7 +9,7 @@ import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.mocks.*
 import ru.freeit.crazytraining.core.models.WeekdayModel
 import ru.freeit.crazytraining.core.rules.MainDispatcherRule
-import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingListState
@@ -86,14 +86,14 @@ internal class TrainingViewModelTest {
             CheckedWeekdaysRepositoryMock(WeekdayModel.values().toList())
         )
 
-        viewModel.cacheExercise(ExerciseModel(id = 10, measuredValueModel = ExerciseMeasuredValueModel.TIME))
+        viewModel.cacheExercise(ExerciseModel(id = 10, unit = ExerciseUnitModel.TIME))
 
         viewModel.addSet(180)
 
         val expected = listOf(ExerciseSetModel(
             amount = 180,
             exerciseId = 10,
-            measuredValueModel = ExerciseMeasuredValueModel.TIME,
+            unit = ExerciseUnitModel.TIME,
             millis = 100,
             dateString = "11.11.1111",
             timeString = "22:22"
@@ -110,7 +110,7 @@ internal class TrainingViewModelTest {
             amount = 1000,
             millis = 200,
             exerciseId = 5,
-            measuredValueModel = ExerciseMeasuredValueModel.DISTANCE
+            unit = ExerciseUnitModel.DISTANCE
         )
         exerciseSetsRepository.data.add(exerciseSet)
 
@@ -138,7 +138,7 @@ internal class TrainingViewModelTest {
             amount = 1000,
             millis = 200,
             exerciseId = 5,
-            measuredValueModel = ExerciseMeasuredValueModel.DISTANCE,
+            unit = ExerciseUnitModel.DISTANCE,
             dateString = "22:22:2222",
             timeString = "22:22"
         )
@@ -166,7 +166,7 @@ internal class TrainingViewModelTest {
                 amount = 1000,
                 millis = 500,
                 exerciseId = 5,
-                measuredValueModel = ExerciseMeasuredValueModel.DISTANCE,
+                unit = ExerciseUnitModel.DISTANCE,
                 dateString = "11:11:1111",
                 timeString = "11:11"
             )

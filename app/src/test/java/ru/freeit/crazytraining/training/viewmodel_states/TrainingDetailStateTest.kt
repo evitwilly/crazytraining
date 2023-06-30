@@ -2,7 +2,7 @@ package ru.freeit.crazytraining.training.viewmodel_states
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 
@@ -40,7 +40,7 @@ internal class TrainingDetailStateTest {
     @Test
     fun `test model_with_total_amount`() {
         val state = TrainingDetailState(
-            model = ExerciseModel(measuredValueModel = ExerciseMeasuredValueModel.TIME),
+            model = ExerciseModel(unit = ExerciseUnitModel.TIME),
             sets = listOf(
                 ExerciseSetModel(millis = 1, amount = 100),
                 ExerciseSetModel(millis = 2, amount = 100),
@@ -54,7 +54,7 @@ internal class TrainingDetailStateTest {
 
         val expected = ExerciseSetModel(
             amount = 8100,
-            measuredValueModel = ExerciseMeasuredValueModel.TIME
+            unit = ExerciseUnitModel.TIME
         )
 
         assertEquals(expected, state.model_with_total_amount)

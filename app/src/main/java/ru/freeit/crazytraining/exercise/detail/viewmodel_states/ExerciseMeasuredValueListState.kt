@@ -4,20 +4,20 @@ import ru.freeit.crazytraining.core.extensions.dp
 import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.extensions.linearLayoutParams
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
-import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
 import ru.freeit.crazytraining.exercise.detail.view.ExerciseMeasuredValueView
 
-class ExerciseMeasuredValueListState(private val items: List<ExerciseMeasuredValueState>) {
+class ExerciseMeasuredValueListState(private val items: List<ExerciseUnitListItemState>) {
 
-    val checkedMeasuredModel: ExerciseMeasuredValueModel
-        get() = items.find { it.checked }?.model ?: ExerciseMeasuredValueModel.QUANTITY
+    val checkedUnitModel: ExerciseUnitModel
+        get() = items.find { it.checked }?.model ?: ExerciseUnitModel.QUANTITY
 
-    fun withCheckedState(newState: ExerciseMeasuredValueState): ExerciseMeasuredValueListState {
+    fun withCheckedState(newState: ExerciseUnitListItemState): ExerciseMeasuredValueListState {
         val newItems = items.map { state -> if (state.model == newState.model) newState else state.withChangedChecked(false) }
         return ExerciseMeasuredValueListState(newItems)
     }
 
-    fun bindView(parent: CoreLinearLayout, checkListener: (state: ExerciseMeasuredValueState) -> Unit) {
+    fun bindView(parent: CoreLinearLayout, checkListener: (state: ExerciseUnitListItemState) -> Unit) {
         parent.removeAllViews()
 
         val context = parent.context

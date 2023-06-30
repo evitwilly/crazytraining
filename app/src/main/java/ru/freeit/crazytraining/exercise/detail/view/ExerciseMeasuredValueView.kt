@@ -17,7 +17,7 @@ import ru.freeit.crazytraining.core.theming.corners.ShapeAttribute
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.text.TextAttribute
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
-import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
 
 class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
 
@@ -55,12 +55,12 @@ class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
         drawState(theme)
     }
 
-    fun changeMeasuredValueModel(model: ExerciseMeasuredValueModel) {
+    fun changeMeasuredValueModel(model: ExerciseUnitModel) {
         with(model) {
             titleView.setText(title)
             contentView.setText(description)
-            measuredView.isVisible = unit != -1
-            if (unit != -1) measuredView.setText(unit)
+            measuredView.isVisible = value != -1
+            if (value != -1) measuredView.setText(value)
         }
     }
 

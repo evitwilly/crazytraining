@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import ru.freeit.crazytraining.core.database.TableColumnDb
 import ru.freeit.crazytraining.core.database.TableDb
-import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
 import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 
 class ExerciseSetTableDb(
@@ -23,7 +23,7 @@ class ExerciseSetTableDb(
             amount = amount,
             millis = millis,
             exerciseId = exercise_id,
-            measuredValueModel = ExerciseMeasuredValueModel.values()[measuredValueModel],
+            unit = ExerciseUnitModel.values()[measuredValueModel],
             dateString = dateString,
             timeString = timeString
         )

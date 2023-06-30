@@ -2,38 +2,38 @@ package ru.freeit.crazytraining.exercise.detail.model
 
 import androidx.annotation.StringRes
 import ru.freeit.crazytraining.R
-import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueState
-import ru.freeit.crazytraining.training.dialogs.viewmodel_states.MeasuredValuesState
+import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseUnitListItemState
+import ru.freeit.crazytraining.training.dialogs.viewmodel_states.ExerciseUnitDialogState
 
-enum class ExerciseMeasuredValueModel(
+enum class ExerciseUnitModel(
     @StringRes val title: Int,
     @StringRes val description: Int,
-    @StringRes val unit: Int,
-    val measuredValuesState: MeasuredValuesState
+    @StringRes val value: Int,
+    val state: ExerciseUnitDialogState
 ) {
     QUANTITY(
         R.string.quantity,
         R.string.quantity_description,
         -1,
-        MeasuredValuesState.Quantity
+        ExerciseUnitDialogState.Quantity
     ),
     DISTANCE(
         R.string.distance,
         R.string.distance_description,
         R.string.kilometers_meteres,
-        MeasuredValuesState.Distance
+        ExerciseUnitDialogState.Distance
     ),
     TIME(
         R.string.time,
         R.string.time_description,
         R.string.minutes_seconds,
-        MeasuredValuesState.Time
+        ExerciseUnitDialogState.Time
     );
 
     companion object {
-        val measuredStates: List<ExerciseMeasuredValueState>
+        val measuredStates: List<ExerciseUnitListItemState>
             get() = values().mapIndexed { index, model ->
-                ExerciseMeasuredValueState(model, index == 0)
+                ExerciseUnitListItemState(model, index == 0)
             }
     }
 

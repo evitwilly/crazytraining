@@ -19,7 +19,7 @@ class ExerciseSettingsState(
             icon = icon,
             color = color,
             title = title,
-            measuredValueModel = measuredState.checkedMeasuredModel,
+            unit = measuredState.checkedUnitModel,
             id = id
         )
     }

@@ -6,12 +6,12 @@ import kotlinx.coroutines.launch
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.fragment.BaseViewModel
 import ru.freeit.crazytraining.core.viewmodel.SingleLiveEvent
-import ru.freeit.crazytraining.exercise.detail.model.ExerciseMeasuredValueModel
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepository
+import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
 import ru.freeit.crazytraining.exercise.detail.repository.ExerciseResourcesRepository
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseSettingsState
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueListState
-import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueState
+import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseUnitListItemState
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class ExerciseDetailViewModel(
@@ -36,7 +36,7 @@ class ExerciseDetailViewModel(
         _exerciseSettingsState.value = argument?.exerciseSettingsState ?: ExerciseSettingsState(
             icon = resourcesRepository.icons().first(),
             color = resourcesRepository.colors().first(),
-            measuredState = ExerciseMeasuredValueListState(ExerciseMeasuredValueModel.measuredStates)
+            measuredState = ExerciseMeasuredValueListState(ExerciseUnitModel.measuredStates)
         )
     }
 
@@ -52,7 +52,7 @@ class ExerciseDetailViewModel(
         _exerciseSettingsState.value = _exerciseSettingsState.value?.withChangedIcon(icon)
     }
 
-    fun checkMeasuredState(newState: ExerciseMeasuredValueState) {
+    fun checkMeasuredState(newState: ExerciseUnitListItemState) {
         val measuredState = _exerciseSettingsState.value?.measuredState ?: return
         val newMeasuredState = measuredState.withCheckedState(newState)
         _exerciseSettingsState.value = _exerciseSettingsState.value?.withChangedMeasuredState(newMeasuredState)

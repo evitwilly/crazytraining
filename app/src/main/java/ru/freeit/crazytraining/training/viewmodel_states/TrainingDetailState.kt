@@ -16,7 +16,7 @@ class TrainingDetailState(
 ) {
 
     val model_with_total_amount: ExerciseSetModel
-        get() = ExerciseSetModel(amount = sets.sumOf { it.amount }, measuredValueModel = model.measuredValueModel)
+        get() = ExerciseSetModel(amount = sets.sumOf { it.amount }, unit = model.unit)
 
     val sorted_sets_by_number: List<Pair<ExerciseSetModel, Int>>
         get() {

@@ -4,7 +4,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 
-class MeasuredValuesDialogResult(private val fragmentManager: FragmentManager) {
+class ExerciseAddSetDialogResult(private val fragmentManager: FragmentManager) {
 
     fun onResult(lifecycleOwner: LifecycleOwner, listener: (Int) -> Unit) {
         fragmentManager.setFragmentResultListener(request_key, lifecycleOwner) { _, data ->
@@ -17,8 +17,8 @@ class MeasuredValuesDialogResult(private val fragmentManager: FragmentManager) {
     }
 
     private companion object {
-        const val request_key = "MeasuredValuesDialogResult_request_key"
-        const val data_key = "MeasuredValuesDialogResult_data_key"
+        const val request_key = "ExerciseAddSetDialogResult_request_key"
+        const val data_key = "ExerciseAddSetDialogResult_data_key"
     }
 
 }
