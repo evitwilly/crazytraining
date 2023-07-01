@@ -23,7 +23,7 @@ class ExerciseSetModel(
             amount = amount,
             millis = millis,
             exercise_id = exerciseId,
-            measuredValueModel = unit.ordinal,
+            unit = unit.ordinal,
             dateString = dateString,
             timeString = timeString
         )

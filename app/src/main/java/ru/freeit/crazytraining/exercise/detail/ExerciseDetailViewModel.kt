@@ -8,16 +8,14 @@ import ru.freeit.crazytraining.core.navigation.fragment.BaseViewModel
 import ru.freeit.crazytraining.core.viewmodel.SingleLiveEvent
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepository
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
-import ru.freeit.crazytraining.exercise.detail.repository.ExerciseResourcesRepository
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseSettingsState
-import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseMeasuredValueListState
+import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseUnitListState
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseUnitListItemState
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class ExerciseDetailViewModel(
     private val argument: ExerciseModel?,
-    private val listRepository: ExerciseListRepository,
-    resourcesRepository: ExerciseResourcesRepository,
+    private val listRepository: ExerciseListRepository
 ) : BaseViewModel() {
 
     private val _exerciseSettingsState = MutableLiveData<ExerciseSettingsState>()
@@ -26,17 +24,9 @@ class ExerciseDetailViewModel(
     private val _titleError = SingleLiveEvent<Int>()
     val titleError: LiveData<Int> = _titleError
 
-    val checked_icon_fragment_arg: Int
-        get() = exerciseSettingsState.value?.icon ?: 0
-
-    val checked_color_fragment_arg: Int
-        get() = exerciseSettingsState.value?.color ?: 0
-
     init {
         _exerciseSettingsState.value = argument?.exerciseSettingsState ?: ExerciseSettingsState(
-            icon = resourcesRepository.icons().first(),
-            color = resourcesRepository.colors().first(),
-            measuredState = ExerciseMeasuredValueListState(ExerciseUnitModel.measuredStates)
+            unitListState = ExerciseUnitListState(ExerciseUnitModel.unitListItemStates)
         )
     }
 
@@ -44,16 +34,8 @@ class ExerciseDetailViewModel(
         _exerciseSettingsState.value = _exerciseSettingsState.value?.withChangedTitle(title)
     }
 
-    fun checkColor(color: Int) {
-        _exerciseSettingsState.value = _exerciseSettingsState.value?.withChangedColor(color)
-    }
-
-    fun checkIcon(icon: Int) {
-        _exerciseSettingsState.value = _exerciseSettingsState.value?.withChangedIcon(icon)
-    }
-
     fun checkMeasuredState(newState: ExerciseUnitListItemState) {
-        val measuredState = _exerciseSettingsState.value?.measuredState ?: return
+        val measuredState = _exerciseSettingsState.value?.unitListState ?: return
         val newMeasuredState = measuredState.withCheckedState(newState)
         _exerciseSettingsState.value = _exerciseSettingsState.value?.withChangedMeasuredState(newMeasuredState)
     }

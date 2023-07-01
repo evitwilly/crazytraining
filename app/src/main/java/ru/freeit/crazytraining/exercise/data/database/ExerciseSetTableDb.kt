@@ -11,7 +11,7 @@ class ExerciseSetTableDb(
     private val amount: Int = 0,
     private val millis: Long = 0L,
     private val exercise_id: Int = 0,
-    private val measuredValueModel: Int = 0,
+    private val unit: Int = 0,
     private val dateString: String = "",
     private val timeString: String = "",
     id: Int = 0,
@@ -23,7 +23,7 @@ class ExerciseSetTableDb(
             amount = amount,
             millis = millis,
             exerciseId = exercise_id,
-            unit = ExerciseUnitModel.values()[measuredValueModel],
+            unit = ExerciseUnitModel.values()[unit],
             dateString = dateString,
             timeString = timeString
         )
@@ -33,7 +33,7 @@ class ExerciseSetTableDb(
     private val amountColumn = TableColumnDb.Integer(column_amount)
     private val millisColumn = TableColumnDb.Integer(column_millis)
     private val exerciseId = TableColumnDb.Integer(column_exercise_id)
-    private val measuredValueColumn = TableColumnDb.Integer(column_measured_value)
+    private val measuredValueColumn = TableColumnDb.Integer(column_unit)
     private val dateStringColumn = TableColumnDb.Text(column_date_string)
     private val timeStringColumn = TableColumnDb.Text(column_time_string)
 
@@ -44,7 +44,7 @@ class ExerciseSetTableDb(
             put(column_amount, amount)
             put(column_millis, millis)
             put(column_exercise_id, exercise_id)
-            put(column_measured_value, measuredValueModel)
+            put(column_unit, unit)
             put(column_date_string, dateString)
             put(column_time_string, timeString)
         }
@@ -64,7 +64,7 @@ class ExerciseSetTableDb(
         const val column_amount = "amount"
         const val column_millis = "millis"
         const val column_exercise_id = "exercise_id"
-        const val column_measured_value = "measured_value"
+        const val column_unit = "measured_value"
         const val column_date_string = "date"
         const val column_time_string = "time"
     }

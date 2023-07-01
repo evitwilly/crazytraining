@@ -18,13 +18,14 @@ class CoreSQLiteOpenHelper(ctx: Context) : SQLiteOpenHelper(ctx, name, null, ver
     }
 
     override fun onUpgrade(database: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        tables.forEach { table -> table.drop(database) }
-        onCreate(database)
+        if (oldVersion == 1 && newVersion == 2) {
+            ExerciseTableDb().migration2(database)
+        }
     }
 
     private companion object {
         const val name = "app_database.db"
-        const val version = 1
+        const val version = 2
     }
 
 }

@@ -31,7 +31,7 @@ enum class ExerciseUnitModel(
     );
 
     companion object {
-        val measuredStates: List<ExerciseUnitListItemState>
+        val unitListItemStates: List<ExerciseUnitListItemState>
             get() = values().mapIndexed { index, model ->
                 ExerciseUnitListItemState(model, index == 0)
             }

@@ -7,14 +7,14 @@ import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
 import ru.freeit.crazytraining.exercise.detail.view.ExerciseMeasuredValueView
 
-class ExerciseMeasuredValueListState(private val items: List<ExerciseUnitListItemState>) {
+class ExerciseUnitListState(private val items: List<ExerciseUnitListItemState>) {
 
     val checkedUnitModel: ExerciseUnitModel
         get() = items.find { it.checked }?.model ?: ExerciseUnitModel.QUANTITY
 
-    fun withCheckedState(newState: ExerciseUnitListItemState): ExerciseMeasuredValueListState {
+    fun withCheckedState(newState: ExerciseUnitListItemState): ExerciseUnitListState {
         val newItems = items.map { state -> if (state.model == newState.model) newState else state.withChangedChecked(false) }
-        return ExerciseMeasuredValueListState(newItems)
+        return ExerciseUnitListState(newItems)
     }
 
     fun bindView(parent: CoreLinearLayout, checkListener: (state: ExerciseUnitListItemState) -> Unit) {
@@ -33,7 +33,7 @@ class ExerciseMeasuredValueListState(private val items: List<ExerciseUnitListIte
 
     override fun equals(other: Any?): Boolean {
         if (other == null) return false
-        if (other !is ExerciseMeasuredValueListState) return false
+        if (other !is ExerciseUnitListState) return false
 
         return items == other.items
     }
