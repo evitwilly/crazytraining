@@ -9,13 +9,18 @@ abstract class TableDb(val id: Int = 0) {
     abstract val contentValues: ContentValues
     protected abstract val columns: List<TableColumnDb<*>>
 
-    fun create(db: SQLiteDatabase?) {
+    fun create(db: SQLiteDatabase?, tableName: String = name) {
         val columnsString = columns.joinToString(",") { it.sqliteColumnDefinitionString }
-        db?.execSQL("create table if not exists $name ($column_id integer primary key autoincrement not null, $columnsString)")
+        db?.execSQL("create table if not exists $tableName ($column_id integer primary key autoincrement not null, $columnsString)")
+    }
+
+    fun copy(db: SQLiteDatabase?, fromTableName: String, toTableName: String) {
+        val columnsString = columns.joinToString(",") { it.name }
+        db?.execSQL("insert into $toTableName ($column_id, $columnsString) select $column_id, $columnsString from $fromTableName")
     }
 
     fun drop(db: SQLiteDatabase?) {
-        db?.execSQL("drop table $name if exists")
+        db?.execSQL("drop table if exists $name")
     }
 
     fun cursor(db: SQLiteDatabase, selection: SQLiteSelection? = null): Cursor {

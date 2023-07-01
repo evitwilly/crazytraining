@@ -3,6 +3,7 @@ package ru.freeit.crazytraining.core.theming.view
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
+import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import androidx.annotation.StringRes
@@ -88,6 +89,11 @@ class CoreEditText @JvmOverloads constructor(
         editView.fontSize(textSize)
 
         editBackgroundByColor(theme.colors[ColorAttributes.primaryColor])
+    }
+
+    fun changeMaxLength(maxLength: Int) {
+        val filters = editView.filters ?: arrayOf()
+        editView.filters = filters + arrayOf(InputFilter.LengthFilter(maxLength))
     }
 
     fun singleLine() {

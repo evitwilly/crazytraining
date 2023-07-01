@@ -3,8 +3,6 @@ package ru.freeit.crazytraining.training.adapter
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -25,17 +23,13 @@ import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailStateList
 class TrainingViewHolder(
     view: View,
     private val exerciseSetsLayoutView: CoreLinearLayout,
-    private val iconView: ImageView,
     private val titleView: CoreTextView,
     private val totalView: TextView,
     private val buttonView: CoreButton
 ) : RecyclerView.ViewHolder(view) {
 
     fun bind(state: TrainingDetailState, listeners: TrainingDetailStateListeners) {
-        with(state.model) {
-            bindImage(iconView)
-            bindTitle(titleView)
-        }
+        state.model.bindTitle(titleView)
 
         val sets = state.sorted_sets_by_number
 
@@ -114,25 +108,12 @@ class TrainingViewHolder(
             contentLinearView.padding(bottom = context.dp(12))
             contentLinearView.layoutParams(recyclerLayoutParams().matchWidth().wrapHeight().marginBottom(context.dp(8)))
 
-            val headerFrameView = FrameLayout(context)
-            headerFrameView.layoutParams(linearLayoutParams().matchWidth().wrapHeight())
-            contentLinearView.addView(headerFrameView)
-
-            val iconView = ImageView(context)
-            iconView.layoutParams(
-                frameLayoutParams().width(context.dp(32)).height(context.dp(32))
-                .marginStart(context.dp(12))
-                .marginTop(context.dp(12)))
-            iconView.padding(context.dp(4))
-            headerFrameView.addView(iconView)
-
             val titleView = CoreTextView(context)
-            titleView.layoutParams(
-                frameLayoutParams().matchWidth().wrapHeight()
-                .marginStart(context.dp(52))
+            titleView.layoutParams(frameLayoutParams().matchWidth().wrapHeight()
+                .marginStart(context.dp(12))
                 .marginTop(context.dp(12))
-                .gravity(Gravity.TOP))
-            headerFrameView.addView(titleView)
+                .marginEnd(context.dp(12)))
+            contentLinearView.addView(titleView)
 
             val exerciseSetsLayoutView = CoreLinearLayout(context, backgroundColor = ColorAttributes.transparent)
             exerciseSetsLayoutView.orientation = LinearLayout.VERTICAL
@@ -160,7 +141,7 @@ class TrainingViewHolder(
             buttonView.layoutParams(linearLayoutParams().wrap())
             bottomLinearView.addView(buttonView)
 
-            return TrainingViewHolder(contentLinearView, exerciseSetsLayoutView, iconView, titleView, totalView, buttonView)
+            return TrainingViewHolder(contentLinearView, exerciseSetsLayoutView, titleView, totalView, buttonView)
         }
     }
 

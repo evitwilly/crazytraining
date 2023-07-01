@@ -28,7 +28,7 @@ internal class ExerciseListViewModelTest {
 
     @Test
     fun `test updateState`() = runTest {
-        val exercises = listOf(ExerciseModel(1, 1, "title 1", ExerciseUnitModel.QUANTITY))
+        val exercises = listOf(ExerciseModel("title 1", ExerciseUnitModel.QUANTITY))
         val repository = ExerciseListRepositoryMock(exercises)
         val buttons = listOf(ExerciseEditButtonState.Button(1) {})
         val viewModel = ExerciseListViewModel(SavedInstanceStateMock(), repository, buttons)
@@ -39,8 +39,8 @@ internal class ExerciseListViewModelTest {
         assertEquals(expected1, viewModel.exerciseListState.value)
 
         repository.changeItems(listOf(
-            ExerciseModel(1, 1, "title 1", ExerciseUnitModel.QUANTITY),
-            ExerciseModel(2, 2, "title 2", ExerciseUnitModel.DISTANCE)
+            ExerciseModel("title 1", ExerciseUnitModel.QUANTITY),
+            ExerciseModel("title 2", ExerciseUnitModel.DISTANCE)
         ))
 
         viewModel.exerciseListState.value?.items?.first()?.editButtonViewModel?.toggle()
@@ -49,8 +49,8 @@ internal class ExerciseListViewModelTest {
         val editButtonViewModel = ExerciseEditButtonViewModel(buttons)
         editButtonViewModel.toggle()
         val expected2 = ExerciseListState(items = listOf(
-            ExerciseDetailState(ExerciseModel(1, 1, "title 1", ExerciseUnitModel.QUANTITY), editButtonViewModel),
-            ExerciseDetailState(ExerciseModel(2, 2, "title 2", ExerciseUnitModel.DISTANCE), ExerciseEditButtonViewModel(buttons))
+            ExerciseDetailState(ExerciseModel("title 1", ExerciseUnitModel.QUANTITY), editButtonViewModel),
+            ExerciseDetailState(ExerciseModel("title 2", ExerciseUnitModel.DISTANCE), ExerciseEditButtonViewModel(buttons))
         ))
         assertEquals(expected2, viewModel.exerciseListState.value)
 
@@ -59,26 +59,26 @@ internal class ExerciseListViewModelTest {
     @Test
     fun `test remove`() {
         val exercises = listOf(
-            ExerciseModel(1, 1, "title 1", ExerciseUnitModel.QUANTITY),
-            ExerciseModel(2, 2, "title 2", ExerciseUnitModel.DISTANCE)
+            ExerciseModel("title 1", ExerciseUnitModel.QUANTITY),
+            ExerciseModel("title 2", ExerciseUnitModel.DISTANCE)
         )
         val repository = ExerciseListRepositoryMock(exercises)
         val buttons = listOf(ExerciseEditButtonState.Button(1) {})
         val viewModel = ExerciseListViewModel(SavedInstanceStateMock(), repository, buttons)
 
         viewModel.updateState()
-        viewModel.cache(ExerciseModel(1, 1, "title 1", ExerciseUnitModel.QUANTITY))
+        viewModel.cache(ExerciseModel("title 1", ExerciseUnitModel.QUANTITY))
         viewModel.remove()
 
         val expected1 = ExerciseListState(items = listOf(
             ExerciseDetailState(
-                ExerciseModel(2, 2, "title 2", ExerciseUnitModel.DISTANCE),
+                ExerciseModel("title 2", ExerciseUnitModel.DISTANCE),
                 ExerciseEditButtonViewModel(buttons)
             )
         ))
         assertEquals(expected1, viewModel.exerciseListState.value)
 
-        viewModel.cache(ExerciseModel(2, 2, "title 2", ExerciseUnitModel.DISTANCE))
+        viewModel.cache(ExerciseModel("title 2", ExerciseUnitModel.DISTANCE))
         viewModel.remove()
 
         val expected2 = ExerciseListState(items = emptyList())

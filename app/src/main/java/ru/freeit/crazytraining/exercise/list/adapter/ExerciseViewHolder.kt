@@ -24,8 +24,7 @@ import ru.freeit.crazytraining.exercise.list.viewmodel_states.ExerciseDetailStat
 class ExerciseViewHolder(
     view: LinearLayout,
     private val titleView: TextView,
-    private val imageView: ImageView,
-    private val measuredView: TextView,
+    private val unitView: TextView,
     private val editButtonView: ImageView,
     private val buttonsView: LinearLayout,
 ) : RecyclerView.ViewHolder(view) {
@@ -35,8 +34,7 @@ class ExerciseViewHolder(
 
         with(model) {
             bindTitle(titleView)
-            bindImage(imageView)
-            bindMeasuredValue(measuredView)
+            bindMeasuredValue(unitView)
         }
 
         val observer = Observer<ExerciseEditButtonState> { editButtonState ->
@@ -69,19 +67,11 @@ class ExerciseViewHolder(
             headerFrameView.layoutParams(linearLayoutParams().matchWidth().wrapHeight())
             contentLinearView.addView(headerFrameView)
 
-            val iconView = ImageView(context)
-            iconView.layoutParams(
-                frameLayoutParams().width(context.dp(32)).height(context.dp(32))
-                .marginStart(context.dp(12)).marginTop(context.dp(12)))
-            iconView.padding(context.dp(4))
-            headerFrameView.addView(iconView)
-
             val titleView = CoreTextView(context)
-            titleView.layoutParams(
-                frameLayoutParams().matchWidth().wrapHeight()
-                .marginStart(context.dp(52))
+            titleView.layoutParams(frameLayoutParams().matchWidth().wrapHeight()
+                .marginStart(context.dp(12))
                 .marginTop(context.dp(12))
-                .gravity(Gravity.TOP))
+                .marginEnd(context.dp(32)))
             headerFrameView.addView(titleView)
 
             val editButtonView = CoreImageButtonView(
@@ -91,16 +81,15 @@ class ExerciseViewHolder(
             )
             editButtonView.padding(context.dp(8))
             editButtonView.setOnClickListener { editButtonView.showContextMenu() }
-            editButtonView.layoutParams(
-                frameLayoutParams().width(context.dp(32))
+            editButtonView.layoutParams(frameLayoutParams().width(context.dp(32))
                 .height(context.dp(32)).gravity(Gravity.END))
             headerFrameView.addView(editButtonView)
 
-            val measuredView = CoreTextView(context, textStyle = TextAttribute.Body2)
-            measuredView.layoutParams(
-                linearLayoutParams().wrap().gravity(Gravity.END)
+            val unitView = CoreTextView(context, textStyle = TextAttribute.Body2)
+            unitView.layoutParams(linearLayoutParams().wrap().gravity(Gravity.END)
+                .marginTop(context.dp(12))
                 .marginEnd(context.dp(12)))
-            contentLinearView.addView(measuredView)
+            contentLinearView.addView(unitView)
 
             val buttonsView = CoreLinearLayout(context, ColorAttributes.transparent)
             buttonsView.layoutParams(
@@ -110,7 +99,7 @@ class ExerciseViewHolder(
             buttonsView.orientation = LinearLayout.HORIZONTAL
             contentLinearView.addView(buttonsView)
 
-            return ExerciseViewHolder(contentLinearView, titleView, iconView, measuredView, editButtonView, buttonsView)
+            return ExerciseViewHolder(contentLinearView, titleView, unitView, editButtonView, buttonsView)
         }
     }
 
