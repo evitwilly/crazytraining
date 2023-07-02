@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
+import ru.freeit.crazytraining.core.ResourcesProviderImpl
 import ru.freeit.crazytraining.core.extensions.*
 import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
 import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
@@ -37,6 +38,7 @@ class TrainingViewHolder(
         exerciseSetsLayoutView.isVisible = sets.isNotEmpty()
 
         val context = exerciseSetsLayoutView.context
+        val resources = ResourcesProviderImpl(context.resources)
         sets.forEach { (model, number) ->
 
             val layoutView = CoreFrameLayout(context, backgroundColor = ColorAttributes.transparent)
@@ -53,10 +55,9 @@ class TrainingViewHolder(
                 .marginEnd(buttonSize * 2 + buttonMargin * 2))
             layoutView.addView(titleView)
 
-            val resources = context.resources
-            titleView.text = resources.getString(
+            titleView.text = resources.string(
                 R.string.set_title,
-                resources.getQuantityString(R.plurals.set, number, number),
+                resources.quantityString(R.plurals.set, number, number),
                 model.amountString(resources)
             )
 
@@ -86,7 +87,7 @@ class TrainingViewHolder(
         }
 
         val setWithTotalAmount = state.model_with_total_amount
-        val totalAmountString = setWithTotalAmount.amountString(context.resources)
+        val totalAmountString = setWithTotalAmount.amountString(resources)
         totalView.text = if (setWithTotalAmount.isNotEmpty) {
             context.getString(R.string.total_colon, totalAmountString)
         } else {
