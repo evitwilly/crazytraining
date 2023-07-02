@@ -27,7 +27,7 @@
     <string name="exercise_name_is_empty">Exercise name is empty</string>
     <string name="set">set</string>
     <string name="exercises">Exercises</string>
-    <string name="history">History</string>
+    <string name="statistics">Statistics</string>
     <string name="kilometers_meteres">kilometers/meters</string>
     <string name="minutes_seconds">minutes/seconds</string>
     <string name="change_color">change color</string>
@@ -82,4 +82,6 @@
         <item quantity="one">%d second</item>
         <item quantity="other">%d seconds</item>
     </plurals>
+    <string name="total_sets">total sets: %d</string>
+    <string name="total_amount">total amount: %s</string>
 </resources>

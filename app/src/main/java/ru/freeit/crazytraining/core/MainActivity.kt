@@ -11,7 +11,7 @@ import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.extensions.linearLayoutParams
 import ru.freeit.crazytraining.core.theming.layout.components.BottomNavigationView
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
-import ru.freeit.crazytraining.history.HistoryFragment
+import ru.freeit.crazytraining.statistics.StatisticsFragment
 import ru.freeit.crazytraining.exercise.list.ExerciseListFragment
 import ru.freeit.crazytraining.training.TrainingFragment
 
@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity() {
             ),
             BottomNavigationView.BottomNavigationTab(
                 drawableResource = R.drawable.ic_history,
-                stringResource = R.string.history,
-                clickListener = { navigator.replace(HistoryFragment()) }
+                stringResource = R.string.statistics,
+                clickListener = { navigator.replace(StatisticsFragment()) }
             )
         ))
         coreFrameView.addView(bottomNavigationView)

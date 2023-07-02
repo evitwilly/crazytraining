@@ -1,9 +1,9 @@
 package ru.freeit.crazytraining.exercise.model
 
-import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
 import ru.freeit.crazytraining.R
+import ru.freeit.crazytraining.core.ResourcesProvider
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetTableDb
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
 
@@ -54,29 +54,29 @@ class ExerciseSetModel(
 
     fun isThisExercise(model: ExerciseModel) = model.id == exerciseId
 
-    fun amountString(resources: Resources): String {
+    fun amountString(resources: ResourcesProvider): String {
         return when (unit) {
-            ExerciseUnitModel.QUANTITY -> resources.getQuantityString(R.plurals.times, amount, amount)
+            ExerciseUnitModel.QUANTITY -> resources.quantityString(R.plurals.times, amount, amount)
             ExerciseUnitModel.DISTANCE -> {
                 if (amount < 1000) {
-                    resources.getQuantityString(R.plurals.meters, amount, amount)
+                    resources.quantityString(R.plurals.meters, amount, amount)
                 } else {
                     val kilometers = amount / 1000f
                     val str = if (amount % 1000 == 0) "${kilometers.toInt()}" else "$kilometers"
-                    resources.getQuantityString(R.plurals.kilometers, kilometers.toInt(), str)
+                    resources.quantityString(R.plurals.kilometers, kilometers.toInt(), str)
                 }
             }
             ExerciseUnitModel.TIME -> {
                 if (amount < 60) {
-                    resources.getQuantityString(R.plurals.seconds, amount, amount)
+                    resources.quantityString(R.plurals.seconds, amount, amount)
                 } else {
                     val minutes = amount / 60
                     val seconds = amount % 60
 
-                    val minutesStr = resources.getQuantityString(R.plurals.minutes, minutes, minutes)
+                    val minutesStr = resources.quantityString(R.plurals.minutes, minutes, minutes)
 
                     if (seconds > 0) {
-                        val secondsStr = resources.getQuantityString(R.plurals.seconds, seconds, seconds)
+                        val secondsStr = resources.quantityString(R.plurals.seconds, seconds, seconds)
                         "$minutesStr $secondsStr"
                     } else {
                         minutesStr
