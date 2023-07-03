@@ -18,7 +18,7 @@ class ExerciseAddSetViewModel(argument: ExerciseUnitModel) : ViewModel() {
     private var cachedAmount: Int = 0
 
     init {
-        _exerciseUnitState.value = argument.state
+        _exerciseUnitState.value = argument.dialogState
     }
 
     fun cacheAmount(amount: Int) {
