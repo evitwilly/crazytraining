@@ -11,13 +11,13 @@ import ru.freeit.crazytraining.core.theming.view.CoreEditText
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.training.dialogs.text_watchers.MaxTextWatcher
 
-sealed class ExerciseUnitDialogState {
+sealed class ExerciseUnitDialogState(protected val maxValue: Int) {
 
     open val isVisibleExternalError: Boolean = false
 
     abstract fun bindViews(titleView: TextView, editLayoutView: LinearLayout, amountListener: (Int) -> Unit)
 
-    object Quantity : ExerciseUnitDialogState() {
+    class Quantity(maxValue: Int) : ExerciseUnitDialogState(maxValue) {
 
         override fun bindViews(
             titleView: TextView,
@@ -36,7 +36,7 @@ sealed class ExerciseUnitDialogState {
             quantityEditView.requestFocus()
             quantityEditView.addTextWatcher(MaxTextWatcher(
                 editView = quantityEditView,
-                max = 1000,
+                max = maxValue,
                 isErrorHandling = true,
                 amountListener = amountListener
             ))
@@ -48,7 +48,7 @@ sealed class ExerciseUnitDialogState {
 
     }
 
-    object Distance : ExerciseUnitDialogState() {
+    class Distance(maxValue: Int) : ExerciseUnitDialogState(maxValue) {
 
         override val isVisibleExternalError: Boolean = true
 
@@ -100,12 +100,12 @@ sealed class ExerciseUnitDialogState {
 
             distanceKilometersEditView.addTextWatcher(MaxTextWatcher(
                 editView = distanceKilometersEditView,
-                max = 1000,
+                max = maxValue,
                 amountListener = { changeAmount() }
             ))
             distanceMetersEditView.addTextWatcher(MaxTextWatcher(
                 editView = distanceMetersEditView,
-                max = 1000,
+                max = maxValue,
                 amountListener = { changeAmount() }
             ))
 
@@ -115,7 +115,7 @@ sealed class ExerciseUnitDialogState {
 
     }
 
-    object Time : ExerciseUnitDialogState() {
+    class Time(maxValue: Int) : ExerciseUnitDialogState(maxValue) {
 
         override val isVisibleExternalError: Boolean = true
 
@@ -167,12 +167,12 @@ sealed class ExerciseUnitDialogState {
 
             timeMinutesEditView.addTextWatcher(MaxTextWatcher(
                 editView = timeMinutesEditView,
-                max = 60,
+                max = maxValue,
                 amountListener = { changeAmount() }
             ))
             timeSecondsEditView.addTextWatcher(MaxTextWatcher(
                 editView = timeSecondsEditView,
-                max = 60,
+                max = maxValue,
                 amountListener = { changeAmount() }
             ))
 

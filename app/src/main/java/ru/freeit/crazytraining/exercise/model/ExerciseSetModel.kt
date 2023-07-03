@@ -2,7 +2,6 @@ package ru.freeit.crazytraining.exercise.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.ResourcesProvider
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetTableDb
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
@@ -54,37 +53,7 @@ class ExerciseSetModel(
 
     fun isThisExercise(model: ExerciseModel) = model.id == exerciseId
 
-    fun amountString(resources: ResourcesProvider): String {
-        return when (unit) {
-            ExerciseUnitModel.QUANTITY -> resources.quantityString(R.plurals.times, amount, amount)
-            ExerciseUnitModel.DISTANCE -> {
-                if (amount < 1000) {
-                    resources.quantityString(R.plurals.meters, amount, amount)
-                } else {
-                    val kilometers = amount / 1000f
-                    val str = if (amount % 1000 == 0) "${kilometers.toInt()}" else "$kilometers"
-                    resources.quantityString(R.plurals.kilometers, kilometers.toInt(), str)
-                }
-            }
-            ExerciseUnitModel.TIME -> {
-                if (amount < 60) {
-                    resources.quantityString(R.plurals.seconds, amount, amount)
-                } else {
-                    val minutes = amount / 60
-                    val seconds = amount % 60
-
-                    val minutesStr = resources.quantityString(R.plurals.minutes, minutes, minutes)
-
-                    if (seconds > 0) {
-                        val secondsStr = resources.quantityString(R.plurals.seconds, seconds, seconds)
-                        "$minutesStr $secondsStr"
-                    } else {
-                        minutesStr
-                    }
-                }
-            }
-        }
-    }
+    fun amountString(resources: ResourcesProvider) = unit.amountConverterString.invoke(resources, amount)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) = with(parcel) {
         writeInt(id)
