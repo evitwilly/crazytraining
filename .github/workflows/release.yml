@@ -1,8 +1,9 @@
 name: Test and build artifacts on release
 
 on:
-  release:
-    types: [created]
+  create:
+    branches:
+      - releases/*
 
 jobs:
  build_apk_aab:
