@@ -21,7 +21,7 @@ import ru.freeit.crazytraining.core.viewmodel.SavedInstanceStateImpl
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepositoryImpl
 import ru.freeit.crazytraining.settings.view.ThemeSwitchView
-import ru.freeit.crazytraining.training.repository.ExerciseSetsRepositoryImpl
+import ru.freeit.crazytraining.training.data.repository.ExerciseSetsRepositoryImpl
 
 class SettingsFragment : BaseFragment<SettingsViewModel>() {
 

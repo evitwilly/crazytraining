@@ -1,7 +1,7 @@
 package ru.freeit.crazytraining.core.mocks
 
 import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
-import ru.freeit.crazytraining.training.repository.ExerciseSetsRepository
+import ru.freeit.crazytraining.training.data.repository.ExerciseSetsRepository
 
 class ExerciseSetsRepositoryMock : ExerciseSetsRepository {
 

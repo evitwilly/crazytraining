@@ -49,7 +49,7 @@ class ExerciseSetTableDb(
             put(column_time_string, timeString)
         }
 
-    fun fromCursor(cursor: Cursor) =
+    override fun fromCursor(cursor: Cursor) =
         ExerciseSetTableDb(
             amountColumn.value(cursor).toInt(),
             millisColumn.value(cursor),

@@ -5,12 +5,14 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetTableDb
 import ru.freeit.crazytraining.exercise.data.database.ExerciseTableDb
+import ru.freeit.crazytraining.training.data.database.TrainingTableDb
 
 class CoreSQLiteOpenHelper(ctx: Context) : SQLiteOpenHelper(ctx, name, null, version) {
 
     private val tables = listOf(
         ExerciseTableDb(),
-        ExerciseSetTableDb()
+        ExerciseSetTableDb(),
+        TrainingTableDb()
     )
 
     override fun onCreate(database: SQLiteDatabase?) {

@@ -27,7 +27,7 @@ import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepositoryImpl
 import ru.freeit.crazytraining.training.adapter.TrainingListAdapter
 import ru.freeit.crazytraining.training.dialogs.ExerciseAddSetDialog
 import ru.freeit.crazytraining.training.dialogs.ExerciseAddSetDialogResult
-import ru.freeit.crazytraining.training.repository.ExerciseSetsRepositoryImpl
+import ru.freeit.crazytraining.training.data.repository.ExerciseSetsRepositoryImpl
 import ru.freeit.crazytraining.training.view.TrainingDateView
 import ru.freeit.crazytraining.training.view.TrainingWeekendView
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailStateListeners
