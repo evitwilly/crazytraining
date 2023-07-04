@@ -1,6 +1,5 @@
 package ru.freeit.crazytraining.core.database
 
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 
 abstract class CoreDatabase<T : TableDb>(database: CoreSQLiteOpenHelper) {
@@ -8,13 +7,12 @@ abstract class CoreDatabase<T : TableDb>(database: CoreSQLiteOpenHelper) {
     private val sqliteDb: SQLiteDatabase = database.writableDatabase
 
     abstract val defaultItem: T
-    abstract fun item(cursor: Cursor) : T
 
     fun items(selection: SQLiteSelection? = null) : List<T> {
         val cursor = defaultItem.cursor(sqliteDb, selection)
         val list = mutableListOf<T>()
         while (cursor.moveToNext()) {
-            list.add(item(cursor))
+            list.add(defaultItem.fromCursor(cursor) as T)
         }
         return list
     }

@@ -9,6 +9,8 @@ abstract class TableDb(val id: Int = 0) {
     abstract val contentValues: ContentValues
     protected abstract val columns: List<TableColumnDb<*>>
 
+    abstract fun fromCursor(cursor: Cursor) : TableDb
+
     fun create(db: SQLiteDatabase?, tableName: String = name) {
         val columnsString = columns.joinToString(",") { it.sqliteColumnDefinitionString }
         db?.execSQL("create table if not exists $tableName ($column_id integer primary key autoincrement not null, $columnsString)")

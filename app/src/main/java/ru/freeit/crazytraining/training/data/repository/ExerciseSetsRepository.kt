@@ -1,4 +1,4 @@
-package ru.freeit.crazytraining.training.repository
+package ru.freeit.crazytraining.training.data.repository
 
 import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 

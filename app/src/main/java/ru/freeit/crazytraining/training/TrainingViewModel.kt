@@ -12,7 +12,7 @@ import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepository
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
-import ru.freeit.crazytraining.training.repository.ExerciseSetsRepository
+import ru.freeit.crazytraining.training.data.repository.ExerciseSetsRepository
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingListState
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingTextState
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingWeekendState

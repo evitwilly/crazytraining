@@ -13,7 +13,7 @@ import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayListState
 import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayState
-import ru.freeit.crazytraining.training.repository.ExerciseSetsRepository
+import ru.freeit.crazytraining.training.data.repository.ExerciseSetsRepository
 
 class SettingsViewModel(
     savedState: SavedInstanceState,

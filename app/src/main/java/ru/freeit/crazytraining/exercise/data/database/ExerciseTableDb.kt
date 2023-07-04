@@ -34,7 +34,7 @@ class ExerciseTableDb(
             put(column_measured_value, unit)
         }
 
-    fun fromCursor(cursor: Cursor) =
+    override fun fromCursor(cursor: Cursor) =
         ExerciseTableDb(
             titleColumn.value(cursor),
             unitColumn.value(cursor).toInt(),
