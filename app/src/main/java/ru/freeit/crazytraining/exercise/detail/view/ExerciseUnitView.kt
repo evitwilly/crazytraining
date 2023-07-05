@@ -19,7 +19,7 @@ import ru.freeit.crazytraining.core.theming.text.TextAttribute
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
 
-class ExerciseMeasuredValueView(ctx: Context) : CoreLinearLayout(ctx) {
+class ExerciseUnitView(ctx: Context) : CoreLinearLayout(ctx) {
 
     var checked: Boolean = false
         set(value) {

@@ -35,7 +35,7 @@ internal class ExerciseListViewModelTest {
 
         viewModel.updateState()
 
-        val expected1 = ExerciseListState(items = exercises.map { ExerciseDetailState(it, ExerciseEditButtonViewModel(buttons)) })
+        val expected1 = ExerciseListState(items = exercises.map { ExerciseDetailState(it, ExerciseEditButtonViewModel(buttons).apply { toggle() }) })
         assertEquals(expected1, viewModel.exerciseListState.value)
 
         repository.changeItems(listOf(
@@ -43,7 +43,6 @@ internal class ExerciseListViewModelTest {
             ExerciseModel("title 2", ExerciseUnitModel.DISTANCE)
         ))
 
-        viewModel.exerciseListState.value?.items?.first()?.editButtonViewModel?.toggle()
         viewModel.updateState()
 
         val editButtonViewModel = ExerciseEditButtonViewModel(buttons)
@@ -73,7 +72,7 @@ internal class ExerciseListViewModelTest {
         val expected1 = ExerciseListState(items = listOf(
             ExerciseDetailState(
                 ExerciseModel("title 2", ExerciseUnitModel.DISTANCE),
-                ExerciseEditButtonViewModel(buttons)
+                ExerciseEditButtonViewModel(buttons).apply { toggle() }
             )
         ))
         assertEquals(expected1, viewModel.exerciseListState.value)

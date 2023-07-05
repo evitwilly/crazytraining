@@ -49,7 +49,7 @@ class ExerciseListViewModel(
         } else {
             _exerciseListState.value = ExerciseListState(
                 repository.exercises().map {
-                    ExerciseDetailState(it, ExerciseEditButtonViewModel(itemButtons))
+                    ExerciseDetailState(it, ExerciseEditButtonViewModel(itemButtons).apply { toggle() })
                 }
             )
         }

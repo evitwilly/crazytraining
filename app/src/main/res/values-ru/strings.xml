@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Crazing</string>
+    <string name="training">Тренировка</string>
+    <string name="settings">Настройки</string>
+    <string name="select_theme">Выберите тему:</string>
+    <string name="select_training_days">Выберите дни тренировок:</string>
+    <string name="monday">Понедельник</string>
+    <string name="tuesday">Вторник</string>
+    <string name="wednesday">Среда</string>
+    <string name="thursday">Четверг</string>
+    <string name="friday">Пятница</string>
+    <string name="saturday">Суббота</string>
+    <string name="sunday">Воскресенье</string>
+    <string name="weekend">Выходной</string>
+    <string name="add_exercise">Добавить упражнение</string>
+    <string name="choose_icon">Выберите иконку:</string>
+    <string name="choose_color_for_icon">Выберите цвет для иконки:</string>
+    <string name="write_exercise_name">Напишите название упражнения:</string>
+    <string name="quantity">Количество</string>
+    <string name="distance">Расстояние</string>
+    <string name="time">Время</string>
+    <string name="choose_measured_value_for_exercise">Выберите единицу измерения для упражнения (не может быть изменена):</string>
+    <string name="quantity_description">показывает как много раз упражнение было выполнено за один подход</string>
+    <string name="distance_description">показывает насколько большое расстояние вы преодолели во время выполнения упражнения за один подход (измеряется в километрах/метрах)</string>
+    <string name="time_description">показывает как долго вы смогли продержаться за один подход упражнения (измеряется в минутах/секундах)</string>
+    <string name="exercise_name">название упражнения</string>
+    <string name="exercise_name_is_empty">Пустое название упражнения</string>
+    <string name="set">подход</string>
+    <string name="exercises">Упражнения</string>
+    <string name="statistics">Статистика</string>
+    <string name="kilometers_meteres">километры/метры</string>
+    <string name="minutes_seconds">минуты/секунды</string>
+    <string name="change_color">выберите цвет</string>
+    <string name="change_icon">выберите иконку</string>
+    <string name="icon_settings">Настройки иконки</string>
+    <string name="apply">Применить</string>
+    <string name="edit_icon">редактировать иконку</string>
+    <string name="the_field_is_empty">пустое поле</string>
+    <string name="edit">редактировать</string>
+    <string name="remove">удалить</string>
+    <string name="edit_exercise">Редактировать</string>
+    <string name="save">Сохранить</string>
+    <string name="ok">ОК</string>
+    <string name="cancel">Отменить</string>
+    <string name="remove_exercise">Удалить упражнение</string>
+    <string name="remove_exercise_warning">Вы действительно хотите удалить упражнение?\nВсе тренировки для данного упражнения будут утеряны!</string>
+    <string name="quantity_dialog_title">Сколько раз вы сделали упражнение?</string>
+    <string name="distance_dialog_title">Насколько большое расстояние вы преодолели?</string>
+    <string name="time_dialog_title">Как долго вы продержались?</string>
+    <string name="add">Добавить</string>
+    <string name="kilometers">километры</string>
+    <string name="meters">метры</string>
+    <string name="minutes">минуты</string>
+    <string name="seconds">секунды</string>
+    <string name="both_fields_are_empty">оба поля пустые</string>
+    <string name="do_you_really_want_to_remove_item">Вы действительно хотите удалить текущий элемент?</string>
+    <string name="weekend_title">Отдыхайте и восстанавливайте свои силы до следующей тренировки!</string>
+    <string name="training_cancel_title">У вас уже есть тренировка в этот день. Вы действительно хотите её отменить и сбросить прогресс?</string>
+    <string name="set_title">%s - %s</string>
+    <string name="total_colon">Всего: %s</string>
+    <plurals name="set">
+        <item quantity="one">%d подход</item>
+        <item quantity="few">%d подхода</item>
+        <item quantity="many">%d подходов</item>
+        <item quantity="other">%d подходов</item>
+    </plurals>
+    <plurals name="times">
+        <item quantity="one">%d раз</item>
+        <item quantity="few">%d раза</item>
+        <item quantity="many">%d раз</item>
+        <item quantity="other">%d раз</item>
+    </plurals>
+    <plurals name="kilometers">
+        <item quantity="one">%s километр</item>
+        <item quantity="few">%s километра</item>
+        <item quantity="many">%s километров</item>
+        <item quantity="other">%s километров</item>
+    </plurals>
+    <plurals name="meters">
+        <item quantity="one">%d метр</item>
+        <item quantity="few">%s метра</item>
+        <item quantity="many">%s метров</item>
+        <item quantity="other">%d метров</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%d минута</item>
+        <item quantity="few">%d минуты</item>
+        <item quantity="many">%d минут</item>
+        <item quantity="other">%d минут</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one">%d секунда</item>
+        <item quantity="few">%d секунды</item>
+        <item quantity="many">%d секунд</item>
+        <item quantity="other">%d секунд</item>
+    </plurals>
+    <string name="total_sets">всего подходов: %d</string>
+    <string name="total_amount">общее количество: %s</string>
+</resources>

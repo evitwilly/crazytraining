@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.ResourcesProviderImpl
 import ru.freeit.crazytraining.core.extensions.*
+import ru.freeit.crazytraining.core.theming.CoreTheme
 import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
 import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 import ru.freeit.crazytraining.core.theming.layout.components.CoreFrameLayout
@@ -109,7 +110,15 @@ class TrainingViewHolder(
             contentLinearView.padding(bottom = context.dp(12))
             contentLinearView.layoutParams(recyclerLayoutParams().matchWidth().wrapHeight().marginBottom(context.dp(8)))
 
-            val titleView = CoreTextView(context)
+            val titleView = object: CoreTextView(
+                ctx = context,
+                textStyle = TextAttribute.Body1
+            ) {
+                override fun onThemeChanged(theme: CoreTheme) {
+                    super.onThemeChanged(theme)
+                    fontSize(18f)
+                }
+            }
             titleView.layoutParams(frameLayoutParams().matchWidth().wrapHeight()
                 .marginStart(context.dp(12))
                 .marginTop(context.dp(12))

@@ -5,7 +5,7 @@ import ru.freeit.crazytraining.core.extensions.layoutParams
 import ru.freeit.crazytraining.core.extensions.linearLayoutParams
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
-import ru.freeit.crazytraining.exercise.detail.view.ExerciseMeasuredValueView
+import ru.freeit.crazytraining.exercise.detail.view.ExerciseUnitView
 
 class ExerciseUnitListState(private val items: List<ExerciseUnitListItemState>) {
 
@@ -22,12 +22,12 @@ class ExerciseUnitListState(private val items: List<ExerciseUnitListItemState>) 
 
         val context = parent.context
         items.forEach { state ->
-            val exerciseMeasuredValueView = ExerciseMeasuredValueView(context)
-            exerciseMeasuredValueView.checked = state.checked
-            exerciseMeasuredValueView.changeMeasuredValueModel(state.model)
-            exerciseMeasuredValueView.setOnClickListener { checkListener.invoke(state.withChangedChecked(true)) }
-            exerciseMeasuredValueView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginBottom(context.dp(12)))
-            parent.addView(exerciseMeasuredValueView)
+            val exerciseUnitView = ExerciseUnitView(context)
+            exerciseUnitView.checked = state.checked
+            exerciseUnitView.changeMeasuredValueModel(state.model)
+            exerciseUnitView.setOnClickListener { checkListener.invoke(state.withChangedChecked(true)) }
+            exerciseUnitView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginBottom(context.dp(12)))
+            parent.addView(exerciseUnitView)
         }
     }
 
