@@ -62,6 +62,7 @@ class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
         val listView = RecyclerView(context)
         listView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         listView.clipToPadding = false
+        listView.isMotionEventSplittingEnabled = false
         listView.padding(top = context.dp(8), start = context.dp(16), end = context.dp(16), bottom = context.dp(64))
         listView.layoutParams(linearLayoutParams().matchWidth().height(0).weight(1f))
         listView.adapter = adapter

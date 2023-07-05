@@ -58,7 +58,7 @@ class ExerciseAddSetDialog() : CoreDialog() {
         val button = CoreButton(context, shapeTreatmentStrategy = ShapeTreatmentStrategy.AllRounded())
         button.setText(R.string.add)
         button.padding(horizontal = context.dp(24), vertical = context.dp(4))
-        button.layoutParams(linearLayoutParams().wrap().gravity(Gravity.END).marginTop(context.dp(4)))
+        button.layoutParams(linearLayoutParams().wrap().gravity(Gravity.END).marginTop(context.dp(8)))
         contentView.addView(button)
 
         val argument = ExerciseUnitModel.values()[requireArguments().getInt(argument_key)]

@@ -66,14 +66,14 @@ class ExerciseDetailFragment() : BaseFragment<ExerciseDetailViewModel>() {
             .marginTop(context.dp(8)))
         contentView.addView(titleEditView)
 
-        val measuredValuesCaptionView = CoreTextView(context)
-        measuredValuesCaptionView.text = getString(R.string.choose_measured_value_for_exercise)
-        measuredValuesCaptionView.layoutParams(
+        val unitCaptionView = CoreTextView(context)
+        unitCaptionView.text = getString(R.string.choose_measured_value_for_exercise)
+        unitCaptionView.layoutParams(
             linearLayoutParams().matchWidth().wrapHeight()
             .marginStart(context.dp(16))
             .marginEnd(context.dp(16))
             .marginTop(context.dp(32)))
-        contentView.addView(measuredValuesCaptionView)
+        contentView.addView(unitCaptionView)
 
         val unitListView = CoreLinearLayout(context)
         unitListView.orientation = LinearLayout.VERTICAL
@@ -99,7 +99,7 @@ class ExerciseDetailFragment() : BaseFragment<ExerciseDetailViewModel>() {
             titleEditView.error = CoreEditText.Error.Empty
             with(state) {
                 unitListState.bindView(unitListView, viewModel::checkMeasuredState)
-                measuredValuesCaptionView.isVisible = unitListView.childCount > 0
+                unitCaptionView.isVisible = unitListView.childCount > 1
             }
         }
         titleEditView.changeTextListener { title -> viewModel.changeTitle(title) }

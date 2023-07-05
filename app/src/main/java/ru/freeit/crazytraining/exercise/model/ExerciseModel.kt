@@ -3,6 +3,7 @@ package ru.freeit.crazytraining.exercise.model
 import android.os.Parcel
 import android.os.Parcelable
 import android.widget.TextView
+import androidx.core.view.isVisible
 import ru.freeit.crazytraining.exercise.data.database.ExerciseTableDb
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseSettingsState
@@ -34,14 +35,16 @@ class ExerciseModel(
        view.text = title
    }
 
-    fun bindMeasuredValue(view: TextView) {
+    fun bindUnit(view: TextView) {
         val unit = unit.value
+        view.isVisible = unit != -1
         if (unit != -1) {
             view.setText(unit)
         }
     }
 
    override fun equals(other: Any?): Boolean {
+       if (this === other) return true
        if (other == null) return false
        if (other !is ExerciseModel) return false
 
@@ -55,7 +58,7 @@ class ExerciseModel(
     }
 
     override fun toString(): String {
-        return "{ title -> $title, measured_value_model -> $unit, id -> $id"
+        return "{ title -> $title, unit -> $unit, id -> $id"
     }
 
     override fun describeContents(): Int = 0
