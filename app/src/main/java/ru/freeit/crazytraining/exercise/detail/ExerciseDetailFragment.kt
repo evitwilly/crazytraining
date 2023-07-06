@@ -18,7 +18,6 @@ import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreEditText
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
-import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
@@ -31,10 +30,7 @@ class ExerciseDetailFragment() : BaseFragment<ExerciseDetailViewModel>() {
         val coreSQLiteOpenHelper = (ctx.applicationContext as App).coreSQLiteOpenHelper
         return ExerciseDetailViewModel(
             argument = exerciseModel,
-            listRepository = ExerciseListRepositoryImpl(
-                ExerciseDatabase(coreSQLiteOpenHelper),
-                ExerciseSetDatabase(coreSQLiteOpenHelper)
-            )
+            listRepository = ExerciseListRepositoryImpl(ExerciseDatabase(coreSQLiteOpenHelper))
         )
     }
 

@@ -49,7 +49,7 @@ internal class ExerciseListViewModelTest {
         editButtonViewModel.toggle()
         val expected2 = ExerciseListState(items = listOf(
             ExerciseDetailState(ExerciseModel("title 1", ExerciseUnitModel.QUANTITY), editButtonViewModel),
-            ExerciseDetailState(ExerciseModel("title 2", ExerciseUnitModel.DISTANCE), ExerciseEditButtonViewModel(buttons))
+            ExerciseDetailState(ExerciseModel("title 2", ExerciseUnitModel.DISTANCE), ExerciseEditButtonViewModel(buttons).apply { toggle() })
         ))
         assertEquals(expected2, viewModel.exerciseListState.value)
 

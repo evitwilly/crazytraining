@@ -16,4 +16,8 @@ class ExerciseSetDatabase(db: CoreSQLiteOpenHelper) : CoreDatabase<ExerciseSetTa
         return items(SQLiteSelection().select(ExerciseSetTableDb.column_date_string, date))
     }
 
+    fun itemsByTrainingId(id: Int) : List<ExerciseSetTableDb> {
+        return items(SQLiteSelection().select(ExerciseSetTableDb.column_training_id, id.toString()))
+    }
+
 }

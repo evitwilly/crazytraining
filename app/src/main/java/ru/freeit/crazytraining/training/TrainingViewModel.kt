@@ -8,21 +8,22 @@ import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.fragment.BaseViewModel
 import ru.freeit.crazytraining.core.repository.CalendarRepository
 import ru.freeit.crazytraining.core.viewmodel.SavedInstanceState
-import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepository
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.training.data.repository.ExerciseSetsRepository
+import ru.freeit.crazytraining.training.data.repository.TrainingRepository
+import ru.freeit.crazytraining.training.model.TrainingModel
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingListState
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingTextState
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingWeekendState
 
 class TrainingViewModel(
     savedState: SavedInstanceState,
-    private val exerciseListRepository: ExerciseListRepository,
     private val exerciseSetsRepository: ExerciseSetsRepository,
     private val calendarRepository: CalendarRepository,
-    private val checkedWeekdaysRepository: CheckedWeekdaysRepository
+    private val checkedWeekdaysRepository: CheckedWeekdaysRepository,
+    private val trainingRepository: TrainingRepository
 ) : BaseViewModel() {
 
     private val _textState = MutableLiveData<TrainingTextState>()
@@ -33,6 +34,11 @@ class TrainingViewModel(
 
     private val _weekendState = MutableLiveData<TrainingWeekendState>()
     val weekendState: LiveData<TrainingWeekendState> = _weekendState
+
+    private val _isVisibleFinishingTrainingDialog = MutableLiveData<Boolean>()
+    val isVisibleFinishingTrainingDialog: LiveData<Boolean> = _isVisibleFinishingTrainingDialog
+
+    private var trainingModel: TrainingModel = TrainingModel()
 
     private var exerciseModel: ExerciseModel? = savedState.parcelable(exercise_key, ExerciseModel::class.java)
     fun cacheExercise(model: ExerciseModel) {
@@ -51,12 +57,15 @@ class TrainingViewModel(
 
     fun addSet(amount: Int) {
         val model = exerciseModel ?: return
+        val trainingId = trainingModel.id
+        if (trainingId <= 0) return
         uiScope.launch {
             val millis = calendarRepository.dateTimeMillis()
             exerciseSetsRepository.saveExerciseSet(ExerciseSetModel(
                 amount = amount,
                 millis = millis,
                 exerciseId = model.id,
+                trainingId = trainingId,
                 unit = model.unit,
                 dateString = calendarRepository.dateStringFrom(millis),
                 timeString = calendarRepository.timeStringFrom(millis)
@@ -96,8 +105,27 @@ class TrainingViewModel(
         )
         _weekendState.value = if (isTodayTraining) TrainingWeekendState.Training else TrainingWeekendState.Weekend
         uiScope.launch {
+            val yesterdayTraining = trainingRepository.trainingByDate("")
+
+            if (yesterdayTraining.hasNotFinished) {
+                _isVisibleFinishingTrainingDialog.value = true
+            }
+
             if (isTodayTraining) {
-                _trainingState.value = exerciseListRepository.exercisesWithSetsByDate(calendarRepository.dateStringFrom())
+                val todayMillis = System.currentTimeMillis()
+                val todayDate = calendarRepository.dateStringFrom(todayMillis)
+                val todayTraining = trainingRepository.trainingByDate(todayDate)
+                trainingModel = if (todayTraining.isEmpty) {
+                    val newTodayTraining = TrainingModel(millis = todayMillis, date = todayDate)
+
+                    trainingRepository.saveTraining(newTodayTraining)
+
+                    trainingRepository.trainingByDate(todayDate)
+                } else {
+                    todayTraining
+                }
+
+                _trainingState.value = trainingRepository.exercisesWithSetsByTraining(trainingModel.id)
             }
         }
     }

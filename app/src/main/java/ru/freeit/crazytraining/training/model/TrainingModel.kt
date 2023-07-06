@@ -5,10 +5,17 @@ import ru.freeit.crazytraining.training.data.database.TrainingTableDb
 class TrainingModel(
     private val millis: Long = 0L,
     private val date: String = "",
-    private val rating: Float = 0f,
+    private val rating: Float = 4f,
     private val comment: String = "",
+    private val active: Boolean = true,
     val id: Int = 0
 ) {
+
+    val isEmpty: Boolean
+        get() = millis == 0L && date.isBlank() && id == 0
+
+    val hasNotFinished: Boolean
+        get() = !isEmpty && active
 
     val database: TrainingTableDb
         get() = TrainingTableDb(
@@ -16,8 +23,11 @@ class TrainingModel(
             date = date,
             rating = rating,
             comment = comment,
+            active = active,
             id = id
         )
+
+    fun isThisDate(date: String) = this.date == date
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

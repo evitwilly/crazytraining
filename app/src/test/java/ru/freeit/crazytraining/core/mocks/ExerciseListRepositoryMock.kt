@@ -2,7 +2,6 @@ package ru.freeit.crazytraining.core.mocks
 
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepository
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
-import ru.freeit.crazytraining.training.viewmodel_states.TrainingListState
 
 class ExerciseListRepositoryMock(params: List<ExerciseModel> = emptyList()) : ExerciseListRepository {
 
@@ -26,7 +25,5 @@ class ExerciseListRepositoryMock(params: List<ExerciseModel> = emptyList()) : Ex
     }
 
     override suspend fun exercises(): List<ExerciseModel> = items
-
-    override suspend fun exercisesWithSetsByDate(date: String) = TrainingListState(emptyList())
 
 }

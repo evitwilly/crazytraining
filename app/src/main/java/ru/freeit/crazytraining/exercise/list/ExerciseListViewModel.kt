@@ -38,21 +38,11 @@ class ExerciseListViewModel(
     }
 
     fun updateState() = uiScope.launch {
-        val oldState = _exerciseListState.value
-        if (oldState != null) {
-            _exerciseListState.value = ExerciseListState(
-                repository.exercises().mapIndexed { index, model ->
-                    val editButtonViewModel = oldState.items.getOrNull(index)?.editButtonViewModel ?: ExerciseEditButtonViewModel(itemButtons)
-                    ExerciseDetailState(model, editButtonViewModel)
-                }
-            )
-        } else {
-            _exerciseListState.value = ExerciseListState(
-                repository.exercises().map {
-                    ExerciseDetailState(it, ExerciseEditButtonViewModel(itemButtons).apply { toggle() })
-                }
-            )
-        }
+        _exerciseListState.value = ExerciseListState(
+            repository.exercises().map {
+                ExerciseDetailState(it, ExerciseEditButtonViewModel(itemButtons).apply { toggle() })
+            }
+        )
     }
 
     private companion object {

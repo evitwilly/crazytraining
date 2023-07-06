@@ -9,8 +9,9 @@ import ru.freeit.crazytraining.training.model.TrainingModel
 class TrainingTableDb(
     private val millis: Long = 0L,
     private val date: String = "",
-    private val rating: Float = 1f,
+    private val rating: Float = 4f,
     private val comment: String = "",
+    private val active: Boolean = true,
     id: Int = 0
 ): TableDb(id) {
 
@@ -20,6 +21,7 @@ class TrainingTableDb(
             date = date,
             rating = rating,
             comment = comment,
+            active = active,
             id = id
         )
 
@@ -49,7 +51,7 @@ class TrainingTableDb(
             id = id(cursor)
         )
 
-    private companion object {
+    companion object {
         const val column_millis = "millis"
         const val column_date = "date"
         const val column_rating = "rating"
