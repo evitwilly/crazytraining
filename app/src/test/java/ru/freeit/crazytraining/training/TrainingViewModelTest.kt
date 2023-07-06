@@ -12,6 +12,7 @@ import ru.freeit.crazytraining.core.rules.MainDispatcherRule
 import ru.freeit.crazytraining.exercise.detail.model.ExerciseUnitModel
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
+import ru.freeit.crazytraining.training.model.TrainingModel
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingListState
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingTextState
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingWeekendState
@@ -36,10 +37,10 @@ internal class TrainingViewModelTest {
 
         val viewModel = TrainingViewModel(
             SavedInstanceStateMock(),
-            ExerciseListRepositoryMock(),
             ExerciseSetsRepositoryMock(),
             calendar,
-            checkedWeekdaysRepository
+            checkedWeekdaysRepository,
+            TrainingRepositoryMock()
         )
         viewModel.updateState()
 
@@ -58,10 +59,10 @@ internal class TrainingViewModelTest {
 
         val viewModel = TrainingViewModel(
             SavedInstanceStateMock(),
-            ExerciseListRepositoryMock(),
             ExerciseSetsRepositoryMock(),
             calendar,
-            checkedWeekdaysRepository
+            checkedWeekdaysRepository,
+            TrainingRepositoryMock()
         )
         viewModel.updateState()
 
@@ -75,7 +76,6 @@ internal class TrainingViewModelTest {
 
         val viewModel = TrainingViewModel(
             SavedInstanceStateMock(),
-            ExerciseListRepositoryMock(),
             exerciseSetsRepository,
             CalendarRepositoryMock(
                 calendarVariable = 1,
@@ -83,8 +83,15 @@ internal class TrainingViewModelTest {
                 timeString = "22:22",
                 dateString = "11.11.1111"
             ),
-            CheckedWeekdaysRepositoryMock(WeekdayModel.values().toList())
+            CheckedWeekdaysRepositoryMock(WeekdayModel.values().toList()),
+            TrainingRepositoryMock(listOf(TrainingModel(
+                millis = 1000,
+                date = "11.11.1111",
+                id = 1
+            )))
         )
+
+        viewModel.updateState()
 
         viewModel.cacheExercise(ExerciseModel(id = 10, unit = ExerciseUnitModel.TIME))
 
@@ -93,6 +100,7 @@ internal class TrainingViewModelTest {
         val expected = listOf(ExerciseSetModel(
             amount = 180,
             exerciseId = 10,
+            trainingId = 1,
             unit = ExerciseUnitModel.TIME,
             millis = 100,
             dateString = "11.11.1111",
@@ -116,10 +124,10 @@ internal class TrainingViewModelTest {
 
         val viewModel = TrainingViewModel(
             SavedInstanceStateMock(),
-            ExerciseListRepositoryMock(),
             exerciseSetsRepository,
             CalendarRepositoryMock(calendarVariable = 1),
-            CheckedWeekdaysRepositoryMock(WeekdayModel.values().toList())
+            CheckedWeekdaysRepositoryMock(WeekdayModel.values().toList()),
+            TrainingRepositoryMock()
         )
 
         viewModel.cacheExerciseSet(exerciseSet)
@@ -146,7 +154,6 @@ internal class TrainingViewModelTest {
 
         val viewModel = TrainingViewModel(
             SavedInstanceStateMock(),
-            ExerciseListRepositoryMock(),
             exerciseSetsRepository,
             CalendarRepositoryMock(
                 calendarVariable = 1,
@@ -154,7 +161,8 @@ internal class TrainingViewModelTest {
                 dateString = "11:11:1111",
                 timeString = "11:11"
             ),
-            CheckedWeekdaysRepositoryMock(WeekdayModel.values().toList())
+            CheckedWeekdaysRepositoryMock(WeekdayModel.values().toList()),
+            TrainingRepositoryMock()
         )
 
         viewModel.plusSimilarSet(exerciseSet)

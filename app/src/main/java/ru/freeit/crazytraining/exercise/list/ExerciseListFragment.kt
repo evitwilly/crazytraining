@@ -16,7 +16,6 @@ import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.viewmodel.SavedInstanceStateImpl
 import ru.freeit.crazytraining.exercise.detail.ExerciseDetailFragment
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
-import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
 import ru.freeit.crazytraining.exercise.list.adapter.ExerciseEditButtonState
 import ru.freeit.crazytraining.exercise.list.adapter.ExerciseListAdapter
@@ -28,10 +27,7 @@ class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
         val coreSQLiteOpenHelper = (ctx.applicationContext as App).coreSQLiteOpenHelper
         return ExerciseListViewModel(
             savedState = SavedInstanceStateImpl(bundle),
-            repository = ExerciseListRepositoryImpl(
-                ExerciseDatabase(coreSQLiteOpenHelper),
-                ExerciseSetDatabase(coreSQLiteOpenHelper)
-            ),
+            repository = ExerciseListRepositoryImpl(ExerciseDatabase(coreSQLiteOpenHelper)),
             itemButtons = listOf(
                 ExerciseEditButtonState.Button(
                     stringResource = R.string.edit,

@@ -11,6 +11,7 @@ class ExerciseSetModel(
     val amount: Int = 0,
     val millis: Long = 0L,
     private val exerciseId: Int = 0,
+    private val trainingId: Int = 0,
     private val unit: ExerciseUnitModel = ExerciseUnitModel.QUANTITY,
     private val dateString: String = "",
     private val timeString: String = ""
@@ -22,6 +23,7 @@ class ExerciseSetModel(
             amount = amount,
             millis = millis,
             exercise_id = exerciseId,
+            training_id = trainingId,
             unit = unit.ordinal,
             dateString = dateString,
             timeString = timeString
@@ -35,6 +37,7 @@ class ExerciseSetModel(
         parcel.readInt(),
         parcel.readLong(),
         parcel.readInt(),
+        parcel.readInt(),
         ExerciseUnitModel.values()[parcel.readInt()],
         parcel.readString().orEmpty(),
         parcel.readString().orEmpty()
@@ -45,6 +48,7 @@ class ExerciseSetModel(
             amount = amount,
             millis = millis,
             exerciseId = exerciseId,
+            trainingId = trainingId,
             unit = unit,
             dateString = dateString,
             timeString = timeString
@@ -60,6 +64,7 @@ class ExerciseSetModel(
         writeInt(amount)
         writeLong(millis)
         writeInt(exerciseId)
+        writeInt(trainingId)
         writeInt(unit.ordinal)
         writeString(dateString)
         writeString(timeString)
@@ -72,8 +77,9 @@ class ExerciseSetModel(
         if (other !is ExerciseSetModel) return false
 
         return id == other.id && amount == other.amount && millis == other.millis &&
-                exerciseId == other.exerciseId && unit == other.unit &&
-                dateString == other.dateString && timeString == other.timeString
+                exerciseId == other.exerciseId && trainingId == other.trainingId &&
+                unit == other.unit && dateString == other.dateString &&
+                timeString == other.timeString
     }
 
     override fun hashCode(): Int = amount

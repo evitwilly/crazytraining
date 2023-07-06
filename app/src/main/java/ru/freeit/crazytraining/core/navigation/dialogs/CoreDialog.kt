@@ -24,6 +24,8 @@ abstract class CoreDialog : DialogFragment() {
 
     protected abstract fun createView(context: Context): View
 
+    protected var closeButtonView: CoreImageButtonView? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val context = inflater.context
         val contentView = CoreFrameLayout(context, ColorAttributes.secondaryBackgroundColor)
@@ -36,6 +38,7 @@ abstract class CoreDialog : DialogFragment() {
         closeButtonView.layoutParams(frameLayoutParams().width(buttonSize).height(buttonSize).gravity(Gravity.END))
         closeButtonView.setOnClickListener { dismiss() }
         contentView.addView(closeButtonView)
+        this.closeButtonView = closeButtonView
 
         val view = createView(context)
         view.layoutParams(frameLayoutParams().match().marginTop(buttonSize))
@@ -55,6 +58,11 @@ abstract class CoreDialog : DialogFragment() {
         attributes?.height = WindowManager.LayoutParams.WRAP_CONTENT
         attributes?.gravity = Gravity.CENTER
         dialog?.window?.attributes = attributes
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        closeButtonView = null
     }
 
 }
