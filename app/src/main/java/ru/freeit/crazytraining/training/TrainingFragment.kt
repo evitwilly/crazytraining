@@ -2,6 +2,7 @@ package ru.freeit.crazytraining.training
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
@@ -9,15 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.App
+import ru.freeit.crazytraining.core.extensions.*
 import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialog
 import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialogResult
 import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
 import ru.freeit.crazytraining.core.repository.CalendarRepositoryImpl
-import ru.freeit.crazytraining.core.extensions.dp
-import ru.freeit.crazytraining.core.extensions.layoutParams
-import ru.freeit.crazytraining.core.extensions.linearLayoutParams
-import ru.freeit.crazytraining.core.extensions.padding
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
+import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.viewmodel.SavedInstanceStateImpl
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
@@ -30,9 +29,9 @@ import ru.freeit.crazytraining.training.dialogs.ExerciseAddSetDialogResult
 import ru.freeit.crazytraining.training.data.repository.ExerciseSetsRepositoryImpl
 import ru.freeit.crazytraining.training.data.repository.TrainingRepositoryImpl
 import ru.freeit.crazytraining.training.view.TrainingDateView
-import ru.freeit.crazytraining.training.view.TrainingWeekendView
+import ru.freeit.crazytraining.training.view.TrainingStatusView
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailStateListeners
-import ru.freeit.crazytraining.training.viewmodel_states.TrainingWeekendState
+import ru.freeit.crazytraining.training.viewmodel_states.TrainingActiveState
 
 class TrainingFragment : BaseFragment<TrainingViewModel>() {
 
@@ -82,8 +81,7 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
         changeMenuButtonClickListener { navigator.push(SettingsFragment()) }
 
         val dateView = TrainingDateView(context)
-        dateView.layoutParams(
-            linearLayoutParams().wrap().marginTop(context.dp(8))
+        dateView.layoutParams(linearLayoutParams().wrap().marginTop(context.dp(8))
             .marginStart(context.dp(16))
             .marginEnd(context.dp(16)))
         contentView.addView(dateView)
@@ -98,26 +96,52 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
         listView.adapter = adapter
         contentView.addView(listView)
 
-        val weekendView = TrainingWeekendView(context)
-        weekendView.layoutParams(linearLayoutParams().matchWidth().wrapHeight())
-        contentView.addView(weekendView)
+        val statusView = TrainingStatusView(context)
+        statusView.layoutParams(linearLayoutParams().matchWidth().wrapHeight())
+        contentView.addView(statusView)
+
+        val buttonView = CoreButton(context)
+        buttonView.gravity = Gravity.CENTER
+        buttonView.isVisible = false
+        buttonView.layoutParams(frameLayoutParams().matchWidth().wrapHeight().gravity(Gravity.BOTTOM))
+        addFloatingView(buttonView)
 
         viewModel.textState.observe(viewLifecycleOwner) { state ->
             changeTitle(state.title(context))
             state.date(dateView)
         }
 
-        viewModel.trainingState.observe(viewLifecycleOwner) { state -> adapter.submitList(state.items) }
+        viewModel.listState.observe(viewLifecycleOwner) { state -> adapter.submitList(state.items) }
 
-        viewModel.weekendState.observe(viewLifecycleOwner) { state ->
+        viewModel.activeState.observe(viewLifecycleOwner) { state ->
+            listView.isVisible = false
+            statusView.isVisible = false
+            buttonView.isVisible = false
+
             when (state) {
-                TrainingWeekendState.Training -> {
+                is TrainingActiveState.Training -> {
                     listView.isVisible = true
-                    weekendView.isVisible = false
+
+                    buttonView.isVisible = true
+                    buttonView.setText(state.buttonTitle)
+
+                    buttonView.setOnClickListener { viewModel.finishTraining() }
                 }
-                TrainingWeekendState.Weekend -> {
-                    listView.isVisible = false
-                    weekendView.isVisible = true
+                is TrainingActiveState.Weekend -> {
+                    statusView.changeTitle(getString(R.string.weekend_title))
+                    statusView.changeIcon(R.drawable.ic_weekend)
+
+                    statusView.isVisible = true
+                }
+                is TrainingActiveState.Finished -> {
+                    statusView.changeTitle(getString(R.string.finished_title))
+                    statusView.changeIcon(R.drawable.ic_finished)
+
+                    statusView.isVisible = true
+                    buttonView.isVisible = true
+                    buttonView.setText(state.buttonTitle)
+
+                    buttonView.setOnClickListener { viewModel.resumeTraining() }
                 }
             }
         }

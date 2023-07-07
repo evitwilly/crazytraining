@@ -80,12 +80,12 @@ class ExerciseDetailFragment() : BaseFragment<ExerciseDetailViewModel>() {
             .marginTop(context.dp(8)))
         contentView.addView(unitListView)
 
-        val button = CoreButton(context)
-        button.gravity = Gravity.CENTER
-        button.setText(if (argument == null) R.string.add_exercise else R.string.save)
-        button.layoutParams(frameLayoutParams().matchWidth().wrapHeight().gravity(Gravity.BOTTOM))
-        button.setOnClickListener { viewModel.apply() }
-        addFloatingView(button)
+        val buttonView = CoreButton(context)
+        buttonView.gravity = Gravity.CENTER
+        buttonView.setText(if (argument == null) R.string.add_exercise else R.string.save)
+        buttonView.layoutParams(frameLayoutParams().matchWidth().wrapHeight().gravity(Gravity.BOTTOM))
+        buttonView.setOnClickListener { viewModel.apply() }
+        addFloatingView(buttonView)
 
         viewModel.titleError.observe(viewLifecycleOwner) { error ->
             titleEditView.error = CoreEditText.Error.Text(getString(error))

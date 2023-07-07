@@ -84,4 +84,7 @@
     </plurals>
     <string name="total_sets">total sets: %d</string>
     <string name="total_amount">total amount: %s</string>
+    <string name="finished_title">You have successfully completed your training!</string>
+    <string name="finish_training">Finish training</string>
+    <string name="resume_training">Resume training</string>
 </resources>
