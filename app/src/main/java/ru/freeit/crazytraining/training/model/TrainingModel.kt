@@ -29,6 +29,33 @@ class TrainingModel(
 
     fun isThisDate(date: String) = this.date == date
 
+    fun withActive(active: Boolean) = TrainingModel(
+        millis = millis,
+        date = date,
+        rating = rating,
+        comment = comment,
+        active = active,
+        id = id
+    )
+
+    fun withRating(rating: Float) = TrainingModel(
+        millis = millis,
+        date = date,
+        rating = rating,
+        comment = comment,
+        active = active,
+        id = id
+    )
+
+    fun withComment(comment: String) = TrainingModel(
+        millis = millis,
+        date = date,
+        rating = rating,
+        comment = comment,
+        active = active,
+        id = id
+    )
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null) return false

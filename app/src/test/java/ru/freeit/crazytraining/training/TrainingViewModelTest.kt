@@ -15,7 +15,7 @@ import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 import ru.freeit.crazytraining.training.model.TrainingModel
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingListState
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingTextState
-import ru.freeit.crazytraining.training.viewmodel_states.TrainingWeekendState
+import ru.freeit.crazytraining.training.viewmodel_states.TrainingActiveState
 
 internal class TrainingViewModelTest {
 
@@ -45,7 +45,7 @@ internal class TrainingViewModelTest {
         viewModel.updateState()
 
         assertEquals(TrainingTextState(R.string.training, date), viewModel.textState.value)
-        assertEquals(TrainingWeekendState.Training, viewModel.weekendState.value)
+        assertEquals(TrainingActiveState.Training, viewModel.activeState.value)
     }
 
     @Test
@@ -67,7 +67,7 @@ internal class TrainingViewModelTest {
         viewModel.updateState()
 
         assertEquals(TrainingTextState(R.string.weekend, ""), viewModel.textState.value)
-        assertEquals(TrainingWeekendState.Weekend, viewModel.weekendState.value)
+        assertEquals(TrainingActiveState.Weekend, viewModel.activeState.value)
     }
 
     @Test
@@ -107,7 +107,7 @@ internal class TrainingViewModelTest {
             timeString = "22:22"
         ))
         assertEquals(expected, exerciseSetsRepository.data)
-        assertEquals(TrainingListState(emptyList()), viewModel.trainingState.value)
+        assertEquals(TrainingListState(emptyList()), viewModel.listState.value)
     }
 
     @Test
@@ -135,7 +135,7 @@ internal class TrainingViewModelTest {
         viewModel.removeSet()
 
         assertEquals(emptyList<ExerciseSetModel>(), exerciseSetsRepository.data)
-        assertEquals(TrainingListState(emptyList()), viewModel.trainingState.value)
+        assertEquals(TrainingListState(emptyList()), viewModel.listState.value)
     }
 
     @Test
@@ -180,7 +180,7 @@ internal class TrainingViewModelTest {
             )
         )
         assertEquals(expected, exerciseSetsRepository.data)
-        assertEquals(TrainingListState(emptyList()), viewModel.trainingState.value)
+        assertEquals(TrainingListState(emptyList()), viewModel.listState.value)
     }
 
 }

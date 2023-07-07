@@ -97,4 +97,7 @@
     </plurals>
     <string name="total_sets">всего подходов: %d</string>
     <string name="total_amount">общее количество: %s</string>
+    <string name="finished_title">Вы успешно завершили тренировку!</string>
+    <string name="finish_training">Закончить тренировку</string>
+    <string name="resume_training">Возобновить тренировку</string>
 </resources>

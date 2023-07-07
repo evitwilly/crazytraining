@@ -31,8 +31,9 @@ class TrainingTableDb(
     private val dateColumn = TableColumnDb.Text(column_date)
     private val ratingColumn = TableColumnDb.Real(column_rating)
     private val commentColumn = TableColumnDb.Text(column_comment)
+    private val columnActive = TableColumnDb.Integer(column_active)
 
-    override val columns = listOf(millisColumn, dateColumn, ratingColumn, commentColumn)
+    override val columns = listOf(millisColumn, dateColumn, ratingColumn, commentColumn, columnActive)
 
     override val contentValues: ContentValues
         get() = ContentValues().apply {
@@ -40,6 +41,7 @@ class TrainingTableDb(
             put(column_date, date)
             put(column_rating, rating)
             put(column_comment, comment)
+            put(column_active, if (active) 1L else 0L)
         }
 
     override fun fromCursor(cursor: Cursor) =
@@ -48,6 +50,7 @@ class TrainingTableDb(
             date = dateColumn.value(cursor),
             rating = ratingColumn.value(cursor),
             comment = commentColumn.value(cursor),
+            active = columnActive.value(cursor) == 1L,
             id = id(cursor)
         )
 
@@ -56,6 +59,7 @@ class TrainingTableDb(
         const val column_date = "date"
         const val column_rating = "rating"
         const val column_comment = "comment"
+        const val column_active = "active"
     }
 
 }

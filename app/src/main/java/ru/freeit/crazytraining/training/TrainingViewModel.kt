@@ -16,7 +16,7 @@ import ru.freeit.crazytraining.training.data.repository.TrainingRepository
 import ru.freeit.crazytraining.training.model.TrainingModel
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingListState
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingTextState
-import ru.freeit.crazytraining.training.viewmodel_states.TrainingWeekendState
+import ru.freeit.crazytraining.training.viewmodel_states.TrainingActiveState
 
 class TrainingViewModel(
     savedState: SavedInstanceState,
@@ -29,11 +29,11 @@ class TrainingViewModel(
     private val _textState = MutableLiveData<TrainingTextState>()
     val textState: LiveData<TrainingTextState> = _textState
 
-    private val _trainingState = MutableLiveData<TrainingListState>()
-    val trainingState: LiveData<TrainingListState> = _trainingState
+    private val _listState = MutableLiveData<TrainingListState>()
+    val listState: LiveData<TrainingListState> = _listState
 
-    private val _weekendState = MutableLiveData<TrainingWeekendState>()
-    val weekendState: LiveData<TrainingWeekendState> = _weekendState
+    private val _activeState = MutableLiveData<TrainingActiveState>()
+    val activeState: LiveData<TrainingActiveState> = _activeState
 
     private val _isVisibleFinishingTrainingDialog = MutableLiveData<Boolean>()
     val isVisibleFinishingTrainingDialog: LiveData<Boolean> = _isVisibleFinishingTrainingDialog
@@ -97,13 +97,27 @@ class TrainingViewModel(
         updateState()
     }
 
+    fun finishTraining(rating: Float = 4f, comment: String = "") = uiScope.launch {
+        trainingRepository.saveTraining(trainingModel
+            .withRating(rating)
+            .withComment(comment)
+            .withActive(false))
+        updateState()
+    }
+
+    fun resumeTraining() = uiScope.launch {
+        trainingRepository.saveTraining(trainingModel.withActive(true))
+        updateState()
+    }
+
     fun updateState() {
         val isTodayTraining = checkedWeekdaysRepository.readCheckedWeekdays().map { it.calendarVariable }.contains(calendarRepository.weekday())
+
         _textState.value = TrainingTextState(
             if (isTodayTraining) R.string.training else R.string.weekend,
             calendarRepository.weekdayMonthYearDateString()
         )
-        _weekendState.value = if (isTodayTraining) TrainingWeekendState.Training else TrainingWeekendState.Weekend
+
         uiScope.launch {
             val yesterdayTraining = trainingRepository.trainingByDate("")
 
@@ -125,7 +139,15 @@ class TrainingViewModel(
                     todayTraining
                 }
 
-                _trainingState.value = trainingRepository.exercisesWithSetsByTraining(trainingModel.id)
+                _activeState.value = if (trainingModel.hasNotFinished) {
+                    TrainingActiveState.Training
+                } else {
+                    TrainingActiveState.Finished
+                }
+
+                _listState.value = trainingRepository.exercisesWithSetsByTraining(trainingModel.id)
+            } else {
+                _activeState.value = TrainingActiveState.Weekend
             }
         }
     }
