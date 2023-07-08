@@ -24,14 +24,14 @@ import ru.freeit.crazytraining.settings.SettingsFragment
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepositoryImpl
 import ru.freeit.crazytraining.training.adapter.TrainingListAdapter
 import ru.freeit.crazytraining.training.data.database.TrainingDatabase
-import ru.freeit.crazytraining.training.dialogs.ExerciseAddSetDialog
-import ru.freeit.crazytraining.training.dialogs.ExerciseAddSetDialogResult
 import ru.freeit.crazytraining.training.data.repository.ExerciseSetsRepositoryImpl
 import ru.freeit.crazytraining.training.data.repository.TrainingRepositoryImpl
+import ru.freeit.crazytraining.training.dialogs.ExerciseAddSetDialog
+import ru.freeit.crazytraining.training.dialogs.ExerciseAddSetDialogResult
 import ru.freeit.crazytraining.training.view.TrainingDateView
 import ru.freeit.crazytraining.training.view.TrainingStatusView
-import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailStateListeners
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingActiveState
+import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailStateListeners
 
 class TrainingFragment : BaseFragment<TrainingViewModel>() {
 
