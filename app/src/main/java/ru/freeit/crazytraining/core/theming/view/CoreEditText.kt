@@ -6,6 +6,7 @@ import android.graphics.drawable.InsetDrawable
 import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
+import android.view.Gravity
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.isVisible
@@ -94,6 +95,12 @@ class CoreEditText @JvmOverloads constructor(
     fun changeMaxLength(maxLength: Int) {
         val filters = editView.filters ?: arrayOf()
         editView.filters = filters + arrayOf(InputFilter.LengthFilter(maxLength))
+    }
+
+    fun changeLines(lines: Int) {
+        editView.setLines(lines)
+        editView.maxLines = lines
+        editView.gravity = Gravity.START or Gravity.TOP
     }
 
     fun singleLine() {
