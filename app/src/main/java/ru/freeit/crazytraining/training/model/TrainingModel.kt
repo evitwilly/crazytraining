@@ -67,4 +67,8 @@ class TrainingModel(
         return result
     }
 
+    override fun toString(): String {
+        return "{ id=$id, millis=$millis, rating=$rating, comment=$comment, active=$active }"
+    }
+
 }
