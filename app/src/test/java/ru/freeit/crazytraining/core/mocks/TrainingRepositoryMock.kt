@@ -2,18 +2,22 @@ package ru.freeit.crazytraining.core.mocks
 
 import ru.freeit.crazytraining.training.data.repository.TrainingRepository
 import ru.freeit.crazytraining.training.model.TrainingModel
+import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailState
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingListState
 
-class TrainingRepositoryMock(params: List<TrainingModel> = emptyList()) : TrainingRepository {
+class TrainingRepositoryMock(
+    trainings: List<TrainingModel> = emptyList(),
+    private val listStates: List<TrainingDetailState> = emptyList()
+) : TrainingRepository {
 
-    private val items = mutableListOf<TrainingModel>()
+    val items = mutableListOf<TrainingModel>()
 
     init {
-        items.addAll(params)
+        items.addAll(trainings)
     }
 
     override suspend fun saveTraining(training: TrainingModel) {
-        items.add(training)
+        items.add(training.copy(id = items.size + 1))
     }
 
     override suspend fun trainingByDate(date: String): TrainingModel {
@@ -21,6 +25,6 @@ class TrainingRepositoryMock(params: List<TrainingModel> = emptyList()) : Traini
     }
 
     override suspend fun exercisesWithSetsByTraining(trainingId: Int) =
-        TrainingListState(emptyList())
+        TrainingListState(listStates)
 
 }

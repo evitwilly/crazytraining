@@ -7,17 +7,20 @@ class CalendarRepositoryMock(
     private val date: String = "",
     private val millis: Long = 0,
     private val timeString: String = "",
-    private val dateString: String = ""
+    private val dateString: String = "",
+    private val dateStringWithoutDays: String = ""
 ) : CalendarRepository {
 
-        override fun weekday(dateTime: Long): Int = calendarVariable
+    override fun weekday(dateTime: Long): Int = calendarVariable
 
-        override fun weekdayMonthYearDateString(dateTime: Long): String = date
+    override fun weekdayMonthYearDateString(dateTime: Long): String = date
 
-        override fun timeStringFrom(millis: Long): String = timeString
+    override fun timeStringFrom(millis: Long): String = timeString
 
-        override fun dateStringFrom(millis: Long): String = dateString
+    override fun dateStringFrom(millis: Long): String = dateString
 
-        override fun dateTimeMillis(): Long = millis
+    override fun nowDateTimeMillis(): Long = millis
 
-    }
+    override fun dateStringWithoutDays(millis: Long, days: Int): String = dateStringWithoutDays
+
+}

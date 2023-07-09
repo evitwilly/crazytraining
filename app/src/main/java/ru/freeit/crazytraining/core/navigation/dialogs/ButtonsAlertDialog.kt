@@ -1,6 +1,7 @@
 package ru.freeit.crazytraining.core.navigation.dialogs
 
 import android.content.Context
+import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.os.bundleOf
@@ -28,7 +29,7 @@ class ButtonsAlertDialog() : CoreDialog() {
         )
     }
 
-    override fun createView(context: Context): View {
+    override fun createView(context: Context, bundle: Bundle?): View {
         val contentView = CoreLinearLayout(
             ctx = context,
             shape = radius,

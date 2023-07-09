@@ -1,5 +1,6 @@
 package ru.freeit.crazytraining.core.navigation
 
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.dialogs.CoreDialog
@@ -24,8 +25,12 @@ class Navigator(private val fragmentManager: FragmentManager) {
     }
 
     fun show(dialog: CoreDialog) {
+        if (fragmentManager.isExistsFragment(dialog)) return
         dialog.show(fragmentManager, dialog.name)
     }
+
+    private fun FragmentManager.isExistsFragment(fragment: Fragment) =
+        fragments.find { it.javaClass == fragment.javaClass } != null
 
     fun back() {
         fragmentManager.popBackStack()

@@ -22,7 +22,7 @@ abstract class CoreDialog : DialogFragment() {
     protected open val radius: ShapeAttribute = ShapeAttribute.small
     abstract val name: String
 
-    protected abstract fun createView(context: Context): View
+    protected abstract fun createView(context: Context, bundle: Bundle?): View
 
     protected var closeButtonView: CoreImageButtonView? = null
 
@@ -40,7 +40,7 @@ abstract class CoreDialog : DialogFragment() {
         contentView.addView(closeButtonView)
         this.closeButtonView = closeButtonView
 
-        val view = createView(context)
+        val view = createView(context, savedInstanceState)
         view.layoutParams(frameLayoutParams().match().marginTop(buttonSize))
         contentView.addView(view)
         return contentView

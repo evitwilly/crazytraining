@@ -1,6 +1,7 @@
 package ru.freeit.crazytraining.training.dialogs
 
 import android.content.Context
+import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
@@ -30,7 +31,7 @@ class ExerciseAddSetDialog() : CoreDialog() {
         arguments = bundleOf(argument_key to model.ordinal)
     }
 
-    override fun createView(context: Context): View {
+    override fun createView(context: Context, bundle: Bundle?): View {
         val contentView = CoreLinearLayout(
             ctx = context,
             shape = radius,

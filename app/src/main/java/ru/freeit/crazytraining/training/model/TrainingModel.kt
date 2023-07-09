@@ -14,8 +14,11 @@ class TrainingModel(
     val isEmpty: Boolean
         get() = millis == 0L && date.isBlank() && id == 0
 
+    val isNotEmpty: Boolean
+        get() = millis != 0L && date.isNotBlank() && id != 0
+
     val hasNotFinished: Boolean
-        get() = !isEmpty && active
+        get() = isNotEmpty && active
 
     val database: TrainingTableDb
         get() = TrainingTableDb(
@@ -29,25 +32,14 @@ class TrainingModel(
 
     fun isThisDate(date: String) = this.date == date
 
-    fun withActive(active: Boolean) = TrainingModel(
-        millis = millis,
-        date = date,
-        rating = rating,
-        comment = comment,
-        active = active,
-        id = id
-    )
-
-    fun withRating(rating: Float) = TrainingModel(
-        millis = millis,
-        date = date,
-        rating = rating,
-        comment = comment,
-        active = active,
-        id = id
-    )
-
-    fun withComment(comment: String) = TrainingModel(
+    fun copy(
+        millis: Long = this.millis,
+        date: String = this.date,
+        rating: Float = this.rating,
+        comment: String = this.comment,
+        active: Boolean = this.active,
+        id: Int = this.id
+    ) = TrainingModel(
         millis = millis,
         date = date,
         rating = rating,
@@ -62,7 +54,7 @@ class TrainingModel(
         if (other !is TrainingModel) return false
 
         return millis == other.millis && date == other.date && rating == other.rating
-                && comment == other.comment
+                && comment == other.comment && active == other.active
     }
 
     override fun hashCode(): Int {
@@ -70,6 +62,7 @@ class TrainingModel(
         result = 31 * result + date.hashCode()
         result = 31 * result + rating.hashCode()
         result = 31 * result + comment.hashCode()
+        result = 31 * result + active.hashCode()
         result = 31 * result + id
         return result
     }
