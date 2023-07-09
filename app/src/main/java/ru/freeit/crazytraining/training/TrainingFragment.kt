@@ -28,6 +28,8 @@ import ru.freeit.crazytraining.training.data.repository.ExerciseSetsRepositoryIm
 import ru.freeit.crazytraining.training.data.repository.TrainingRepositoryImpl
 import ru.freeit.crazytraining.training.dialogs.ExerciseAddSetDialog
 import ru.freeit.crazytraining.training.dialogs.ExerciseAddSetDialogResult
+import ru.freeit.crazytraining.training.dialogs.FinishingTrainingDialog
+import ru.freeit.crazytraining.training.dialogs.FinishingTrainingDialogResult
 import ru.freeit.crazytraining.training.view.TrainingDateView
 import ru.freeit.crazytraining.training.view.TrainingStatusView
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingActiveState
@@ -104,6 +106,7 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
         buttonView.gravity = Gravity.CENTER
         buttonView.isVisible = false
         buttonView.layoutParams(frameLayoutParams().matchWidth().wrapHeight().gravity(Gravity.BOTTOM))
+        buttonView.setOnClickListener { viewModel.buttonClick() }
         addFloatingView(buttonView)
 
         viewModel.textState.observe(viewLifecycleOwner) { state ->
@@ -112,6 +115,10 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
         }
 
         viewModel.listState.observe(viewLifecycleOwner) { state -> adapter.submitList(state.items) }
+
+        viewModel.isVisibleFinishingTrainingDialog.observe(viewLifecycleOwner) { type ->
+            navigator.show(FinishingTrainingDialog(type))
+        }
 
         viewModel.activeState.observe(viewLifecycleOwner) { state ->
             listView.isVisible = false
@@ -124,8 +131,6 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
 
                     buttonView.isVisible = true
                     buttonView.setText(state.buttonTitle)
-
-                    buttonView.setOnClickListener { viewModel.finishTraining() }
                 }
                 is TrainingActiveState.Weekend -> {
                     statusView.changeTitle(getString(R.string.weekend_title))
@@ -140,8 +145,6 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
                     statusView.isVisible = true
                     buttonView.isVisible = true
                     buttonView.setText(state.buttonTitle)
-
-                    buttonView.setOnClickListener { viewModel.resumeTraining() }
                 }
             }
         }
@@ -154,6 +157,11 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
         val fragmentRemoveSetResult = ButtonsAlertDialogResult(parentFragmentManager)
         fragmentRemoveSetResult.onOkClick(viewLifecycleOwner) {
             viewModel.removeSet()
+        }
+
+        val fragmentFinishingTrainingResult = FinishingTrainingDialogResult(parentFragmentManager)
+        fragmentFinishingTrainingResult.onSuccessResult(viewLifecycleOwner) { type, comment, rating ->
+            viewModel.finishTraining(type, comment, rating)
         }
 
         return contentView

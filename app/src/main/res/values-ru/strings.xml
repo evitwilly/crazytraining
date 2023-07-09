@@ -99,8 +99,9 @@
     <string name="total_amount">общее количество: %s</string>
     <string name="finished_title">Вы успешно завершили тренировку!</string>
     <string name="finish_training">Закончить тренировку</string>
+    <string name="estimate">Оценить</string>
     <string name="resume_training">Возобновить тренировку</string>
     <string name="write_comment_about_training">Напишите как прошла ваша тренировка</string>
-    <string name="training_finishing">Завершение тренировки</string>
+    <string name="training_completed">Тренировка завершена!</string>
     <string name="choose_rating_colon">Выберите оценку:</string>
 </resources>

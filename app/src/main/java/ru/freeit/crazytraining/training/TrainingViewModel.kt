@@ -35,10 +35,11 @@ class TrainingViewModel(
     private val _activeState = MutableLiveData<TrainingActiveState>()
     val activeState: LiveData<TrainingActiveState> = _activeState
 
-    private val _isVisibleFinishingTrainingDialog = MutableLiveData<Boolean>()
-    val isVisibleFinishingTrainingDialog: LiveData<Boolean> = _isVisibleFinishingTrainingDialog
+    private val _isVisibleFinishingTrainingDialog = MutableLiveData<String>()
+    val isVisibleFinishingTrainingDialog: LiveData<String> = _isVisibleFinishingTrainingDialog
 
-    private var trainingModel: TrainingModel = TrainingModel()
+    private var todayTrainingModel: TrainingModel = TrainingModel()
+    private var yesterdayTrainingModel: TrainingModel = TrainingModel()
 
     private var exerciseModel: ExerciseModel? = savedState.parcelable(exercise_key, ExerciseModel::class.java)
     fun cacheExercise(model: ExerciseModel) {
@@ -57,10 +58,10 @@ class TrainingViewModel(
 
     fun addSet(amount: Int) {
         val model = exerciseModel ?: return
-        val trainingId = trainingModel.id
+        val trainingId = todayTrainingModel.id
         if (trainingId <= 0) return
         uiScope.launch {
-            val millis = calendarRepository.dateTimeMillis()
+            val millis = calendarRepository.nowDateTimeMillis()
             exerciseSetsRepository.saveExerciseSet(ExerciseSetModel(
                 amount = amount,
                 millis = millis,
@@ -83,7 +84,7 @@ class TrainingViewModel(
     }
 
     fun plusSimilarSet(model: ExerciseSetModel) = uiScope.launch {
-        val millis = calendarRepository.dateTimeMillis()
+        val millis = calendarRepository.nowDateTimeMillis()
         exerciseSetsRepository.saveExerciseSet(model.copyWithSimilar(
             millis = millis,
             dateString = calendarRepository.dateStringFrom(millis),
@@ -97,17 +98,23 @@ class TrainingViewModel(
         updateState()
     }
 
-    fun finishTraining(rating: Float = 4f, comment: String = "") = uiScope.launch {
-        trainingRepository.saveTraining(trainingModel
-            .withRating(rating)
-            .withComment(comment)
-            .withActive(false))
+    fun finishTraining(trainingType: String, comment: String = "", rating: Int = 4) = uiScope.launch {
+        val training = if (trainingType == finishing_today_training) todayTrainingModel else yesterdayTrainingModel
+        trainingRepository.saveTraining(training.copy(
+            comment = comment,
+            rating = rating.toFloat(),
+            active = false
+        ))
         updateState()
     }
 
-    fun resumeTraining() = uiScope.launch {
-        trainingRepository.saveTraining(trainingModel.withActive(true))
-        updateState()
+    fun buttonClick() = uiScope.launch {
+        if (todayTrainingModel.hasNotFinished) {
+            _isVisibleFinishingTrainingDialog.value = finishing_today_training
+        } else {
+            trainingRepository.saveTraining(todayTrainingModel.copy(active = true))
+            updateState()
+        }
     }
 
     fun updateState() {
@@ -119,17 +126,18 @@ class TrainingViewModel(
         )
 
         uiScope.launch {
-            val yesterdayTraining = trainingRepository.trainingByDate("")
+            val todayMillis = calendarRepository.nowDateTimeMillis()
 
+            val yesterdayTraining = trainingRepository.trainingByDate(calendarRepository.dateStringWithoutDays(todayMillis, 1))
             if (yesterdayTraining.hasNotFinished) {
-                _isVisibleFinishingTrainingDialog.value = true
+                yesterdayTrainingModel = yesterdayTraining
+                _isVisibleFinishingTrainingDialog.value = finishing_yesterday_training
             }
 
             if (isTodayTraining) {
-                val todayMillis = System.currentTimeMillis()
                 val todayDate = calendarRepository.dateStringFrom(todayMillis)
                 val todayTraining = trainingRepository.trainingByDate(todayDate)
-                trainingModel = if (todayTraining.isEmpty) {
+                todayTrainingModel = if (todayTraining.isEmpty) {
                     val newTodayTraining = TrainingModel(millis = todayMillis, date = todayDate)
 
                     trainingRepository.saveTraining(newTodayTraining)
@@ -139,13 +147,13 @@ class TrainingViewModel(
                     todayTraining
                 }
 
-                _activeState.value = if (trainingModel.hasNotFinished) {
+                _activeState.value = if (todayTrainingModel.hasNotFinished) {
                     TrainingActiveState.Training
                 } else {
                     TrainingActiveState.Finished
                 }
 
-                _listState.value = trainingRepository.exercisesWithSetsByTraining(trainingModel.id)
+                _listState.value = trainingRepository.exercisesWithSetsByTraining(todayTrainingModel.id)
             } else {
                 _activeState.value = TrainingActiveState.Weekend
             }
@@ -155,6 +163,9 @@ class TrainingViewModel(
     private companion object {
         const val exercise_key = "exercise_key"
         const val exercise_set_key = "exercise_set_key"
+
+        const val finishing_yesterday_training = "finishing_yesterday_training"
+        const val finishing_today_training = "finishing_today_training"
     }
 
 }

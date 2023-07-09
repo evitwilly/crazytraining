@@ -25,7 +25,13 @@ class CalendarRepositoryImpl : CalendarRepository {
         return dateSimpleDateFormat.format(millis)
     }
 
-    override fun dateTimeMillis(): Long = System.currentTimeMillis()
+    override fun nowDateTimeMillis(): Long = System.currentTimeMillis()
+
+    override fun dateStringWithoutDays(millis: Long, days: Int): String {
+        calendar.timeInMillis = millis
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - days)
+        return dateSimpleDateFormat.format(calendar.time)
+    }
 
     private fun checkLocale(callback: (Locale) -> Unit) {
         val newLocale = Locale.getDefault()

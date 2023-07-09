@@ -12,7 +12,12 @@ import ru.freeit.crazytraining.core.theming.view.CoreTextView
 
 class TrainingRatingView(ctx: Context) : CoreLinearLayout(ctx) {
 
-    private var rating: Int = 4
+    var rating: Int = 4
+        set(value) {
+            field = value
+            drawState()
+        }
+
     private val views = mutableListOf<RatingTextView>()
 
     init {
@@ -24,19 +29,13 @@ class TrainingRatingView(ctx: Context) : CoreLinearLayout(ctx) {
             val currentRating = index + 1
             textView.text = "$currentRating"
             textView.hasSelected = index < rating
-            textView.setOnClickListener { changeRating(index + 1) }
-            textView.layoutParams(
-                linearLayoutParams().width(context.dp(40))
+            textView.setOnClickListener { rating = index + 1 }
+            textView.layoutParams(linearLayoutParams().width(context.dp(40))
                 .marginEnd(if (currentRating < max_rating) context.dp(horizontal_margin) else 0))
             textView
         })
 
         addView(*views.toTypedArray())
-    }
-
-    fun changeRating(rating: Int) {
-        this.rating = rating
-        drawState()
     }
 
     private fun drawState() {

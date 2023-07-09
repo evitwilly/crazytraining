@@ -86,8 +86,9 @@
     <string name="total_amount">total amount: %s</string>
     <string name="finished_title">You have successfully completed your training!</string>
     <string name="finish_training">Finish training</string>
+    <string name="estimate">Estimate</string>
     <string name="resume_training">Resume training</string>
     <string name="write_comment_about_training">Let me know how your training went</string>
-    <string name="training_finishing">Training finishing</string>
+    <string name="training_completed">Training completed!</string>
     <string name="choose_rating_colon">Choose rating:</string>
 </resources>

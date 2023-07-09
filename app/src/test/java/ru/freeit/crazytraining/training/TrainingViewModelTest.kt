@@ -16,6 +16,7 @@ import ru.freeit.crazytraining.training.model.TrainingModel
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingListState
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingTextState
 import ru.freeit.crazytraining.training.viewmodel_states.TrainingActiveState
+import ru.freeit.crazytraining.training.viewmodel_states.TrainingDetailState
 
 internal class TrainingViewModelTest {
 
@@ -26,26 +27,132 @@ internal class TrainingViewModelTest {
     val coroutineRule: TestRule = MainDispatcherRule()
 
     @Test
-    fun `test title when today is training`() {
+    fun `test updateState when today training is active`() {
         val date = "Saturday, 3 June, 2023"
-        val calendar = CalendarRepositoryMock(2, date)
+        val calendar = CalendarRepositoryMock(
+            calendarVariable = 2,
+            date = date,
+            dateString = "11.11.2111"
+        )
         val checkedWeekdaysRepository = CheckedWeekdaysRepositoryMock(mutableListOf(
             WeekdayModel.MONDAY,
             WeekdayModel.WEDNESDAY,
             WeekdayModel.FRIDAY
         ))
 
+        val trainings = listOf(TrainingModel(id = 1, millis = 10, date = "11.11.2111"))
+        val detailStates = listOf(TrainingDetailState(ExerciseModel(), listOf(ExerciseSetModel(amount = 1), ExerciseSetModel(amount = 2))))
+
         val viewModel = TrainingViewModel(
             SavedInstanceStateMock(),
             ExerciseSetsRepositoryMock(),
             calendar,
             checkedWeekdaysRepository,
-            TrainingRepositoryMock()
+            TrainingRepositoryMock(trainings = trainings, listStates = detailStates)
         )
         viewModel.updateState()
 
         assertEquals(TrainingTextState(R.string.training, date), viewModel.textState.value)
         assertEquals(TrainingActiveState.Training, viewModel.activeState.value)
+        assertEquals(TrainingListState(detailStates), viewModel.listState.value)
+    }
+
+    @Test
+    fun `test updateState when today training is active and yesterday training is also active`() {
+        val date = "Saturday, 3 June, 2023"
+        val calendar = CalendarRepositoryMock(
+            calendarVariable = 2,
+            date = date,
+            dateString = "11.11.2111",
+            dateStringWithoutDays = "10.11.2111"
+        )
+        val checkedWeekdaysRepository = CheckedWeekdaysRepositoryMock(mutableListOf(
+            WeekdayModel.MONDAY,
+            WeekdayModel.WEDNESDAY,
+            WeekdayModel.FRIDAY
+        ))
+
+        val trainings = listOf(
+            TrainingModel(id = 1, millis = 10, date = "11.11.2111"),
+            TrainingModel(id = 1, millis = 10, date = "10.11.2111")
+        )
+        val detailStates = listOf(TrainingDetailState(ExerciseModel(), listOf(ExerciseSetModel(amount = 1), ExerciseSetModel(amount = 2))))
+
+        val viewModel = TrainingViewModel(
+            SavedInstanceStateMock(),
+            ExerciseSetsRepositoryMock(),
+            calendar,
+            checkedWeekdaysRepository,
+            TrainingRepositoryMock(trainings = trainings, listStates = detailStates)
+        )
+        viewModel.updateState()
+
+        assertEquals(TrainingTextState(R.string.training, date), viewModel.textState.value)
+        assertEquals(TrainingActiveState.Training, viewModel.activeState.value)
+        assertEquals(TrainingListState(detailStates), viewModel.listState.value)
+        assertEquals("finishing_yesterday_training", viewModel.isVisibleFinishingTrainingDialog.value)
+    }
+
+    @Test
+    fun `test updateState when today has not training`() {
+        val date = "Saturday, 3 June, 2023"
+        val calendar = CalendarRepositoryMock(
+            calendarVariable = 2,
+            date = date,
+            millis = 1000,
+            dateString = "11.11.2111"
+        )
+        val checkedWeekdaysRepository = CheckedWeekdaysRepositoryMock(mutableListOf(
+            WeekdayModel.MONDAY,
+            WeekdayModel.WEDNESDAY,
+            WeekdayModel.FRIDAY
+        ))
+
+        val detailStates = listOf(TrainingDetailState(ExerciseModel(), listOf(ExerciseSetModel(amount = 1), ExerciseSetModel(amount = 2))))
+
+        val viewModel = TrainingViewModel(
+            SavedInstanceStateMock(),
+            ExerciseSetsRepositoryMock(),
+            calendar,
+            checkedWeekdaysRepository,
+            TrainingRepositoryMock(listStates = detailStates)
+        )
+        viewModel.updateState()
+
+        assertEquals(TrainingTextState(R.string.training, date), viewModel.textState.value)
+        assertEquals(TrainingActiveState.Training, viewModel.activeState.value)
+        assertEquals(TrainingListState(detailStates), viewModel.listState.value)
+    }
+
+    @Test
+    fun `test updateState when today training has finished`() {
+        val date = "Saturday, 3 June, 2023"
+        val calendar = CalendarRepositoryMock(
+            calendarVariable = 2,
+            date = date,
+            dateString = "11.11.2111"
+        )
+        val checkedWeekdaysRepository = CheckedWeekdaysRepositoryMock(mutableListOf(
+            WeekdayModel.MONDAY,
+            WeekdayModel.WEDNESDAY,
+            WeekdayModel.FRIDAY
+        ))
+
+        val trainings = listOf(TrainingModel(id = 1, millis = 10, date = "11.11.2111", active = false))
+        val detailStates = listOf(TrainingDetailState(ExerciseModel(), listOf(ExerciseSetModel(amount = 1), ExerciseSetModel(amount = 2))))
+
+        val viewModel = TrainingViewModel(
+            SavedInstanceStateMock(),
+            ExerciseSetsRepositoryMock(),
+            calendar,
+            checkedWeekdaysRepository,
+            TrainingRepositoryMock(trainings = trainings, listStates = detailStates)
+        )
+        viewModel.updateState()
+
+        assertEquals(TrainingTextState(R.string.training, date), viewModel.textState.value)
+        assertEquals(TrainingActiveState.Finished, viewModel.activeState.value)
+        assertEquals(TrainingListState(detailStates), viewModel.listState.value)
     }
 
     @Test
@@ -181,6 +288,75 @@ internal class TrainingViewModelTest {
         )
         assertEquals(expected, exerciseSetsRepository.data)
         assertEquals(TrainingListState(emptyList()), viewModel.listState.value)
+    }
+
+    @Test
+    fun `test buttonClick when today training has not finished`() {
+        val date = "Saturday, 3 June, 2023"
+        val calendar = CalendarRepositoryMock(
+            calendarVariable = 2,
+            date = date,
+            dateString = "11.11.2111"
+        )
+        val checkedWeekdaysRepository = CheckedWeekdaysRepositoryMock(mutableListOf(
+            WeekdayModel.MONDAY,
+            WeekdayModel.WEDNESDAY,
+            WeekdayModel.FRIDAY
+        ))
+
+        val trainings = listOf(TrainingModel(id = 1, millis = 10, date = "11.11.2111", active = true))
+        val detailStates = listOf(TrainingDetailState(ExerciseModel(), listOf(ExerciseSetModel(amount = 1), ExerciseSetModel(amount = 2))))
+
+        val trainingRepository = TrainingRepositoryMock(trainings = trainings, listStates = detailStates)
+
+        val viewModel = TrainingViewModel(
+            SavedInstanceStateMock(),
+            ExerciseSetsRepositoryMock(),
+            calendar,
+            checkedWeekdaysRepository,
+            trainingRepository
+        )
+        viewModel.updateState()
+
+        viewModel.buttonClick()
+
+        assertEquals("finishing_today_training", viewModel.isVisibleFinishingTrainingDialog.value)
+    }
+
+    @Test
+    fun `test buttonClick when today training has finished`() {
+        val date = "Saturday, 3 June, 2023"
+        val calendar = CalendarRepositoryMock(
+            calendarVariable = 2,
+            date = date,
+            dateString = "11.11.2111"
+        )
+        val checkedWeekdaysRepository = CheckedWeekdaysRepositoryMock(mutableListOf(
+            WeekdayModel.MONDAY,
+            WeekdayModel.WEDNESDAY,
+            WeekdayModel.FRIDAY
+        ))
+
+        val trainings = listOf(TrainingModel(id = 1, millis = 10, date = "11.11.2111", active = false))
+        val detailStates = listOf(TrainingDetailState(ExerciseModel(), listOf(ExerciseSetModel(amount = 1), ExerciseSetModel(amount = 2))))
+
+        val trainingRepository = TrainingRepositoryMock(trainings = trainings, listStates = detailStates)
+
+        val viewModel = TrainingViewModel(
+            SavedInstanceStateMock(),
+            ExerciseSetsRepositoryMock(),
+            calendar,
+            checkedWeekdaysRepository,
+            trainingRepository
+        )
+        viewModel.updateState()
+
+        trainingRepository.items.clear()
+
+        viewModel.buttonClick()
+
+        val expected = listOf(TrainingModel(id = 1, millis = 10, date = "11.11.2111", active = true))
+        assertEquals(expected, trainingRepository.items)
     }
 
 }

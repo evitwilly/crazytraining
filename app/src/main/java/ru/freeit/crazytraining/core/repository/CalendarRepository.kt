@@ -8,7 +8,8 @@ interface CalendarRepository {
     fun timeStringFrom(millis: Long = System.currentTimeMillis()): String
     fun dateStringFrom(millis: Long = System.currentTimeMillis()): String
 
-    fun dateTimeMillis(): Long
+    fun nowDateTimeMillis(): Long
 
+    fun dateStringWithoutDays(millis: Long = System.currentTimeMillis(), days: Int): String
 
 }
