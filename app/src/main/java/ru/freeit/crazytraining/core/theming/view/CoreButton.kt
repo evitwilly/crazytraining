@@ -15,7 +15,7 @@ import ru.freeit.crazytraining.core.extensions.padding
 import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
 import ru.freeit.crazytraining.core.theming.text.TextAttribute.Caption1
 
-class CoreButton @JvmOverloads constructor(
+open class CoreButton @JvmOverloads constructor(
     ctx: Context,
     private val shape: ShapeAttribute = ShapeAttribute.medium,
     private val shapeTreatmentStrategy: ShapeTreatmentStrategy = ShapeTreatmentStrategy.None()

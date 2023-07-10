@@ -20,6 +20,7 @@ import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.viewmodel.SavedInstanceStateImpl
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
+import ru.freeit.crazytraining.exercise.data.repository.ExerciseActiveRepositoryImpl
 import ru.freeit.crazytraining.settings.SettingsFragment
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepositoryImpl
 import ru.freeit.crazytraining.training.adapter.TrainingListAdapter
@@ -51,6 +52,7 @@ class TrainingFragment : BaseFragment<TrainingViewModel>() {
                 ExerciseDatabase(sqliteOpenHelper),
                 ExerciseSetDatabase(sqliteOpenHelper),
                 TrainingDatabase(sqliteOpenHelper),
+                ExerciseActiveRepositoryImpl(app.persistenceSimpleDataStorage)
             )
         )
     }

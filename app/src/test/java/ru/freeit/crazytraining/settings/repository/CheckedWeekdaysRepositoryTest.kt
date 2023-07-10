@@ -12,13 +12,13 @@ internal class CheckedWeekdaysRepositoryTest {
 
     class StringStorage(private var data: String = "") : PersistentStringStorage {
 
-        override fun save(key: String, value: String) {
-            data = value
-        }
+        override fun save(key: String, value: String) { data = value }
 
         override fun string(key: String, default: String): String {
             return data
         }
+
+        override fun saveNow(key: String, value: String) { data = value }
 
     }
 

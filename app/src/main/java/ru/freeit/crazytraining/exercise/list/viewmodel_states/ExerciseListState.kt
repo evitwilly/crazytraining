@@ -1,28 +1,36 @@
 package ru.freeit.crazytraining.exercise.list.viewmodel_states
 
-import ru.freeit.crazytraining.exercise.list.adapter.ExerciseEditButtonViewModel
+import android.widget.TextView
+import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class ExerciseDetailState(
     val exerciseModel: ExerciseModel,
-    val editButtonViewModel: ExerciseEditButtonViewModel
+    private val active: Boolean
 ) {
+
+    val toggled_active: Boolean
+        get() = !active
+
+    fun bindStatus(view: TextView) {
+        view.setText(if (active) R.string.active else R.string.inactive)
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other == null) return false
         if (other !is ExerciseDetailState) return false
 
-        return exerciseModel == other.exerciseModel && editButtonViewModel == other.editButtonViewModel
+        return exerciseModel == other.exerciseModel && active == other.active
     }
 
     override fun hashCode(): Int {
         var result = exerciseModel.hashCode()
-        result = 31 * result + editButtonViewModel.hashCode()
+        result = 31 * result + active.hashCode()
         return result
     }
 
     override fun toString(): String {
-        return "{ exercise_model -> $exerciseModel, editButtonViewModel -> $editButtonViewModel }"
+        return "{ exercise_model -> $exerciseModel, active -> $active }"
     }
 
 }

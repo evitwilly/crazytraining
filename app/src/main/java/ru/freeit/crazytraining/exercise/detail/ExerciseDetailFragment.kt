@@ -18,6 +18,7 @@ import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreEditText
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
+import ru.freeit.crazytraining.exercise.data.repository.ExerciseActiveRepositoryImpl
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepositoryImpl
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
@@ -27,10 +28,14 @@ class ExerciseDetailFragment() : BaseFragment<ExerciseDetailViewModel>() {
     override val viewModelKClass: Class<ExerciseDetailViewModel> = ExerciseDetailViewModel::class.java
     override fun viewModelConstructor(ctx: Context, bundle: Bundle?): ExerciseDetailViewModel {
         val exerciseModel = arguments?.parcelable<ExerciseModel>(exercise_model_arg)
-        val coreSQLiteOpenHelper = (ctx.applicationContext as App).coreSQLiteOpenHelper
+        val app = ctx.applicationContext as App
+        val coreSQLiteOpenHelper = app.coreSQLiteOpenHelper
         return ExerciseDetailViewModel(
             argument = exerciseModel,
-            listRepository = ExerciseListRepositoryImpl(ExerciseDatabase(coreSQLiteOpenHelper))
+            listRepository = ExerciseListRepositoryImpl(
+                exerciseDatabase = ExerciseDatabase(coreSQLiteOpenHelper),
+                activeRepository = ExerciseActiveRepositoryImpl(app.persistenceSimpleDataStorage)
+            )
         )
     }
 

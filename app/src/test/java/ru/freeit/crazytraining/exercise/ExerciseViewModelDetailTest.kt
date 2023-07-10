@@ -15,6 +15,8 @@ import ru.freeit.crazytraining.exercise.model.ExerciseModel
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseSettingsState
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseUnitListState
 import ru.freeit.crazytraining.exercise.detail.viewmodel_states.ExerciseUnitListItemState
+import ru.freeit.crazytraining.exercise.list.viewmodel_states.ExerciseDetailState
+import ru.freeit.crazytraining.exercise.list.viewmodel_states.ExerciseListState
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class ExerciseViewModelDetailTest {
@@ -67,13 +69,13 @@ internal class ExerciseViewModelDetailTest {
 
         viewModel.apply()
 
-        assertEquals(emptyList<ExerciseModel>(), repository.exercises())
+        assertEquals(ExerciseListState(emptyList()), repository.exercises())
 
         viewModel.changeTitle("exercise 1")
 
         viewModel.apply()
 
-        assertEquals(listOf(ExerciseModel("exercise 1", ExerciseUnitModel.DISTANCE)), repository.exercises())
+        assertEquals(ExerciseListState(listOf(ExerciseDetailState(ExerciseModel("exercise 1", ExerciseUnitModel.DISTANCE), true))), repository.exercises())
     }
 
     @Test
@@ -88,7 +90,7 @@ internal class ExerciseViewModelDetailTest {
 
         viewModel.apply()
 
-        assertEquals(listOf(ExerciseModel("exercise 2", ExerciseUnitModel.DISTANCE, 1)), repository.exercises())
+        assertEquals(ExerciseListState(listOf(ExerciseDetailState(ExerciseModel("exercise 2", ExerciseUnitModel.DISTANCE, 1), true))), repository.exercises())
     }
 
 }

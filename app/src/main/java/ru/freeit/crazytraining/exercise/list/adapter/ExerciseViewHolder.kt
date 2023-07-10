@@ -1,37 +1,42 @@
 package ru.freeit.crazytraining.exercise.list.adapter
 
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.doOnAttach
-import androidx.core.view.doOnDetach
-import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.extensions.*
 import ru.freeit.crazytraining.core.theming.CoreTheme
-import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
-import ru.freeit.crazytraining.core.theming.colors.ColorAttributes.secondaryBackgroundColor
+import ru.freeit.crazytraining.core.theming.colors.ColorAttributes.*
 import ru.freeit.crazytraining.core.theming.corners.ShapeAttribute
 import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.text.TextAttribute
+import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.theming.view.CoreImageButtonView
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.exercise.list.viewmodel_states.ExerciseDetailState
+import ru.freeit.crazytraining.exercise.model.ExerciseModel
+
+class ExerciseViewHolderListeners(
+    val clickListener: (ExerciseModel) -> Unit,
+    val removeListener: (ExerciseModel) -> Unit,
+    val changeStatusListener: (ExerciseModel, Boolean) -> Unit
+)
 
 class ExerciseViewHolder(
-    view: LinearLayout,
+    private val contentView: LinearLayout,
     private val titleView: TextView,
     private val unitView: TextView,
-    private val editButtonView: ImageView,
-    private val buttonsView: LinearLayout,
-) : RecyclerView.ViewHolder(view) {
+    private val removeButtonView: ImageView,
+    private val statusButtonView: CoreButton,
+) : RecyclerView.ViewHolder(contentView) {
 
-    fun bind(detailState: ExerciseDetailState) {
+    fun bind(detailState: ExerciseDetailState, listeners: ExerciseViewHolderListeners) {
         val model = detailState.exerciseModel
 
         with(model) {
@@ -39,16 +44,19 @@ class ExerciseViewHolder(
             bindUnit(unitView)
         }
 
-        val observer = Observer<ExerciseEditButtonState> { editButtonState ->
-            with(editButtonState) {
-                bindImageView(editButtonView)
-                bindButtons(buttonsView, model)
-            }
+        detailState.bindStatus(statusButtonView)
+
+        contentView.setOnClickListener {
+            listeners.clickListener.invoke(detailState.exerciseModel)
         }
-        val viewModel = detailState.editButtonViewModel
-        editButtonView.setOnClickListener { viewModel.toggle() }
-        editButtonView.doOnAttach { viewModel.state.observeForever(observer) }
-        editButtonView.doOnDetach { viewModel.state.removeObserver(observer) }
+
+        removeButtonView.setOnClickListener {
+            listeners.removeListener.invoke(detailState.exerciseModel)
+        }
+
+        statusButtonView.setOnClickListener {
+            listeners.changeStatusListener.invoke(detailState.exerciseModel, detailState.toggled_active)
+        }
 
     }
 
@@ -58,7 +66,8 @@ class ExerciseViewHolder(
 
             val contentLinearView = CoreLinearLayout(context,
                 backgroundColor = secondaryBackgroundColor,
-                shapeTreatmentStrategy = ShapeTreatmentStrategy.AllRounded()
+                shapeTreatmentStrategy = ShapeTreatmentStrategy.AllRounded(),
+                rippleColor = primaryColor
             )
             contentLinearView.elevation = context.dp(2f)
             contentLinearView.orientation = LinearLayout.VERTICAL
@@ -83,33 +92,52 @@ class ExerciseViewHolder(
                 .marginEnd(context.dp(32)))
             headerFrameView.addView(titleView)
 
-            val editButtonView = CoreImageButtonView(
+            val removeButtonView = CoreImageButtonView(
                 ctx = context,
                 shape = ShapeAttribute.medium,
                 shapeTreatmentStrategy = ShapeTreatmentStrategy.StartBottomTopEndRounded()
             )
-            editButtonView.padding(context.dp(8))
-            editButtonView.isVisible = false
-            editButtonView.layoutParams(frameLayoutParams().width(context.dp(32))
+            removeButtonView.padding(context.dp(8))
+            removeButtonView.setImageResource(R.drawable.ic_close)
+            removeButtonView.layoutParams(frameLayoutParams().width(context.dp(32))
                 .height(context.dp(32)).gravity(Gravity.END))
-            headerFrameView.addView(editButtonView)
+            headerFrameView.addView(removeButtonView)
 
-            val buttonsView = CoreLinearLayout(context, ColorAttributes.transparent)
-            buttonsView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+            val bottomButtonsLinearView = CoreLinearLayout(
+                ctx = context,
+                backgroundColor = transparent
+            )
+            bottomButtonsLinearView.orientation = LinearLayout.HORIZONTAL
+            bottomButtonsLinearView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+                .marginTop(context.dp(12))
                 .marginStart(context.dp(12))
                 .marginEnd(context.dp(12))
-                .marginTop(context.dp(16))
-                .marginBottom(context.dp(12)))
-            buttonsView.orientation = LinearLayout.HORIZONTAL
-            contentLinearView.addView(buttonsView)
+                .marginBottom(context.dp(8)))
+            contentLinearView.addView(bottomButtonsLinearView)
+
+            val statusButtonView = object : CoreButton(
+                ctx = context,
+                shape = ShapeAttribute.big,
+                shapeTreatmentStrategy = ShapeTreatmentStrategy.AllRounded()
+            ) {
+                override fun onThemeChanged(theme: CoreTheme) {
+                    super.onThemeChanged(theme)
+                    fontSize(14f)
+                }
+            }
+            statusButtonView.layoutParams(linearLayoutParams().wrap())
+            statusButtonView.padding(horizontal = context.dp(8), vertical = context.dp(2))
+            bottomButtonsLinearView.addView(statusButtonView)
+
+            val spaceView = View(context)
+            spaceView.layoutParams(linearLayoutParams().wrap().weight(1f))
+            bottomButtonsLinearView.addView(spaceView)
 
             val unitView = CoreTextView(context, textStyle = TextAttribute.Body2)
-            unitView.layoutParams(linearLayoutParams().wrap().gravity(Gravity.END)
-                .marginEnd(context.dp(12))
-                .marginBottom(context.dp(4)))
-            contentLinearView.addView(unitView)
+            unitView.layoutParams(linearLayoutParams().wrap())
+            bottomButtonsLinearView.addView(unitView)
 
-            return ExerciseViewHolder(contentLinearView, titleView, unitView, editButtonView, buttonsView)
+            return ExerciseViewHolder(contentLinearView, titleView, unitView, removeButtonView, statusButtonView)
         }
     }
 

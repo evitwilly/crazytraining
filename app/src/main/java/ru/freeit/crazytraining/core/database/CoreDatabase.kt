@@ -17,8 +17,8 @@ abstract class CoreDatabase<T : TableDb>(database: CoreSQLiteOpenHelper) {
         return list
     }
 
-    fun save(item: T) {
-        sqliteDb.insert(item.name, null, item.contentValues)
+    fun save(item: T): Long {
+        return sqliteDb.insert(item.name, null, item.contentValues)
     }
 
     fun update(item: T, selection: SQLiteSelection = SQLiteSelection(arrayOf(TableDb.column_id to item.id.toString()))) {

@@ -6,17 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.launch
 import ru.freeit.crazytraining.core.navigation.fragment.BaseViewModel
 import ru.freeit.crazytraining.core.viewmodel.SavedInstanceState
+import ru.freeit.crazytraining.exercise.data.repository.ExerciseActiveRepository
 import ru.freeit.crazytraining.exercise.data.repository.ExerciseListRepository
-import ru.freeit.crazytraining.exercise.list.adapter.ExerciseEditButtonState
-import ru.freeit.crazytraining.exercise.list.adapter.ExerciseEditButtonViewModel
-import ru.freeit.crazytraining.exercise.list.viewmodel_states.ExerciseDetailState
 import ru.freeit.crazytraining.exercise.list.viewmodel_states.ExerciseListState
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class ExerciseListViewModel(
     savedState: SavedInstanceState,
-    private val repository: ExerciseListRepository,
-    private val itemButtons: List<ExerciseEditButtonState.Button>
+    private val exerciseRepository: ExerciseListRepository,
+    private val activeRepository: ExerciseActiveRepository
 ) : BaseViewModel() {
 
     private val _exerciseListState = MutableLiveData<ExerciseListState>()
@@ -31,18 +29,19 @@ class ExerciseListViewModel(
         cachedModel = model
     }
 
+    fun changeStatus(model: ExerciseModel, active: Boolean) = uiScope.launch {
+        activeRepository.checkActive(model.id, active)
+        updateState()
+    }
+
     fun remove() = uiScope.launch {
         val model = cachedModel ?: return@launch
-        repository.removeExercise(model)
+        exerciseRepository.removeExercise(model)
         updateState()
     }
 
     fun updateState() = uiScope.launch {
-        _exerciseListState.value = ExerciseListState(
-            repository.exercises().map {
-                ExerciseDetailState(it, ExerciseEditButtonViewModel(itemButtons).apply { toggle() })
-            }
-        )
+        _exerciseListState.value = exerciseRepository.exercises()
     }
 
     private companion object {
