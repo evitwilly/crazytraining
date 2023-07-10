@@ -104,4 +104,6 @@
     <string name="write_comment_about_training">Напишите как прошла ваша тренировка</string>
     <string name="training_completed">Тренировка завершена!</string>
     <string name="choose_rating_colon">Выберите оценку:</string>
+    <string name="active">активно</string>
+    <string name="inactive">неактивно</string>
 </resources>

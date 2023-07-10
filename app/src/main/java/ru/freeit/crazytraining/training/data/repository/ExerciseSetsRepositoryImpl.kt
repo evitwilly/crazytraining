@@ -7,7 +7,7 @@ import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 class ExerciseSetsRepositoryImpl(private val exerciseSetDatabase: ExerciseSetDatabase) :
     ExerciseSetsRepository {
 
-    override suspend fun saveExerciseSet(model: ExerciseSetModel) = default {
+    override suspend fun saveExerciseSet(model: ExerciseSetModel) = default<Unit> {
         exerciseSetDatabase.save(model.database)
     }
 

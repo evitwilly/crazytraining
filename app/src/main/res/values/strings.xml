@@ -91,4 +91,6 @@
     <string name="write_comment_about_training">Let me know how your training went</string>
     <string name="training_completed">Training completed!</string>
     <string name="choose_rating_colon">Choose rating:</string>
+    <string name="active">active</string>
+    <string name="inactive">inactive</string>
 </resources>

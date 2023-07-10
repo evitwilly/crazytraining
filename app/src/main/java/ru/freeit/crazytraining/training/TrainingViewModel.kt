@@ -117,35 +117,18 @@ class TrainingViewModel(
         }
     }
 
-    fun updateState() {
-        val isTodayTraining = checkedWeekdaysRepository.readCheckedWeekdays().map { it.calendarVariable }.contains(calendarRepository.weekday())
+    fun updateState() = uiScope.launch {
+        val todayHasTraining = checkedWeekdaysRepository.readCheckedWeekdays().map { it.calendarVariable }.contains(calendarRepository.weekday())
 
-        _textState.value = TrainingTextState(
-            if (isTodayTraining) R.string.training else R.string.weekend,
-            calendarRepository.weekdayMonthYearDateString()
-        )
+        val todayMillis = calendarRepository.nowDateTimeMillis()
 
-        uiScope.launch {
-            val todayMillis = calendarRepository.nowDateTimeMillis()
+        fetchYesterdayTraining(todayMillis)
 
-            val yesterdayTraining = trainingRepository.trainingByDate(calendarRepository.dateStringWithoutDays(todayMillis, 1))
-            if (yesterdayTraining.hasNotFinished) {
-                yesterdayTrainingModel = yesterdayTraining
-                _isVisibleFinishingTrainingDialog.value = finishing_yesterday_training
-            }
+        when {
+            todayHasTraining -> {
+                _textState.value = TrainingTextState(R.string.training, calendarRepository.weekdayMonthYearDateString())
 
-            if (isTodayTraining) {
-                val todayDate = calendarRepository.dateStringFrom(todayMillis)
-                val todayTraining = trainingRepository.trainingByDate(todayDate)
-                todayTrainingModel = if (todayTraining.isEmpty) {
-                    val newTodayTraining = TrainingModel(millis = todayMillis, date = todayDate)
-
-                    trainingRepository.saveTraining(newTodayTraining)
-
-                    trainingRepository.trainingByDate(todayDate)
-                } else {
-                    todayTraining
-                }
+                fetchTodayTraining(todayMillis)
 
                 _activeState.value = if (todayTrainingModel.hasNotFinished) {
                     TrainingActiveState.Training
@@ -154,9 +137,33 @@ class TrainingViewModel(
                 }
 
                 _listState.value = trainingRepository.exercisesWithSetsByTraining(todayTrainingModel.id)
-            } else {
+            }
+            else -> {
+                _textState.value = TrainingTextState(R.string.weekend, calendarRepository.weekdayMonthYearDateString())
                 _activeState.value = TrainingActiveState.Weekend
             }
+        }
+    }
+
+    private suspend fun fetchYesterdayTraining(todayMillis: Long) {
+        val yesterdayTraining = trainingRepository.trainingByDate(calendarRepository.dateStringWithoutDays(todayMillis, 1))
+        if (yesterdayTraining.hasNotFinished) {
+            yesterdayTrainingModel = yesterdayTraining
+            _isVisibleFinishingTrainingDialog.value = finishing_yesterday_training
+        }
+    }
+
+    private suspend fun fetchTodayTraining(todayMillis: Long) {
+        val todayDate = calendarRepository.dateStringFrom(todayMillis)
+        val todayTraining = trainingRepository.trainingByDate(todayDate)
+        todayTrainingModel = if (todayTraining.isEmpty) {
+            val newTodayTraining = TrainingModel(millis = todayMillis, date = todayDate)
+
+            trainingRepository.saveTraining(newTodayTraining)
+
+            trainingRepository.trainingByDate(todayDate)
+        } else {
+            todayTraining
         }
     }
 

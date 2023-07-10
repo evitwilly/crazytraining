@@ -2,15 +2,21 @@ package ru.freeit.crazytraining.exercise.data.repository
 
 import ru.freeit.crazytraining.core.extensions.default
 import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
+import ru.freeit.crazytraining.exercise.list.viewmodel_states.ExerciseDetailState
+import ru.freeit.crazytraining.exercise.list.viewmodel_states.ExerciseListState
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
-class ExerciseListRepositoryImpl(private val exerciseDatabase: ExerciseDatabase) : ExerciseListRepository {
+class ExerciseListRepositoryImpl(
+    private val exerciseDatabase: ExerciseDatabase,
+    private val activeRepository: ExerciseActiveRepository
+) : ExerciseListRepository {
 
     override suspend fun saveExercise(model: ExerciseModel) = default {
         if (model.id > 0) {
             exerciseDatabase.update(model.database)
         } else {
-            exerciseDatabase.save(model.database)
+            val exerciseId = exerciseDatabase.save(model.database)
+            activeRepository.checkActive(exerciseId.toInt(), true)
         }
     }
 
@@ -21,7 +27,9 @@ class ExerciseListRepositoryImpl(private val exerciseDatabase: ExerciseDatabase)
     }
 
     override suspend fun exercises() = default {
-        exerciseDatabase.items().map { it.model }
+        val databaseExercises = exerciseDatabase.items()
+        val activeExerciseIds = activeRepository.activeExerciseIds()
+        ExerciseListState(databaseExercises.map { ExerciseDetailState(it.model, activeExerciseIds.contains(it.id)) })
     }
 
 }

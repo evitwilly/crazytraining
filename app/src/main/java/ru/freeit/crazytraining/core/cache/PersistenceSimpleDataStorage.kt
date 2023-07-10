@@ -19,6 +19,10 @@ class PersistenceSimpleDataStorage(ctx: Context): PersistentIntStorage, Persiste
         editorSharedPreferences.putString(key, value).apply()
     }
 
+    override fun saveNow(key: String, value: String) {
+        editorSharedPreferences.putString(key, value).commit()
+    }
+
     companion object {
         private const val storage_name = "persistence_simple_data_storage"
     }
