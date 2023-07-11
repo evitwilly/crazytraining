@@ -1,5 +1,7 @@
 package ru.freeit.crazytraining.training.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import ru.freeit.crazytraining.training.data.database.TrainingTableDb
 
 class TrainingModel(
@@ -9,7 +11,7 @@ class TrainingModel(
     private val comment: String = "",
     private val active: Boolean = true,
     val id: Int = 0
-) {
+): Parcelable {
 
     val isEmpty: Boolean
         get() = millis == 0L && date.isBlank() && id == 0
@@ -29,6 +31,15 @@ class TrainingModel(
             active = active,
             id = id
         )
+
+    constructor(parcel: Parcel) : this(
+        parcel.readLong(),
+        parcel.readString().orEmpty(),
+        parcel.readFloat(),
+        parcel.readString().orEmpty(),
+        parcel.readByte() != 0.toByte(),
+        parcel.readInt()
+    )
 
     fun isThisDate(date: String) = this.date == date
 
@@ -69,6 +80,22 @@ class TrainingModel(
 
     override fun toString(): String {
         return "{ id=$id, millis=$millis, rating=$rating, comment=$comment, active=$active }"
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeLong(millis)
+        parcel.writeString(date)
+        parcel.writeFloat(rating)
+        parcel.writeString(comment)
+        parcel.writeByte(if (active) 1 else 0)
+        parcel.writeInt(id)
+    }
+
+    override fun describeContents(): Int = 0
+
+    companion object CREATOR : Parcelable.Creator<TrainingModel> {
+        override fun createFromParcel(parcel: Parcel) = TrainingModel(parcel)
+        override fun newArray(size: Int): Array<TrainingModel?> = arrayOfNulls(size)
     }
 
 }

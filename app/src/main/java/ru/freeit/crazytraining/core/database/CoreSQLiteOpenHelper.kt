@@ -27,7 +27,7 @@ class CoreSQLiteOpenHelper(ctx: Context) : SQLiteOpenHelper(ctx, name, null, ver
 
     private companion object {
         const val name = "app_database.db"
-        const val version = 2
+        const val version = 3
     }
 
 }

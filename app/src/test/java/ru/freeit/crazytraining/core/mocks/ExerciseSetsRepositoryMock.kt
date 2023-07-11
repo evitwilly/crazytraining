@@ -17,8 +17,4 @@ class ExerciseSetsRepositoryMock : ExerciseSetsRepository {
         data.remove(model)
     }
 
-    override suspend fun removeExerciseSetsByDate(date: String) {
-        data.clear()
-    }
-
 }

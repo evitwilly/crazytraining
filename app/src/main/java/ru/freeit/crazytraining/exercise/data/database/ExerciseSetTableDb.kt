@@ -35,7 +35,7 @@ class ExerciseSetTableDb(
     private val amountColumn = TableColumnDb.Integer(column_amount)
     private val millisColumn = TableColumnDb.Integer(column_millis)
     private val exerciseId = TableColumnDb.Integer(column_exercise_id)
-    private val trainingId = TableColumnDb.Integer(column_training_id)
+    private val trainingId = TableColumnDb.Integer(column_training_id, 0L)
     private val unitColumn = TableColumnDb.Integer(column_unit)
     private val dateStringColumn = TableColumnDb.Text(column_date_string)
     private val timeStringColumn = TableColumnDb.Text(column_time_string)

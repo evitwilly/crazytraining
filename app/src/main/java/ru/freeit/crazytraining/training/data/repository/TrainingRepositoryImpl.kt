@@ -26,6 +26,11 @@ class TrainingRepositoryImpl(
         }
     }
 
+    override suspend fun removeTraining(training: TrainingModel) = default {
+        exerciseSetDatabase.deleteByTraining(training.id)
+        trainingDatabase.delete(training.database)
+    }
+
     override suspend fun trainingByDate(date: String) = default {
         val trainingsByDate = trainingDatabase.items(SQLiteSelection().select(TrainingTableDb.column_date, date))
         trainingsByDate.firstOrNull()?.model ?: TrainingModel()

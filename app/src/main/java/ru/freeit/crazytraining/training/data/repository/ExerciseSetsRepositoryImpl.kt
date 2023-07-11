@@ -4,8 +4,7 @@ import ru.freeit.crazytraining.core.extensions.default
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
 import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 
-class ExerciseSetsRepositoryImpl(private val exerciseSetDatabase: ExerciseSetDatabase) :
-    ExerciseSetsRepository {
+class ExerciseSetsRepositoryImpl(private val exerciseSetDatabase: ExerciseSetDatabase) : ExerciseSetsRepository {
 
     override suspend fun saveExerciseSet(model: ExerciseSetModel) = default<Unit> {
         exerciseSetDatabase.save(model.database)
@@ -17,10 +16,6 @@ class ExerciseSetsRepositoryImpl(private val exerciseSetDatabase: ExerciseSetDat
 
     override suspend fun exerciseSetsByDate(date: String) = default {
         exerciseSetDatabase.itemsByDate(date).map { it.model }
-    }
-
-    override suspend fun removeExerciseSetsByDate(date: String) = default {
-        exerciseSetDatabase.deleteByDate(date)
     }
 
 }
