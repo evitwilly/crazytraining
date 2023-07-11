@@ -20,6 +20,10 @@ class TrainingRepositoryMock(
         items.add(training.copy(id = items.size + 1))
     }
 
+    override suspend fun removeTraining(training: TrainingModel) {
+        items.remove(training)
+    }
+
     override suspend fun trainingByDate(date: String): TrainingModel {
         return items.find { it.isThisDate(date) } ?: TrainingModel()
     }

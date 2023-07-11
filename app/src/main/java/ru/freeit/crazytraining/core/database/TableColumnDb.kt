@@ -2,14 +2,18 @@ package ru.freeit.crazytraining.core.database
 
 import android.database.Cursor
 
-sealed class TableColumnDb<T>(val name: String, private val type: String) {
+sealed class TableColumnDb<T>(val name: String, private val type: String, private val default: String? = null) {
 
     val sqliteColumnDefinitionString: String
-        get() = "$name $type not null"
+        get() = if (default != null) {
+            "$name $type default $default"
+        } else {
+            "$name $type not null"
+        }
 
     abstract fun value(cursor: Cursor): T
 
-    class Integer(name: String) : TableColumnDb<Long>(name, "integer") {
+    class Integer(name: String, default: Long? = null) : TableColumnDb<Long>(name, "integer", default?.toString()) {
         override fun value(cursor: Cursor): Long {
             val index = cursor.getColumnIndex(name)
             return if (index >= 0) cursor.getLong(index) else 0L

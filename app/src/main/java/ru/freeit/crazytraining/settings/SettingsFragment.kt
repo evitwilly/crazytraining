@@ -18,10 +18,13 @@ import ru.freeit.crazytraining.core.theming.layout.components.CoreLinearLayout
 import ru.freeit.crazytraining.core.theming.view.CoreTextView
 import ru.freeit.crazytraining.core.theming.view.FlowLayout
 import ru.freeit.crazytraining.core.viewmodel.SavedInstanceStateImpl
+import ru.freeit.crazytraining.exercise.data.database.ExerciseDatabase
 import ru.freeit.crazytraining.exercise.data.database.ExerciseSetDatabase
+import ru.freeit.crazytraining.exercise.data.repository.ExerciseActiveRepositoryImpl
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepositoryImpl
 import ru.freeit.crazytraining.settings.view.ThemeSwitchView
-import ru.freeit.crazytraining.training.data.repository.ExerciseSetsRepositoryImpl
+import ru.freeit.crazytraining.training.data.database.TrainingDatabase
+import ru.freeit.crazytraining.training.data.repository.TrainingRepositoryImpl
 
 class SettingsFragment : BaseFragment<SettingsViewModel>() {
 
@@ -34,7 +37,12 @@ class SettingsFragment : BaseFragment<SettingsViewModel>() {
             savedState = SavedInstanceStateImpl(bundle),
             weekdaysRepository = CheckedWeekdaysRepositoryImpl(simpleDataStorage),
             calendarRepository = CalendarRepositoryImpl(),
-            exerciseSetsRepository = ExerciseSetsRepositoryImpl(ExerciseSetDatabase(coreSQLiteOpenHelper))
+            trainingRepository = TrainingRepositoryImpl(
+                ExerciseDatabase(coreSQLiteOpenHelper),
+                ExerciseSetDatabase(coreSQLiteOpenHelper),
+                TrainingDatabase(coreSQLiteOpenHelper),
+                ExerciseActiveRepositoryImpl(simpleDataStorage)
+            )
         )
     }
 

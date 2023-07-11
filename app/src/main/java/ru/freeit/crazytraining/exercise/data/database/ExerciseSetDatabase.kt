@@ -8,8 +8,8 @@ class ExerciseSetDatabase(db: CoreSQLiteOpenHelper) : CoreDatabase<ExerciseSetTa
 
     override val defaultItem = ExerciseSetTableDb()
 
-    fun deleteByDate(date: String) {
-        delete(defaultItem, SQLiteSelection().select(ExerciseSetTableDb.column_date_string, date))
+    fun deleteByTraining(training_id: Int) {
+        delete(defaultItem, SQLiteSelection().select(ExerciseSetTableDb.column_training_id, training_id.toString()))
     }
 
     fun itemsByDate(date: String) : List<ExerciseSetTableDb> {

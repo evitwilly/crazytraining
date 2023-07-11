@@ -5,15 +5,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
-import ru.freeit.crazytraining.core.mocks.CalendarRepositoryMock
-import ru.freeit.crazytraining.core.mocks.CheckedWeekdaysRepositoryMock
-import ru.freeit.crazytraining.core.mocks.ExerciseSetsRepositoryMock
-import ru.freeit.crazytraining.core.mocks.SavedInstanceStateMock
+import ru.freeit.crazytraining.core.mocks.*
 import ru.freeit.crazytraining.core.models.WeekdayModel
 import ru.freeit.crazytraining.core.rules.MainDispatcherRule
-import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayListState
 import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayState
+import ru.freeit.crazytraining.training.model.TrainingModel
 
 /**
  * Test for ViewModel [SettingsViewModel]
@@ -32,7 +29,7 @@ internal class SettingsViewModelTest {
             SavedInstanceStateMock(),
             CheckedWeekdaysRepositoryMock(),
             CalendarRepositoryMock(),
-            ExerciseSetsRepositoryMock()
+            TrainingRepositoryMock()
         )
 
         val expected = WeekdayListState(
@@ -60,7 +57,7 @@ internal class SettingsViewModelTest {
             SavedInstanceStateMock(),
             repository,
             CalendarRepositoryMock(),
-            ExerciseSetsRepositoryMock()
+            TrainingRepositoryMock()
         )
 
         val expected = WeekdayListState(
@@ -84,7 +81,7 @@ internal class SettingsViewModelTest {
             SavedInstanceStateMock(),
             repository,
             CalendarRepositoryMock(),
-            ExerciseSetsRepositoryMock()
+            TrainingRepositoryMock()
         )
 
         viewModel.changeWeekdayState(WeekdayState(WeekdayModel.TUESDAY, true))
@@ -122,13 +119,9 @@ internal class SettingsViewModelTest {
     }
 
     @Test
-    fun `test when today is training and has some sets`() {
-        val repository = ExerciseSetsRepositoryMock()
-        repository.data.add(ExerciseSetModel(
-            id = 1,
-            amount = 100,
-            millis = 100
-        ))
+    fun `test when today is training and it has not finished`() {
+
+        val trainingRepository =  TrainingRepositoryMock(trainings = listOf(TrainingModel(id = 1, millis = 1000, date = "11.11.2111", active = true)))
 
         val viewModel = SettingsViewModel(
             SavedInstanceStateMock(),
@@ -137,8 +130,8 @@ internal class SettingsViewModelTest {
                 WeekdayModel.TUESDAY,
                 WeekdayModel.SUNDAY
             )),
-            CalendarRepositoryMock(calendarVariable = 2),
-            repository
+            CalendarRepositoryMock(calendarVariable = 2, dateString = "11.11.2111"),
+            trainingRepository
         )
 
         viewModel.changeWeekdayState(WeekdayState(WeekdayModel.MONDAY, false))
@@ -158,7 +151,7 @@ internal class SettingsViewModelTest {
 
         viewModel.dialogOkClick()
 
-        assertEquals(emptyList<ExerciseSetModel>(), repository.data)
+        assertEquals(emptyList<TrainingModel>(), trainingRepository.items)
         assertEquals(WeekdayListState(
             listOf(
                 WeekdayState(WeekdayModel.MONDAY, false),

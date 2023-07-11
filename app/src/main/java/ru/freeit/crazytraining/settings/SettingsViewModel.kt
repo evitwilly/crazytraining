@@ -9,17 +9,17 @@ import ru.freeit.crazytraining.core.navigation.fragment.BaseViewModel
 import ru.freeit.crazytraining.core.repository.CalendarRepository
 import ru.freeit.crazytraining.core.viewmodel.SavedInstanceState
 import ru.freeit.crazytraining.core.viewmodel.SingleLiveEvent
-import ru.freeit.crazytraining.exercise.model.ExerciseSetModel
 import ru.freeit.crazytraining.settings.repository.CheckedWeekdaysRepository
 import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayListState
 import ru.freeit.crazytraining.settings.viewmodel_states.WeekdayState
-import ru.freeit.crazytraining.training.data.repository.ExerciseSetsRepository
+import ru.freeit.crazytraining.training.data.repository.TrainingRepository
+import ru.freeit.crazytraining.training.model.TrainingModel
 
 class SettingsViewModel(
     savedState: SavedInstanceState,
     private val weekdaysRepository: CheckedWeekdaysRepository,
     private val calendarRepository: CalendarRepository,
-    private val exerciseSetsRepository: ExerciseSetsRepository
+    private val trainingRepository: TrainingRepository
 ) : BaseViewModel() {
 
     private val listState = MutableLiveData<WeekdayListState>()
@@ -28,55 +28,54 @@ class SettingsViewModel(
     private val _acceptDialogState = SingleLiveEvent<Boolean>()
     val acceptDialogState: LiveData<Boolean> = _acceptDialogState
 
-    private var cachedWeekdayState: WeekdayState? = savedState.parcelable(cache_weekday_state_key, WeekdayState::class.java)
-
-    private var exerciseSetsInToday = mutableListOf<ExerciseSetModel>()
+    private var cachedWeekdayState: WeekdayState? = savedState.parcelable(cached_weekday_state_key, WeekdayState::class.java)
+    private var cachedTrainingModel: TrainingModel? = savedState.parcelable(cached_training_model_key, TrainingModel::class.java)
 
     init {
         val checkedWeekdays = weekdaysRepository.readCheckedWeekdays()
         listState.value = WeekdayListState(WeekdayModel.values().map { model -> WeekdayState(model, checkedWeekdays.contains(model)) })
-
-        uiScope.launch {
-            exerciseSetsInToday.clear()
-            exerciseSetsInToday.addAll(exerciseSetsRepository.exerciseSetsByDate(calendarRepository.dateStringFrom()))
-        }
     }
 
     override fun onSaveInstanceState(bundle: Bundle) {
-        bundle.putParcelable(cache_weekday_state_key, cachedWeekdayState)
+        bundle.putParcelable(cached_weekday_state_key, cachedWeekdayState)
+        bundle.putParcelable(cached_training_model_key, cachedTrainingModel)
     }
 
     fun dialogOkClick() {
         val newState = cachedWeekdayState ?: return
+        val trainingModel = cachedTrainingModel ?: return
 
         uiScope.launch {
-
-            exerciseSetsRepository.removeExerciseSetsByDate(calendarRepository.dateStringFrom())
-
-            exerciseSetsInToday.clear()
-
+            trainingRepository.removeTraining(trainingModel)
             changeWeekdayState(newState)
         }
     }
 
-    fun changeWeekdayState(newState: WeekdayState) {
-        if (newState.model.calendarVariable == calendarRepository.weekday() && exerciseSetsInToday.isNotEmpty()) {
+    fun changeWeekdayState(newState: WeekdayState) = uiScope.launch {
+        val todayTraining = trainingRepository.trainingByDate(calendarRepository.dateStringFrom())
+        val isTodayWeekday = newState.model.calendarVariable == calendarRepository.weekday()
+
+        if (isTodayWeekday && todayTraining.hasNotFinished) {
             cachedWeekdayState = newState
+            cachedTrainingModel = todayTraining
             _acceptDialogState.value = true
             listState.value = listState.value
-            return
+        } else {
+
+            if (newState.checked) {
+                weekdaysRepository.saveCheckedWeekday(newState.model)
+            } else {
+                weekdaysRepository.removeCheckedWeekday(newState.model)
+            }
+
+            listState.value = listState.value?.withStateChanged(newState)
         }
 
-        listState.value = listState.value?.withStateChanged(newState)
-        if (newState.checked) {
-            weekdaysRepository.saveCheckedWeekday(newState.model)
-        } else {
-            weekdaysRepository.removeCheckedWeekday(newState.model)
-        }
     }
 
     private companion object {
-        const val cache_weekday_state_key = "cache_weekday_state_key"
+        const val cached_weekday_state_key = "cached_weekday_state_key"
+        const val cached_training_model_key = "cached_training_model_key"
     }
 
 }
