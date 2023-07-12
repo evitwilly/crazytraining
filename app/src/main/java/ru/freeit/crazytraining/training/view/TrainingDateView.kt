@@ -14,6 +14,7 @@ class TrainingDateView(ctx: Context) : CoreTextView(ctx, textStyle = Title1) {
 
     private val lineStrokeWidth = context.dp(4f)
     private val greenPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
         strokeWidth = lineStrokeWidth
     }
 
@@ -23,9 +24,6 @@ class TrainingDateView(ctx: Context) : CoreTextView(ctx, textStyle = Title1) {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
-        greenPaint.style = Paint.Style.STROKE
-
         canvas.drawLine(0f, height - lineStrokeWidth, width.toFloat(), height - lineStrokeWidth, greenPaint)
     }
 

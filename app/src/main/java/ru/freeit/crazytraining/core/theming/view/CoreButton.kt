@@ -17,8 +17,8 @@ import ru.freeit.crazytraining.core.theming.text.TextAttribute.Caption1
 
 open class CoreButton @JvmOverloads constructor(
     ctx: Context,
-    private val shape: ShapeAttribute = ShapeAttribute.medium,
-    private val shapeTreatmentStrategy: ShapeTreatmentStrategy = ShapeTreatmentStrategy.None()
+    protected val shape: ShapeAttribute = ShapeAttribute.medium,
+    protected val shapeTreatmentStrategy: ShapeTreatmentStrategy = ShapeTreatmentStrategy.None()
 ) : CoreTextView(ctx, textColor = ColorAttributes.colorOnPrimary, textStyle = Caption1) {
 
     init {

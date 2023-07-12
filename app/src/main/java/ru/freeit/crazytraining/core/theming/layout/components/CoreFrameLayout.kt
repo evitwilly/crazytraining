@@ -10,7 +10,7 @@ import ru.freeit.crazytraining.core.theming.colors.ColorAttributes
 import ru.freeit.crazytraining.core.theming.corners.ShapeAttribute
 import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 
-class CoreFrameLayout @JvmOverloads constructor(
+open class CoreFrameLayout @JvmOverloads constructor(
     ctx: Context,
     private val backgroundColor: ColorAttributes = ColorAttributes.primaryBackgroundColor,
     private val shape: ShapeAttribute = ShapeAttribute.medium,
