@@ -1,5 +1,6 @@
 package ru.freeit.crazytraining.training.adapter
 
+import android.content.Context
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -42,54 +43,33 @@ class TrainingViewHolder(
         val resources = ResourcesProviderImpl(context.resources)
         sets.forEach { (model, number) ->
 
-            val layoutView = CoreFrameLayout(context, backgroundColor = ColorAttributes.transparent)
-            layoutView.padding(context.dp(4))
-            layoutView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginBottom(context.dp(4)))
-            exerciseSetsLayoutView.addView(layoutView)
+            val exerciseSetView = ExerciseSetView(context)
+            exerciseSetView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginBottom(context.dp(4)))
+            exerciseSetsLayoutView.addView(exerciseSetView)
 
-            val buttonSize = context.dp(24)
-            val buttonMargin = context.dp(8)
-
-            val titleView = CoreTextView(context, textStyle = TextAttribute.Body2)
-            titleView.layoutParams(frameLayoutParams().matchWidth().wrapHeight()
-                .gravity(Gravity.CENTER_VERTICAL)
-                .marginEnd(buttonSize * 2 + buttonMargin * 2))
-            layoutView.addView(titleView)
-
-            titleView.text = resources.string(
+            exerciseSetView.changeTitle(resources.string(
                 R.string.set_title,
                 resources.quantityString(R.plurals.set, number, number),
                 model.amountString(resources)
-            )
+            ))
 
-            val plusButton = CoreImageButtonView(context)
-            plusButton.setImageResource(R.drawable.ic_add)
-            plusButton.padding(context.dp(4))
-            plusButton.setOnClickListener { listeners.plusListener.invoke(model) }
-            plusButton.layoutParams(frameLayoutParams().width(buttonSize).height(buttonSize)
-                .marginEnd(buttonSize + buttonMargin)
-                .gravity(Gravity.END or Gravity.CENTER_VERTICAL))
-            layoutView.addView(plusButton)
+            exerciseSetView.changePlusButtonImageResource(R.drawable.ic_add)
+            exerciseSetView.changePlusButtonClickListener { listeners.plusListener.invoke(model) }
 
-            val removeButton = CoreImageButtonView(context)
-            removeButton.setImageResource(if (number > 1) R.drawable.ic_minus else R.drawable.ic_close)
-            removeButton.padding(context.dp(4))
-            removeButton.layoutParams(frameLayoutParams().width(buttonSize).height(buttonSize)
-                .gravity(Gravity.END or Gravity.CENTER_VERTICAL))
-            removeButton.setOnClickListener {
+            exerciseSetView.changeRemoveButtonImageResource(if (number > 1) R.drawable.ic_minus else R.drawable.ic_close)
+            exerciseSetView.changeRemoveButtonClickListener {
                 if (number > 1) {
                     listeners.minusListener.invoke(model)
                 } else {
                     listeners.removeListener.invoke(model)
                 }
             }
-            layoutView.addView(removeButton)
 
         }
 
-        val setWithTotalAmount = state.model_with_total_amount
-        val totalAmountString = setWithTotalAmount.amountString(resources)
-        totalView.text = if (setWithTotalAmount.isNotEmpty) {
+        val totalAmountSet = state.model_with_total_amount
+        val totalAmountString = totalAmountSet.amountString(resources)
+        totalView.text = if (totalAmountSet.isNotEmpty) {
             context.getString(R.string.total_colon, totalAmountString)
         } else {
             ""
@@ -127,15 +107,16 @@ class TrainingViewHolder(
 
             val exerciseSetsLayoutView = CoreLinearLayout(context, backgroundColor = ColorAttributes.transparent)
             exerciseSetsLayoutView.orientation = LinearLayout.VERTICAL
-            exerciseSetsLayoutView.layoutParams(
-                linearLayoutParams().matchWidth().wrapHeight()
-                .marginStart(context.dp(12)).marginEnd(context.dp(12)).marginTop(context.dp(8)))
+            exerciseSetsLayoutView.layoutParams(linearLayoutParams().matchWidth().wrapHeight()
+                .marginStart(context.dp(16))
+                .marginEnd(context.dp(12))
+                .marginTop(context.dp(16)))
             contentLinearView.addView(exerciseSetsLayoutView)
 
             val bottomLinearView = CoreLinearLayout(context, backgroundColor = ColorAttributes.transparent)
             bottomLinearView.orientation = LinearLayout.HORIZONTAL
             bottomLinearView.gravity = Gravity.CENTER_VERTICAL
-            bottomLinearView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginTop(context.dp(8))
+            bottomLinearView.layoutParams(linearLayoutParams().matchWidth().wrapHeight().marginTop(context.dp(16))
                 .marginStart(context.dp(12)).marginEnd(context.dp(12)))
             contentLinearView.addView(bottomLinearView)
 
@@ -144,8 +125,16 @@ class TrainingViewHolder(
                 .marginEnd(context.dp(12)))
             bottomLinearView.addView(totalView)
 
-            val buttonView = CoreButton(context)
-            buttonView.padding(horizontal = context.dp(8), vertical = context.dp(2))
+            val buttonView = CoreButton(
+                ctx = context,
+                shapeTreatmentStrategy = ShapeTreatmentStrategy.AllElliptical()
+            )
+            buttonView.padding(
+                start = context.dp(8),
+                top = context.dp(2),
+                end = context.dp(12),
+                bottom = context.dp(2)
+            )
             buttonView.changeStartIcon(R.drawable.ic_add, 16)
             buttonView.setText(R.string.set)
             buttonView.layoutParams(linearLayoutParams().wrap())
@@ -153,6 +142,78 @@ class TrainingViewHolder(
 
             return TrainingViewHolder(contentLinearView, exerciseSetsLayoutView, titleView, totalView, buttonView)
         }
+    }
+
+    class ExerciseSetView(ctx: Context) : CoreFrameLayout(ctx, backgroundColor = ColorAttributes.transparent) {
+
+        private val buttonSize = context.dp(32)
+        private val buttonMargin = context.dp(1)
+
+        private val titleView = object : CoreTextView(context, textStyle = TextAttribute.Body2) {
+            override fun onThemeChanged(theme: CoreTheme) {
+                super.onThemeChanged(theme)
+                fontSize(14f)
+            }
+        }
+
+        private val plusButton = newButton(
+            shapeTreatmentStrategy = ShapeTreatmentStrategy.StartElliptical(),
+            marginEnd = buttonSize + buttonMargin
+        )
+
+        private val removeButton = newButton(
+            shapeTreatmentStrategy = ShapeTreatmentStrategy.EndElliptical(),
+            marginEnd = 0
+        )
+
+        init {
+            padding(context.dp(4))
+
+            titleView.layoutParams(frameLayoutParams().matchWidth().wrapHeight()
+                .gravity(Gravity.CENTER_VERTICAL)
+                .marginEnd(buttonSize * 2 + buttonMargin * 2))
+            addView(titleView)
+
+            addView(plusButton)
+
+            addView(removeButton)
+        }
+
+        fun changeTitle(string: String) {
+            titleView.text = string
+        }
+
+        fun changePlusButtonImageResource(drawableResource: Int) {
+            plusButton.setImageResource(drawableResource)
+        }
+
+        fun changeRemoveButtonImageResource(drawableResource: Int) {
+            removeButton.setImageResource(drawableResource)
+        }
+
+        fun changePlusButtonClickListener(listener: OnClickListener) {
+            plusButton.setOnClickListener(listener)
+        }
+
+        fun changeRemoveButtonClickListener(listener: OnClickListener) {
+            removeButton.setOnClickListener(listener)
+        }
+
+        private fun newButton(shapeTreatmentStrategy: ShapeTreatmentStrategy, marginEnd: Int): CoreImageButtonView {
+            val button = CoreImageButtonView(
+                ctx = context,
+                backgroundColor = ColorAttributes.primaryColor,
+                rippleColor = ColorAttributes.primaryDarkColor,
+                shapeTreatmentStrategy = shapeTreatmentStrategy,
+                tintColor = ColorAttributes.colorOnPrimary
+            )
+            button.padding(context.dp(2))
+            button.layoutParams(frameLayoutParams().width(buttonSize).height(context.dp(20))
+                .marginEnd(marginEnd)
+                .gravity(Gravity.END or Gravity.CENTER_VERTICAL))
+            return button
+        }
+
     }
 
 }

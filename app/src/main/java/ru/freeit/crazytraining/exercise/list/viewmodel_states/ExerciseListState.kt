@@ -1,7 +1,7 @@
 package ru.freeit.crazytraining.exercise.list.viewmodel_states
 
-import android.widget.TextView
 import ru.freeit.crazytraining.R
+import ru.freeit.crazytraining.exercise.list.adapter.ExerciseViewHolder
 import ru.freeit.crazytraining.exercise.model.ExerciseModel
 
 class ExerciseDetailState(
@@ -12,7 +12,8 @@ class ExerciseDetailState(
     val toggled_active: Boolean
         get() = !active
 
-    fun bindStatus(view: TextView) {
+    fun bindStatus(view: ExerciseViewHolder.StatusButton) {
+        view.hasActive = active
         view.setText(if (active) R.string.active else R.string.inactive)
     }
 

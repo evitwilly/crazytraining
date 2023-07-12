@@ -1,5 +1,7 @@
 package ru.freeit.crazytraining.exercise.list.adapter
 
+import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -28,12 +30,12 @@ class ExerciseViewHolderListeners(
     val changeStatusListener: (ExerciseModel, Boolean) -> Unit
 )
 
-class ExerciseViewHolder(
+class ExerciseViewHolder private constructor(
     private val contentView: LinearLayout,
     private val titleView: TextView,
     private val unitView: TextView,
     private val removeButtonView: ImageView,
-    private val statusButtonView: CoreButton,
+    private val statusButtonView: StatusButton,
 ) : RecyclerView.ViewHolder(contentView) {
 
     fun bind(detailState: ExerciseDetailState, listeners: ExerciseViewHolderListeners) {
@@ -115,16 +117,7 @@ class ExerciseViewHolder(
                 .marginBottom(context.dp(8)))
             contentLinearView.addView(bottomButtonsLinearView)
 
-            val statusButtonView = object : CoreButton(
-                ctx = context,
-                shape = ShapeAttribute.big,
-                shapeTreatmentStrategy = ShapeTreatmentStrategy.AllRounded()
-            ) {
-                override fun onThemeChanged(theme: CoreTheme) {
-                    super.onThemeChanged(theme)
-                    fontSize(14f)
-                }
-            }
+            val statusButtonView = StatusButton(context)
             statusButtonView.layoutParams(linearLayoutParams().wrap())
             statusButtonView.padding(horizontal = context.dp(8), vertical = context.dp(2))
             bottomButtonsLinearView.addView(statusButtonView)
@@ -139,6 +132,38 @@ class ExerciseViewHolder(
 
             return ExerciseViewHolder(contentLinearView, titleView, unitView, removeButtonView, statusButtonView)
         }
+    }
+
+    class StatusButton(ctx: Context) : CoreButton(
+        ctx = ctx,
+        shape = ShapeAttribute.big,
+        shapeTreatmentStrategy = ShapeTreatmentStrategy.AllRounded()
+    ) {
+
+        var hasActive: Boolean = false
+            set(value) {
+                field = value
+                drawState(themeManager.selected_theme)
+            }
+
+        override fun onThemeChanged(theme: CoreTheme) {
+            super.onThemeChanged(theme)
+            fontSize(14f)
+            drawState(theme)
+        }
+
+        private fun drawState(theme: CoreTheme) {
+            val radius = context.dp(theme.shapeStyle[shape])
+            val drawableBackground = GradientDrawable()
+            drawableBackground.cornerRadii = shapeTreatmentStrategy.floatArrayOf(radius)
+            if (hasActive) {
+                drawableBackground.setColor(theme.colors[primaryColor])
+            } else {
+                drawableBackground.setColor(theme.colors[colorError])
+            }
+            background = drawableBackground
+        }
+
     }
 
 }

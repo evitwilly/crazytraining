@@ -12,6 +12,7 @@ import ru.freeit.crazytraining.core.extensions.*
 import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialog
 import ru.freeit.crazytraining.core.navigation.dialogs.ButtonsAlertDialogResult
 import ru.freeit.crazytraining.core.navigation.fragment.BaseFragment
+import ru.freeit.crazytraining.core.theming.corners.ShapeTreatmentStrategy
 import ru.freeit.crazytraining.core.theming.view.CoreButton
 import ru.freeit.crazytraining.core.viewmodel.SavedInstanceStateImpl
 import ru.freeit.crazytraining.exercise.detail.ExerciseDetailFragment
@@ -34,26 +35,7 @@ class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
             exerciseRepository = ExerciseListRepositoryImpl(
                 exerciseDatabase = ExerciseDatabase(coreSQLiteOpenHelper),
                 activeRepository = activeRepository
-            ),
-//            itemButtons = listOf(
-//                ExerciseEditButtonState.Button(
-//                    stringResource = R.string.edit,
-//                    clickListener = { model -> navigator.push(ExerciseDetailFragment(model)) }
-//                ),
-//                ExerciseEditButtonState.Button(
-//                    stringResource = R.string.remove,
-//                    clickListener = { model ->
-//                        viewModel.cache(model)
-//                        navigator.show(
-//                            ButtonsAlertDialog(
-//                                title = getString(R.string.remove_exercise),
-//                                message = getString(R.string.remove_exercise_warning),
-//                                buttons = ButtonsAlertDialog.Buttons.OK_CANCEL
-//                            )
-//                        )
-//                    }
-//                )
-//            )
+            )
         )
     }
 
@@ -86,15 +68,16 @@ class ExerciseListFragment : BaseFragment<ExerciseListViewModel>() {
         listView.layoutParams(linearLayoutParams().matchWidth().height(0).weight(1f))
         listView.adapter = adapter
 
-        val trainingAddButton = CoreButton(context)
+        val trainingAddButton = CoreButton(
+            ctx = context,
+            shapeTreatmentStrategy = ShapeTreatmentStrategy.None()
+        )
         trainingAddButton.setText(R.string.add_exercise)
         trainingAddButton.changeStartIcon(R.drawable.ic_add, 24)
         trainingAddButton.setOnClickListener { navigator.push(ExerciseDetailFragment()) }
         trainingAddButton.padding(context.dp(8))
-        trainingAddButton.layoutParams(frameLayoutParams().wrap()
-            .gravity(Gravity.BOTTOM or Gravity.END)
-            .marginEnd(context.dp(16))
-            .marginBottom(context.dp(16)))
+        trainingAddButton.layoutParams(frameLayoutParams().wrap().gravity(Gravity.BOTTOM or Gravity.END)
+            .marginEnd(context.dp(16)).marginBottom(context.dp(4)))
         addFloatingView(trainingAddButton)
 
         val fragmentDialogResult = ButtonsAlertDialogResult(parentFragmentManager)
