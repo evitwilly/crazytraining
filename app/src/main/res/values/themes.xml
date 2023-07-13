@@ -4,4 +4,9 @@
         <item name="colorControlActivated">@color/green_medium</item>
         <item name="android:statusBarColor">?attr/colorPrimary</item>
     </style>
+    <style name="Theme.Crazytraining.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#ff669e37</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.Crazytraining</item>
+    </style>
 </resources>
