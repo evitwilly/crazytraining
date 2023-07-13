@@ -3,6 +3,7 @@ package ru.freeit.crazytraining.core
 import android.os.Bundle
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import ru.freeit.crazytraining.R
 import ru.freeit.crazytraining.core.navigation.Navigator
 import ru.freeit.crazytraining.core.extensions.dp
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        installSplashScreen()
 
         val coreFrameView = CoreFrameLayout(this)
         setContentView(coreFrameView)
