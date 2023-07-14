@@ -31,8 +31,8 @@ android {
             } else {
                 storeFile file('keystore/crazytraining.keystore')
                 storePassword System.getenv('KEYSTORE_PASSWORD')
-                keyAlias System.getenv('KEYSTORE_KEY_ALIAS')
-                keyPassword System.getenv('KEYSTORE_KEY_PASSWORD')
+                keyAlias System.getenv('KEY_ALIAS')
+                keyPassword System.getenv('KEY_PASSWORD')
             }
         }
     }
